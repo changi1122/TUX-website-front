@@ -1,61 +1,44 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Swiper, SwiperSlide } from "swiper/react"; // basic
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import './Sw.css'
 
 const Main = (props) => {
 	return (
-		<>
+		<>	
+		<div>
 			<h3 className='text-xl font-bold'>메인페이지</h3>
-			<div>
-				<Link className='line_delete' to="/page/1"><h2>1번 페이지</h2></Link>
-				<Link className='line_delete' to="/page/2"><h2>2번 페이지</h2></Link>
 			</div>
+			
 			<div>
-				<br></br>
-				<p>잠깐</p>
-				<p>스크롤 테스트</p>
-				<p>해볼게요</p>
-				<p>ㅁ</p>
-				<p>스크롤 됐을 때</p>
-				<p>아래로 내려도</p>
-				<p>상단 header가</p>
-				<p>잘 따라오면</p>
-				<p>성공</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-				<p>ㅁ</p>
-
-			</div>
+			<Swiper className='Banner'
+      // install Swiper modules
+      modules={[Navigation, Pagination, Scrollbar, A11y]}
+      spaceBetween={50}
+	  centeredSlides={true}
+	  centerInsufficientSlides={true}
+      slidesPerView={1}
+      pagination={{ clickable: true }}
+      onSwiper={(swiper) => console.log(swiper)}
+      onSlideChange={() => console.log('slide change')
+	  
+	}
+    >
+      <SwiperSlide className='swiper-slide'><img className="w-10 h-10" src={process.env.PUBLIC_URL + '/logo192.png'} /></SwiperSlide>
+      <SwiperSlide className='swiper-slide'><img className="w-10 h-10" src={process.env.PUBLIC_URL + '/logo192.png'} /></SwiperSlide>
+      <SwiperSlide className='swiper-slide'><img className="w-10 h-10" src={process.env.PUBLIC_URL + '/logo192.png'} /></SwiperSlide>
+      <SwiperSlide className='swiper-slide'><img className="w-10 h-10" src={process.env.PUBLIC_URL + '/logo192.png'} />	</SwiperSlide>
+      ...
+    </Swiper>
+    </div>
 		</>
 	);
 };
+
+
 
 export default Main;

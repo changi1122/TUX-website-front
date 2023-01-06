@@ -30,6 +30,7 @@ function Header(props) {
                         <h1 className="text-white text-xl font-bold">Tux 홈페이지</h1>
                     </a>
                     <a href={process.env.PUBLIC_URL+'/page/1'} className={`text-white`}>페이지1</a>
+                    <a href={process.env.PUBLIC_URL+'/page/2'} className={`text-white`}>페이지2</a>
                     <a href={process.env.PUBLIC_URL+'/tmp'} className={`text-white`} >또는n번째메뉴</a>
                     <a href={process.env.PUBLIC_URL+'/tmp'} className={`text-white`} >hover시아래에세부메뉴노출</a>
                 </div>
