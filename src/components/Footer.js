@@ -17,14 +17,14 @@ function Footer(props) {
                         <div>전자정보대학 3관(S4-1) 108호 TUX</div>
                     </div>
                     <div>
-                        <a href={process.env.PUBLIC_URL + '/sitemap'} className="text-sm">사이트 맵</a>
+                        <a href={process.env.PUBLIC_URL + '/sitemap'} className="text-sm hover:text-[#E95420]">사이트 맵</a>
                     </div>
                 </div>
                 <div className="flex items-center gap-5">
                     <div>
                         <div className="relative">
                             {/* position: relative; parent가 child의 기준점이 됨 */}
-                            <button onClick={onClick} className="menu-trigger">
+                            <button onClick={onClick} className="site-trigger">
                                 <div className="pr-[94.36px] mb-1 text-sm">관련 사이트</div>
                                 {
                                     isActive
@@ -33,7 +33,7 @@ function Footer(props) {
                                 }
                             </button>
                             <nav
-                                className={`menu ${isActive ? 'active' : 'inactive'} text-sm`}
+                                className={`site ${isActive ? 'active' : 'inactive'} text-sm`}
                             >
                                 <ul>
                                     <li>
