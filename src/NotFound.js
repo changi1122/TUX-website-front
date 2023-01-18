@@ -6,7 +6,7 @@ const NotFound = () => {
     const navigate = useNavigate();
 
     return (
-        <div className='min-h-[87vh] p-20'>
+        <div className='min-h-[83.99vh] p-20'>
             <div className='inline-flex items-end mt-10'>
                 <div className='text-9xl font-black'>4</div>
                 <IoLogoTux size={130} />
