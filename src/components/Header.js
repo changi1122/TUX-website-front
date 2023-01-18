@@ -122,7 +122,7 @@ function Header(props) {
                             </li>
                             <li>
                                 {/* private */}
-                                <a href='#'>족보</a>
+                                <a href='/exam'>족보</a>
                             </li>
                         </ul>
                         : ''
