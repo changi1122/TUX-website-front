@@ -12,7 +12,7 @@ import Main from './pages/Main';
 import Page from './pages/Page';
 
 import LoginPage from "./pages/auth/LoginPage";
-import SignupPage from "./pages/auth/SignupPage";
+import RegisterPage from "./pages/auth/RegisterPage";
 
 const App = () => {
   return (
@@ -24,7 +24,7 @@ const App = () => {
           <Route path="/" element={<Main />}></Route>
           <Route path="/page/:pageId" element={<Page />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
-          <Route path="/signup" element={<SignupPage />}></Route>
+          <Route path="/register" element={<RegisterPage />}></Route>
 
           {/* 엘리먼트의 상단에 위치하는 라우트들의 규칙을 모두 확인하고, 일치하는 라우트가 없다면 이 라우트가 화면에 나타나게 됩니다. */}
           <Route path="*" element={<NotFound />}></Route>
