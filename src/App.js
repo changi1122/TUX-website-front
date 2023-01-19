@@ -27,13 +27,9 @@ const App = () => {
           <Route path="/" element={<Main />}></Route>
           <Route path="/page/:pageId" element={<Page />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
-<<<<<<< HEAD
-          <Route path="/signup" element={<SignupPage />}></Route>
+          <Route path="/register" element={<RegisterPage />}></Route>
           <Route path="/exam" element={<PreviousExamination />}></Route>
           <Route path="/write_page" element={<Writing />}></Route>
-=======
-          <Route path="/register" element={<RegisterPage />}></Route>
->>>>>>> 65d3beaf5254276e503fd2474791acaa8b31a816
 
           {/* 엘리먼트의 상단에 위치하는 라우트들의 규칙을 모두 확인하고, 일치하는 라우트가 없다면 이 라우트가 화면에 나타나게 됩니다. */}
           <Route path="*" element={<NotFound />}></Route>
