@@ -71,3 +71,25 @@
 .menu li a:hover {
     color: #E95420;
 }
+
+.exam-list{
+    margin: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.exam-title{
+    font-weight: bold;
+}
+
+.exam-right{
+    margin: 0px 30px;
+    float: right;
+}
+
+.exam-write{
+    margin: 30px 50px;
+}

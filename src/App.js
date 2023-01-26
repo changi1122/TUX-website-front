@@ -16,6 +16,7 @@ import RegisterPage from "./pages/auth/RegisterPage";
 
 import PreviousExamination from "./pages/exam/PreviousExamination";
 import Writing from "./pages/exam/WritePage";
+import ExamPage from './pages/exam/ExamPage';
 
 const App = () => {
   return (

@@ -1,18 +1,24 @@
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-//Á·º¸ °øÀ¯¸¦ À§ÇÑ ±Û¾²±â Ã¢ÀÎµ¥..
+//ì¡±ë³´ ê³µìœ ë¥¼ ìœ„í•œ ê¸€ì“°ê¸° ì°½ì¸ë°..
 function Writing(){
     return (
-      <div>
-        <input type='text' placeholder="title..." />
-        <CKEditor
+      <div className="exam-write">
+        <input type='text' placeholder="ì œëª©..." size={60}/>
+        <CKEditor 
           editor={ClassicEditor}
           data=""
           onReady={editor => {
           }}
+
+          onChange={(event, editor) => {
+            const data = editor.getData();
+          }}
         />  
-        <button>Up!</button>
+        <p>
+          <button>ì—…ë¡œë“œ!</button>
+        </p>
       </div>
     );
 }
