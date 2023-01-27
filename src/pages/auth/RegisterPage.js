@@ -23,11 +23,12 @@ function RegisterPage() {
     const [isEmail, setIsEmail] = useState(false);
 
     const onChangeUserid = useCallback((e) => {
-        const useridRegex = /^(?=.*[^a-z])(?=.*[^a-z0-9]).{2,20}$/
+        const useridRegex = /^(?=.*[a-zA-Z])(?=.*[a-zA-Z0-9]).{2,20}$/
+        const useridRegex2 = /^(?=.*[^a-zA-Z])(?=.*[^a-zA-Z0-9]).{2,20}$/
         const useridCurrent = e.target.value;
         setName(useridCurrent);
 
-        if (useridRegex.test(useridCurrent) || useridCurrent.length < 2 || useridCurrent.length > 20) {
+        if (!useridRegex.test(useridCurrent) || useridRegex2.test(useridCurrent)) {
             setUseridMessage('아이디는 영문자(또는 숫자 포함)의 조합으로 2~20자 작성할 수 있습니다.');
             setIsUserid(false);
         }
@@ -90,7 +91,7 @@ function RegisterPage() {
                 <div className="text-lg">TUX에 오신 것을 환영합니다</div>
             </div>
 
-            <div className="mt-10 mx-auto w-[300px]">
+            <div className="mt-10 mx-auto w-[370px]">
                 <div className="relative">
                     <div className="absolute top-[12px] inset-x-auto w-full h-[1px] bg-gray-300 -z-10"></div>
                     <div className="bg-white w-20 mx-auto text-center">
@@ -111,7 +112,7 @@ function RegisterPage() {
                             className="border border-x-gray-300 rounded px-4 py-2 w-[92%]
                                 focus:outline-none focus:ring focus:ring-[#E95420]"
                             onChange={(e) => { onChangeUserid(e); }}
-                            placeholder="아이디(영문, 숫자 2-20자)"
+                            placeholder="아이디(영문자 또는 영문자 숫자 조합 2-20자)"
                             autoFocus />
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>
                         <div className={`text-sm text-justify text-[#E95420]`}>{useridMessage}</div>
