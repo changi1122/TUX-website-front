@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import PasswordStrengthBar from 'react-password-strength-bar';
 
 function RegisterPage() {
     // 아이디, 학번, 이름, 비밀번호, 이메일
@@ -169,6 +170,7 @@ function RegisterPage() {
                             onChange={(e) => { onChangeUserpw(e); }}
                             placeholder="비밀번호(영문, 숫자, 특수문자 8-30자)" />
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>
+                        <PasswordStrengthBar password={userpw} className="my-2" />
                         <div className={`text-sm text-justify text-[#E95420]`}>{userpwMessage}</div>
                     </lebel>
                     <lebel>
@@ -202,7 +204,7 @@ function RegisterPage() {
 
                     {/* 버튼 */}
                     <button className="bg-[#efefef] hover:bg-gray-200 rounded py-2 w-full mt-6
-                        disabled:opacity-75 disabled:hover:bg-[#efefef]"
+                        disabled:opacity-50 disabled:hover:bg-[#efefef]"
                         disabled={!(isUserid && isUserpw && isCheckpw && isEmail)} >
                         회원가입
                     </button>
