@@ -9,8 +9,9 @@ function Footer(props) {
 
     return (
         <div className={`w-full flex justify-center bg-[#efefef] mt-auto`}>
-            <div className="w-[90%] flex justify-between items-center py-2">
-                <div className="flex items-center gap-7 text-start text-xs">
+            <div className="w-[90%] flex justify-between items-center py-2
+             md:flex-row flex-col gap-4">
+                <div className="flex md:justify-start justify-between items-center gap-7 text-start text-xs md:w-auto w-full">
                     <div>
                         <div className="text-sm">&copy; CBNU TUX</div>
                         <div>충청북도 청주시 서원구 충대로 1</div>
@@ -20,16 +21,18 @@ function Footer(props) {
                         <a href={process.env.PUBLIC_URL + '/sitemap'} className="text-sm hover:text-[#E95420]">사이트 맵</a>
                     </div>
                 </div>
-                <div className="flex items-center gap-5">
+
+                {/* 관련 사이트 목록 + 깃허브 링크 */}
+                <div className="flex justify-end items-center gap-3 md:w-auto w-full">
                     <div>
                         <div className="relative">
                             {/* position: relative; parent가 child의 기준점이 됨 */}
-                            <button onClick={onClick} className="site-trigger">
-                                <div className="pr-[94.36px] mb-1 text-sm">관련 사이트</div>
+                            <button onClick={onClick} className="site-trigger p-1 bg-white bg-opacity-50">
+                                <div className="pr-[86.36px] mb-1 text-sm">관련 사이트</div>
                                 {
                                     isActive
-                                        ? <FiLink size={15} color="gray" style={{ transition: 'all ease 0.5s 0s', transform: 'rotate(0deg)' }} />
-                                        : <FiLink size={15} color="gray" style={{ transition: 'all ease 0.5s 0s', transform: 'rotate(45deg)' }} />
+                                        ? <FiLink size={15} color="gray" style={{ transition: 'all ease 0.5s 0s', transform: 'rotate(45deg) translate(0, 5px)' }} />
+                                        : <FiLink size={15} color="gray" style={{ transition: 'all ease 0.5s 0s', transform: 'rotate(0deg) translate(0, 4px)' }} />
                                 }
                             </button>
                             <nav
