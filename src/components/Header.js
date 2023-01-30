@@ -1,12 +1,16 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
-import { IoLogoTux } from 'react-icons/io';
+import { IoLogoTux, IoMdMenu, IoIosLogIn } from 'react-icons/io';
 import './style.css';
 
 function Header(props) {
+    const navigate = useNavigate();
+
     const [isScroll, setIsScroll] = useState(0);
     const [hover, setHover] = useState(0);
     // hover 1 - TUX소개, 2 - 커뮤니티, 3 - 자료실
+
+    const [isOpen, setIsOpen] = useState(false); // 모바일 기기 메뉴
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -25,40 +29,54 @@ function Header(props) {
         }
     };
 
+    const toggleMenu = () => {
+        setIsOpen(isOpen => !isOpen); // on, off
+    }
+
     return (
         <div className={`${isScroll === 1 ? 'top-0 z-50 sticky drop-shadow border-none' : ''} mb-2`}
             onMouseLeave={() => setHover(0)}>
             <div className={`w-full flex justify-center border-b-2 bg-white`}>
                 <div className="w-[90%] flex justify-between items-center py-2">
-                    <div className="flex items-center gap-5">
-                        <a href={process.env.PUBLIC_URL + "/"} className="flex items-center gap-3 mr-5 text-left">
+                    <div className="flex">
+                        <a href={process.env.PUBLIC_URL + "/"} className="flex items-center gap-3 md:mr-5 text-left">
                             <IoLogoTux
                                 size={40}
                             // style={{ transform: 'scaleX(-1)' }}
                             />
-                            <div>
+                            <div className='md:inline hidden'>
                                 <h1 className="text-2xl font-black">CBNU TUX</h1>
                                 <div className='text-base'>Linux study club</div>
                             </div>
                         </a>
-                        <div
-                            onMouseOver={() => { setHover(1); }}>
-                            <a href={process.env.PUBLIC_URL + '/tuxinfo01'}>TUX소개</a>
-                        </div>
-                        <div
-                            onMouseOver={() => { setHover(2); }}>
-                            <a href={process.env.PUBLIC_URL + '/community01'} >커뮤니티</a>
-                        </div>
-                        <div
-                            onMouseOver={() => { setHover(3); }}>
-                            <a href={process.env.PUBLIC_URL + '/data01'} >자료실</a>
+                        <div className='md:flex hidden items-center gap-5'>
+                            <div
+                                onMouseOver={() => { setHover(1); }}>
+                                <a href={process.env.PUBLIC_URL + '/tuxinfo01'}>TUX소개</a>
+                            </div>
+                            <div
+                                onMouseOver={() => { setHover(2); }}>
+                                <a href={process.env.PUBLIC_URL + '/community01'} >커뮤니티</a>
+                            </div>
+                            <div
+                                onMouseOver={() => { setHover(3); }}>
+                                <a href={process.env.PUBLIC_URL + '/data01'} >자료실</a>
+                            </div>
                         </div>
                     </div>
-                    <div>
+                    <div className='md:flex hidden'>
                         <a href={process.env.PUBLIC_URL + '/login'} className="hover:text-[#E95420]" >로그인</a>
+                    </div>
+
+                    {/* 모바일 기기 메뉴 */}
+                    <div className='md:hidden flex'
+                        onClick={() => toggleMenu()}>
+                        <IoMdMenu size={25} />
                     </div>
                 </div>
             </div>
+
+            {/* 세부 메뉴 - ver.Laptop*/}
             <nav
                 className={`menu ${hover !== 0 ? 'active' : 'inactive'} absolute bg-gray-50 w-full z-50 text-left`}
             >
@@ -73,10 +91,10 @@ function Header(props) {
                                 <a href={process.env.PUBLIC_URL + '/tuxinfo01'}>개요</a>
                             </li>
                             <li>
-                                <a href='#'>연혁</a>
+                                <a href={process.env.PUBLIC_URL + '/tuxinfo02'}>연혁</a>
                             </li>
                             <li>
-                                <a href='#'>구성원 소개</a>
+                                <a href={process.env.PUBLIC_URL + '/tuxinfo03'}>구성원 소개</a>
                             </li>
                         </ul>
                         : ''
@@ -92,14 +110,14 @@ function Header(props) {
                                 <a href={process.env.PUBLIC_URL + '/community01'}>공지사항</a>
                             </li>
                             <li>
-                                <a href='#'>팀원 모집</a>
+                                <a href={process.env.PUBLIC_URL + '/community02'}>팀원 모집</a>
                             </li>
                             <li>
-                                <a href='#'>건의 게시판</a>
+                                <a href={process.env.PUBLIC_URL + '/community03'}>건의 게시판</a>
                             </li>
                             <li>
                                 {/* private */}
-                                <a href='#'>잡담방</a>
+                                <a href={process.env.PUBLIC_URL + '/community04'}>잡담방</a>
                             </li>
                         </ul>
                         : ''
@@ -115,18 +133,92 @@ function Header(props) {
                                 <a href={process.env.PUBLIC_URL + '/data01'}>채용 · 취업 정보</a>
                             </li>
                             <li>
-                                <a href='#'>공모전 정보</a>
+                                <a href={process.env.PUBLIC_URL + '/data02'}>공모전 정보</a>
                             </li>
                             <li>
-                                <a href='#'>갤러리</a>
+                                <a href={process.env.PUBLIC_URL + '/data03'}>갤러리</a>
                             </li>
                             <li>
                                 {/* private */}
-                                <a href='/exam'>족보</a>
+                                <a href={process.env.PUBLIC_URL + '/exam'}>족보</a>
                             </li>
                         </ul>
                         : ''
                 }
+            </nav>
+
+            {/* 세부 메뉴 - ver.mobile*/}
+            <nav className={`${isOpen ? "show-moblie-menu" : "hide-mobile-menu"} absolute bg-white w-full h-screen z-50 text-lg`}>
+                <button className='px-10 py-5 border-b-2 w-full justify-end inline-flex'
+                    onClick={() => { navigate(process.env.PUBLIC_URL + '/login'); toggleMenu(); }}>
+                    < IoIosLogIn style={{ transform: 'translate(0, 4px)' }} />
+                    <div className='ml-2'>로그인</div>
+                </button>
+
+                <ul className='flex-col flex gap-5 px-10 py-5 border-b-2'>
+                    <button className='text-xl font-black w-full justify-end flex'
+                        onClick={() => { navigate(process.env.PUBLIC_URL + '/tuxinfo01'); toggleMenu(); }}>
+                        TUX소개
+                    </button>
+                    <button className='w-full justify-end flex'
+                        onClick={() => { navigate(process.env.PUBLIC_URL + '/tuxinfo01'); toggleMenu(); }}>
+                        개요
+                    </button>
+                    <button className='w-full justify-end flex'
+                        onClick={() => { navigate(process.env.PUBLIC_URL + '/tuxinfo02'); toggleMenu(); }}>
+                        연혁
+                    </button>
+                    <button className='w-full justify-end flex'
+                        onClick={() => { navigate(process.env.PUBLIC_URL + '/tuxinfo03'); toggleMenu(); }}>
+                        구성원 소개
+                    </button>
+                </ul>
+                <ul className='flex-col flex gap-5 px-10 py-5 border-b-2'>
+                    <button className='text-xl font-black w-full justify-end flex'
+                        onClick={() => { navigate(process.env.PUBLIC_URL + '/community01'); toggleMenu(); }}>
+                        커뮤니티
+                    </button>
+                    <button className='w-full justify-end flex'
+                        onClick={() => { navigate(process.env.PUBLIC_URL + '/community01'); toggleMenu(); }}>
+                        공지사항
+                    </button>
+                    <button className='w-full justify-end flex'
+                        onClick={() => { navigate(process.env.PUBLIC_URL + '/community02'); toggleMenu(); }}>
+                        팀원 모집
+                    </button>
+                    <button className='w-full justify-end flex'
+                        onClick={() => { navigate(process.env.PUBLIC_URL + '/community03'); toggleMenu(); }}>
+                        건의 게시판
+                    </button>
+                    <button className='w-full justify-end flex'
+                        onClick={() => { navigate(process.env.PUBLIC_URL + '/community04'); toggleMenu(); }}>
+                        {/* private */}
+                        잡담방
+                    </button>
+                </ul>
+                <ul className='flex-col flex gap-5 px-10 py-5 border-b-2'>
+                    <button className='text-xl font-black w-full justify-end flex'
+                        onClick={() => { navigate(process.env.PUBLIC_URL + '/data01'); toggleMenu(); }}>
+                        자료실
+                    </button>
+                    <button className='w-full justify-end flex'
+                        onClick={() => { navigate(process.env.PUBLIC_URL + '/data01'); toggleMenu(); }}>
+                        채용 · 취업 정보
+                    </button>
+                    <button className='w-full justify-end flex'
+                        onClick={() => { navigate(process.env.PUBLIC_URL + '/data02'); toggleMenu(); }}>
+                        공모전 정보
+                    </button>
+                    <button className='w-full justify-end flex'
+                        onClick={() => { navigate(process.env.PUBLIC_URL + '/data03'); toggleMenu(); }}>
+                        갤러리
+                    </button>
+                    <button className='w-full justify-end flex'
+                        onClick={() => { navigate(process.env.PUBLIC_URL + '/exam'); toggleMenu(); }}>
+                        {/* private */}
+                        족보
+                    </button>
+                </ul>
             </nav>
         </div >
 
