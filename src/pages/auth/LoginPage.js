@@ -2,13 +2,13 @@ import { useState } from "react";
 
 function LoginPage() {
     return (
-        <div className='min-h-[83.99vh] p-20'>
+        <div className='min-h-screen md:p-20 px-3 py-10'>
             <div>
                 <div className='text-5xl font-black'>CBNU TUX</div>
                 <div className="text-lg">Linux study club, since 2020</div>
             </div>
 
-            <div className="mt-10 mx-auto w-[300px]">
+            <div className="mt-10 mx-auto md:w-[300px] w-full">
                 <div className="relative">
                     <div className="absolute top-[12px] inset-x-auto w-full h-[1px] bg-gray-300 -z-10"></div>
                     <div className="bg-white w-20 mx-auto text-center">

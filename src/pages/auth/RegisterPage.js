@@ -109,13 +109,13 @@ function RegisterPage() {
     }, [])
 
     return (
-        <div className='min-h-[83.99vh] p-20'>
+        <div className='min-h-screen md:p-20 px-3 py-10'>
             <div>
                 <div className='text-5xl font-black'>CBNU TUX</div>
                 <div className="text-lg">TUX에 오신 것을 환영합니다</div>
             </div>
 
-            <div className="mt-10 mx-auto w-[370px]">
+            <div className="mt-10 mx-auto md:w-[370px] w-full">
                 <div className="relative">
                     <div className="absolute top-[12px] inset-x-auto w-full h-[1px] bg-gray-300 -z-10"></div>
                     <div className="bg-white w-20 mx-auto text-center">
