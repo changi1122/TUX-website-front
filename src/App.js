@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 
 import Main from './pages/Main';
 import Page from './pages/Page';
+import Sitemap from './pages/Sitemap'
 
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
@@ -27,6 +28,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Main />}></Route>
           <Route path="/page/:pageId" element={<Page />}></Route>
+          <Route path="/sitemap" element={<Sitemap />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/register" element={<RegisterPage />}></Route>
           <Route path="/exam" element={<PreviousExamination />}></Route>
