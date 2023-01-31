@@ -1,3 +1,11 @@
+.nav a {
+    padding: 27.5px 20px;
+}
+
+.nav .logo {
+    padding: 0;
+}
+
 .site-trigger {
     display: flex;
     border: none;

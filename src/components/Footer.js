@@ -11,14 +11,14 @@ function Footer(props) {
         <div className={`w-full flex justify-center bg-[#efefef] mt-auto`}>
             <div className="w-[90%] flex justify-between items-center py-2
              md:flex-row flex-col gap-4">
-                <div className="flex md:justify-start justify-between items-center gap-7 text-start text-xs md:w-auto w-full">
+                <div className="flex md:justify-start justify-between items-center text-start text-xs md:w-auto w-full">
                     <div>
                         <div className="text-sm">&copy; CBNU TUX</div>
                         <div>충청북도 청주시 서원구 충대로 1</div>
                         <div>전자정보대학 3관(S4-1) 108호 TUX</div>
                     </div>
                     <div>
-                        <a href={process.env.PUBLIC_URL + '/sitemap'} className="text-sm hover:text-[#E95420]">사이트 맵</a>
+                        <a href={process.env.PUBLIC_URL + '/sitemap'} className="text-sm hover:text-[#E95420] px-[28px] py-[34px]">사이트 맵</a>
                     </div>
                 </div>
 

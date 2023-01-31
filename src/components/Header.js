@@ -37,9 +37,10 @@ function Header(props) {
         <div className={`${isScroll === 1 ? 'top-0 z-50 sticky drop-shadow border-none' : ''} mb-2`}
             onMouseLeave={() => setHover(0)}>
             <div className={`w-full flex justify-center border-b-2 bg-white`}>
-                <div className="w-[90%] flex justify-between items-center py-2">
+                <div className="w-[90%] flex justify-between items-center nav">
                     <div className="flex">
-                        <a href={process.env.PUBLIC_URL + "/"} className="flex items-center gap-3 md:mr-5 text-left">
+                        <a href={process.env.PUBLIC_URL + "/"}
+                            className="flex items-center gap-3 md:mr-5 text-left logo">
                             <IoLogoTux
                                 size={40}
                             // style={{ transform: 'scaleX(-1)' }}
@@ -49,19 +50,13 @@ function Header(props) {
                                 <div className='text-base'>Linux study club</div>
                             </div>
                         </a>
-                        <div className='md:flex hidden items-center gap-5'>
-                            <div
-                                onMouseOver={() => { setHover(1); }}>
-                                <a href={process.env.PUBLIC_URL + '/tuxinfo01'}>TUX소개</a>
-                            </div>
-                            <div
-                                onMouseOver={() => { setHover(2); }}>
-                                <a href={process.env.PUBLIC_URL + '/community01'} >커뮤니티</a>
-                            </div>
-                            <div
-                                onMouseOver={() => { setHover(3); }}>
-                                <a href={process.env.PUBLIC_URL + '/data01'} >자료실</a>
-                            </div>
+                        <div className='md:flex hidden items-center'>
+                            <a href={process.env.PUBLIC_URL + '/tuxinfo01'}
+                                onMouseOver={() => { setHover(1); }}>TUX소개</a>
+                            <a href={process.env.PUBLIC_URL + '/community01'}
+                                onMouseOver={() => { setHover(2); }} >커뮤니티</a>
+                            <a href={process.env.PUBLIC_URL + '/data01'}
+                                onMouseOver={() => { setHover(3); }} >자료실</a>
                         </div>
                     </div>
                     <div className='md:flex hidden'>
@@ -83,7 +78,7 @@ function Header(props) {
                 {
                     hover === 1
                         ?
-                        <ul className='flex gap-9 px-20 py-5 border-b-2 items-center'>
+                        <ul className='flex px-20 py-5 border-b-2 items-center nav'>
                             <li className='text-xl font-black'>
                                 <a href={process.env.PUBLIC_URL + '/tuxinfo01'}>TUX소개</a>
                             </li>
@@ -102,7 +97,7 @@ function Header(props) {
                 {
                     hover === 2
                         ?
-                        <ul className='flex gap-9 px-20 py-5 border-b-2 items-center'>
+                        <ul className='flex px-20 py-5 border-b-2 items-center nav'>
                             <li className='text-xl font-black'>
                                 <a href={process.env.PUBLIC_URL + '/community01'}>커뮤니티</a>
                             </li>
@@ -125,7 +120,7 @@ function Header(props) {
                 {
                     hover === 3
                         ?
-                        <ul className='flex gap-9 px-20 py-5 border-b-2 items-center'>
+                        <ul className='flex px-20 py-5 border-b-2 items-center nav'>
                             <li className='text-xl font-black'>
                                 <a href={process.env.PUBLIC_URL + '/data01'}>자료실</a>
                             </li>
