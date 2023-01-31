@@ -5,9 +5,8 @@ import{
 function List({prop}){
     return(
         <div className="exam-list">
-            <span>{prop.id}</span>
-            <span className="exam-title"><Link to={"/exam/" + prop.id}>{prop.title}</Link></span>
-            <span>{prop.name}<br></br>{prop.day}</span>
+            <span><pre>{prop.id}        <Link to={"/exam/" + prop.id}>{prop.title}</Link></pre></span>
+            <span><pre>{prop.name}     {prop.day}</pre></span>
         </div>
     );
     //list 형식 > id, 제목, 작성자+날짜

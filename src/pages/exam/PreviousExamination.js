@@ -16,7 +16,11 @@ function PreviousExamination(){
 
   return (
     <div>
-      <h1>족보</h1>
+      <div className="exam-head">
+        <span><pre>글번호              제목</pre></span>
+        <span><pre>작성자       작성일    </pre></span>
+      </div>
+      <hr/>
       <div>
         <ListPrint props={list}/>
       </div>
