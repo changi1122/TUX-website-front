@@ -36,7 +36,7 @@ function Header(props) {
     return (
         <div className={`${isScroll === 1 ? 'top-0 z-50 sticky drop-shadow border-none' : ''} mb-2`}
             onMouseLeave={() => setHover(0)}>
-            <div className={`w-full flex justify-center border-b-2 bg-white`}>
+            <div className={`w-full flex justify-center border-b-2 bg-white md:p-0 py-2`}>
                 <div className="w-[90%] flex justify-between items-center nav">
                     <div className="flex">
                         <a href={process.env.PUBLIC_URL + "/"}
@@ -45,7 +45,7 @@ function Header(props) {
                                 size={40}
                             // style={{ transform: 'scaleX(-1)' }}
                             />
-                            <div className='md:inline hidden'>
+                            <div>
                                 <h1 className="text-2xl font-black">CBNU TUX</h1>
                                 <div className='text-base'>Linux study club</div>
                             </div>
