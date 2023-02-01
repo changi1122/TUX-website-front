@@ -1,16 +1,29 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
-import { IoLogoTux, IoMdMenu, IoIosLogIn } from 'react-icons/io';
+import { IoLogoTux, IoMdMenu, IoIosLogIn, IoIosLogOut } from 'react-icons/io';
 import './style.css';
 
 function Header(props) {
     const navigate = useNavigate();
 
-    const [isScroll, setIsScroll] = useState(0);
-    const [hover, setHover] = useState(0);
-    // hover 1 - TUX소개, 2 - 커뮤니티, 3 - 자료실
+    const [isLogin, setIsLogin] = useState(true); // 테스트를 위해 임의로 'true'로 설정, 추후 기본값 'false'로 변경
+    /*
+        사용자 로그인이 된 상태라면, Header 상단에 '로그인' 대신, '사용자 이름'과 '로그아웃' 표시
+        또한, private page인 [커뮤니티]>[잡담방], [자료실]>[족보]가 노출됨
+    */
+    const [name, setName] = useState('dummy'); // 로그인 한 사용자 이름, 클릭 시 마이페이지로 이동..
 
+    const [isScroll, setIsScroll] = useState(0);
+    const [hover, setHover] = useState(0); // hover 1 - TUX소개, 2 - 커뮤니티, 3 - 자료실
     const [isOpen, setIsOpen] = useState(false); // 모바일 기기 메뉴
+
+    useEffect(() => {
+        // if 로그인 됐니? {
+        //   그럼 setIsLogin(1);
+        // }
+
+        // setName('로그인_중인_사용자의_이름');
+    }, [])
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -59,9 +72,18 @@ function Header(props) {
                                 onMouseOver={() => { setHover(3); }} >자료실</a>
                         </div>
                     </div>
-                    <div className='md:flex hidden'>
-                        <a href={process.env.PUBLIC_URL + '/login'} className="hover:text-[#E95420]" >로그인</a>
-                    </div>
+                    {
+                        isLogin
+                            ?
+                            <div className='md:flex hidden'>
+                                <a href={process.env.PUBLIC_URL + '/mypage'} className="hover:text-[#E95420]" >{name} 님</a>
+                                <a href="#" className="hover:text-[#E95420]" >로그아웃</a>
+                            </div>
+                            :
+                            <div className='md:flex hidden'>
+                                <a href={process.env.PUBLIC_URL + '/login'} className="hover:text-[#E95420]" >로그인</a>
+                            </div>
+                    }
 
                     {/* 모바일 기기 메뉴 */}
                     <div className='md:hidden flex'
@@ -110,10 +132,15 @@ function Header(props) {
                             <li>
                                 <a href={process.env.PUBLIC_URL + '/community03'}>건의 게시판</a>
                             </li>
-                            <li>
-                                {/* private */}
-                                <a href={process.env.PUBLIC_URL + '/community04'}>잡담방</a>
-                            </li>
+                            {
+                                isLogin
+                                    ?
+                                    <li>
+                                        {/* private */}
+                                        <a href={process.env.PUBLIC_URL + '/community04'}>잡담방</a>
+                                    </li>
+                                    : ''
+                            }
                         </ul>
                         : ''
                 }
@@ -133,86 +160,117 @@ function Header(props) {
                             <li>
                                 <a href={process.env.PUBLIC_URL + '/data03'}>갤러리</a>
                             </li>
-                            <li>
-                                {/* private */}
-                                <a href={process.env.PUBLIC_URL + '/exam'}>족보</a>
-                            </li>
+                            {
+                                isLogin
+                                    ?
+                                    <li>
+                                        {/* private */}
+                                        <a href={process.env.PUBLIC_URL + '/exam'}>족보</a>
+                                    </li>
+                                    : ''
+                            }
                         </ul>
                         : ''
                 }
             </nav>
 
             {/* 세부 메뉴 - ver.mobile*/}
-            <nav className={`${isOpen ? "show-moblie-menu" : "hide-mobile-menu"} absolute bg-white w-full h-screen z-50 text-lg`}>
-                <button className='px-10 py-5 border-b-2 w-full justify-end inline-flex'
-                    onClick={() => { navigate(process.env.PUBLIC_URL + '/login'); toggleMenu(); }}>
-                    < IoIosLogIn style={{ transform: 'translate(0, 4px)' }} />
-                    <div className='ml-2'>로그인</div>
-                </button>
+            <nav className={`${isOpen ? "show-moblie-menu" : "hide-mobile-menu"} absolute bg-white w-full h-screen z-50 sm:text-lg text-sm`}>
+                {
+                    isLogin
+                        ?
+                        <div className='px-10 py-5 border-b-2 flex'>
+                            <button className='inline-flex w-[50vw] justify-end'
+                                onClick={() => { toggleMenu(); }}>
+                                < IoIosLogOut style={{ transform: 'translate(0, 4px)' }} />
+                                <div className='ml-2'>로그아웃</div>
+                            </button>
+                            <button className='inline-flex w-[50vw] justify-end'
+                                onClick={() => { navigate(process.env.PUBLIC_URL + '/mypage'); toggleMenu(); }}>
+                                <div className='ml-2'>{name} 님</div>
+                            </button>
+                        </div>
+                        :
+                        <button className='px-10 py-5 border-b-2 w-full justify-end inline-flex'
+                            onClick={() => { navigate(process.env.PUBLIC_URL + '/login'); toggleMenu(); }}>
+                            < IoIosLogIn style={{ transform: 'translate(0, 4px)' }} />
+                            <div className='ml-2'>로그인</div>
+                        </button>
+                }
 
-                <ul className='flex-col flex gap-5 px-10 py-5 border-b-2'>
-                    <button className='text-xl font-black w-full justify-end flex'
+                <ul className='flex-col flex px-10 border-b-2'>
+                    <a className='sm:text-xl text-base font-black w-full justify-end flex sm:py-3 py-2'
                         onClick={() => { navigate(process.env.PUBLIC_URL + '/tuxinfo01'); toggleMenu(); }}>
                         TUX소개
-                    </button>
-                    <button className='w-full justify-end flex'
+                    </a>
+                    <a className='w-full justify-end flex sm:py-3 py-2'
                         onClick={() => { navigate(process.env.PUBLIC_URL + '/tuxinfo01'); toggleMenu(); }}>
                         개요
-                    </button>
-                    <button className='w-full justify-end flex'
+                    </a>
+                    <a className='w-full justify-end flex sm:py-3 py-2'
                         onClick={() => { navigate(process.env.PUBLIC_URL + '/tuxinfo02'); toggleMenu(); }}>
                         연혁
-                    </button>
-                    <button className='w-full justify-end flex'
+                    </a>
+                    <a className='w-full justify-end flex sm:py-3 py-2'
                         onClick={() => { navigate(process.env.PUBLIC_URL + '/tuxinfo03'); toggleMenu(); }}>
                         구성원 소개
-                    </button>
+                    </a>
                 </ul>
-                <ul className='flex-col flex gap-5 px-10 py-5 border-b-2'>
-                    <button className='text-xl font-black w-full justify-end flex'
+                <ul className='flex-col flex px-10 border-b-2'>
+                    <a className='sm:text-xl text-base font-black w-full justify-end flex sm:py-3 py-2'
                         onClick={() => { navigate(process.env.PUBLIC_URL + '/community01'); toggleMenu(); }}>
                         커뮤니티
-                    </button>
-                    <button className='w-full justify-end flex'
+                    </a>
+                    <a className='w-full justify-end flex sm:py-3 py-2'
                         onClick={() => { navigate(process.env.PUBLIC_URL + '/community01'); toggleMenu(); }}>
                         공지사항
-                    </button>
-                    <button className='w-full justify-end flex'
+                    </a>
+                    <a className='w-full justify-end flex sm:py-3 py-2'
                         onClick={() => { navigate(process.env.PUBLIC_URL + '/community02'); toggleMenu(); }}>
                         팀원 모집
-                    </button>
-                    <button className='w-full justify-end flex'
+                    </a>
+                    <a className='w-full justify-end flex sm:py-3 py-2'
                         onClick={() => { navigate(process.env.PUBLIC_URL + '/community03'); toggleMenu(); }}>
                         건의 게시판
-                    </button>
-                    <button className='w-full justify-end flex'
-                        onClick={() => { navigate(process.env.PUBLIC_URL + '/community04'); toggleMenu(); }}>
-                        {/* private */}
-                        잡담방
-                    </button>
+                    </a>
+                    {
+                        isLogin
+                            ?
+                            <a className='w-full justify-end flex sm:py-3 py-2'
+                                onClick={() => { navigate(process.env.PUBLIC_URL + '/community04'); toggleMenu(); }}>
+                                {/* private */}
+                                잡담방
+                            </a>
+                            : ''
+                    }
                 </ul>
-                <ul className='flex-col flex gap-5 px-10 py-5 border-b-2'>
-                    <button className='text-xl font-black w-full justify-end flex'
+                <ul className='flex-col flex px-10 border-b-2'>
+                    <a className='sm:text-xl text-base font-black w-full justify-end flex sm:py-3 py-2'
                         onClick={() => { navigate(process.env.PUBLIC_URL + '/data01'); toggleMenu(); }}>
                         자료실
-                    </button>
-                    <button className='w-full justify-end flex'
+                    </a>
+                    <a className='w-full justify-end flex sm:py-3 py-2'
                         onClick={() => { navigate(process.env.PUBLIC_URL + '/data01'); toggleMenu(); }}>
                         채용 · 취업 정보
-                    </button>
-                    <button className='w-full justify-end flex'
+                    </a>
+                    <a className='w-full justify-end flex sm:py-3 py-2'
                         onClick={() => { navigate(process.env.PUBLIC_URL + '/data02'); toggleMenu(); }}>
                         공모전 정보
-                    </button>
-                    <button className='w-full justify-end flex'
+                    </a>
+                    <a className='w-full justify-end flex sm:py-3 py-2'
                         onClick={() => { navigate(process.env.PUBLIC_URL + '/data03'); toggleMenu(); }}>
                         갤러리
-                    </button>
-                    <button className='w-full justify-end flex'
-                        onClick={() => { navigate(process.env.PUBLIC_URL + '/exam'); toggleMenu(); }}>
-                        {/* private */}
-                        족보
-                    </button>
+                    </a>
+                    {
+                        isLogin
+                            ?
+                            <a className='w-full justify-end flex sm:py-3 py-2'
+                                onClick={() => { navigate(process.env.PUBLIC_URL + '/exam'); toggleMenu(); }}>
+                                {/* private */}
+                                족보
+                            </a>
+                            : ''
+                    }
                 </ul>
             </nav>
         </div >
