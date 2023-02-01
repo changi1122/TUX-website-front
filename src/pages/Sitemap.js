@@ -109,11 +109,11 @@ function Sitemap() {
                 }
             </div>
 
-            <div className="mt-20 px-[18vw]">
+            <div className="mt-20 px-[25vw]">
                 <BsQuestionCircleFill size={20} style={{ margin: 'auto' }} />
                 <div className="text-left mt-2">
-                    <p>사이트 맵이란,</p>
-                    <p className="text-justify">시스템 구조를 바탕으로 사이트에 표시할 콘텐츠들을 한 눈에 알아볼 수 있도록, 메뉴 별로 구분하여 설계한 것을 말합니다.</p>
+                    <p>사이트 맵이란?</p>
+                    <p className="text-justify">시스템 구조를 바탕으로 사이트에 표시할 콘텐츠들을 한 눈에 알아볼 수 있도록, 메뉴별로 구분하여 설계한 것을 말합니다.</p>
                 </div>
             </div>
         </div>
