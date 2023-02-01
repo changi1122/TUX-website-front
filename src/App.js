@@ -5,15 +5,11 @@ import React, { Component } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NotFound from './NotFound';
 
-import Header from './components/Header';
-import Footer from './components/Footer';
-
+import { Header, Footer } from './components';
 import Main from './pages/Main';
 import Page from './pages/Page';
 import Sitemap from './pages/Sitemap'
-
-import LoginPage from "./pages/auth/LoginPage";
-import RegisterPage from "./pages/auth/RegisterPage";
+import { LoginPage, RegisterPage, MyPage } from "./pages/auth";
 
 import PreviousExamination from "./pages/exam/PreviousExamination";
 import Writing from "./pages/exam/WritePage";
@@ -29,8 +25,11 @@ const App = () => {
           <Route path="/" element={<Main />}></Route>
           <Route path="/page/:pageId" element={<Page />}></Route>
           <Route path="/sitemap" element={<Sitemap />}></Route>
+
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/register" element={<RegisterPage />}></Route>
+          <Route path="/mypage" element={<MyPage />}></Route>
+
           <Route path="/exam" element={<PreviousExamination />}></Route>
           <Route path="/write_page" element={<Writing />}></Route>
 
