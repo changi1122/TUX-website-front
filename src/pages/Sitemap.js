@@ -1,69 +1,7 @@
 import { useState } from "react";
 import { BsQuestionCircleFill } from 'react-icons/bs';
-
-const gnbList = [
-    {
-        "gnbName": "TUX개요",
-        "subInfo": [
-            {
-                "subName": "개요",
-                "subHref": "/tuxinfo01"
-            },
-            {
-                "subName": "연혁",
-                "subHref": "/tuxinfo02"
-            },
-            {
-                "subName": "구성원 소개",
-                "subHref": "/tuxinfo03"
-            }
-        ]
-    },
-    {
-        "gnbName": "커뮤니티",
-        "subInfo": [
-            {
-                "subName": "공지사항",
-                "subHref": "/community01"
-            },
-            {
-                "subName": "팀원 모집",
-                "subHref": "/community02"
-            },
-            {
-                "subName": "건의 게시판",
-                "subHref": "/community03"
-            },
-            {
-                // 추후 private 처리를 하든, 아예 숨기든 조치할 것
-                "subName": "잡담방",
-                "subHref": "/community04"
-            }
-        ]
-    },
-    {
-        "gnbName": "자료실",
-        "subInfo": [
-            {
-                "subName": "채용 · 취업 정보",
-                "subHref": "/data01"
-            },
-            {
-                "subName": "공모전 정보",
-                "subHref": "/data02"
-            },
-            {
-                "subName": "갤러리",
-                "subHref": "/data03"
-            },
-            {
-                // 추후 private 처리를 하든, 아예 숨기든 조치할 것
-                "subName": "족보",
-                "subHref": "/exam"
-            }
-        ]
-    }
-];
+import gnbIsLogin from "./static/gnbIsLogin.json"
+import gnbIsNotLogin from "./static/gnbIsNotLogin.json"
 
 const GnbSub = ({ sub }) => {
     return (
@@ -76,7 +14,7 @@ const GnbSub = ({ sub }) => {
     )
 };
 
-const GnbBox = ({ gnb }) => {
+const GnbBox = ({ gnb, isLogin }) => {
     return (
         <div className="mx-2">
             <a href={process.env.PUBLIC_URL + gnb.subInfo[0].subHref}
@@ -84,11 +22,19 @@ const GnbBox = ({ gnb }) => {
                 {gnb.gnbName}</a>
             <ul>
                 {
-                    gnbList.map((ele) =>
-                        ele.subInfo.map((subEle) =>
-                            ele.gnbName === gnb.gnbName ? <GnbSub key={subEle.subName} sub={subEle} /> : ''
+                    isLogin
+                        ?
+                        gnbIsLogin.map((ele) =>
+                            ele.subInfo.map((subEle) =>
+                                ele.gnbName === gnb.gnbName ? <GnbSub key={subEle.subName} sub={subEle} /> : ''
+                            )
                         )
-                    )
+                        :
+                        gnbIsNotLogin.map((ele) =>
+                            ele.subInfo.map((subEle) =>
+                                ele.gnbName === gnb.gnbName ? <GnbSub key={subEle.subName} sub={subEle} /> : ''
+                            )
+                        )
                 }
             </ul>
         </div>
@@ -96,6 +42,9 @@ const GnbBox = ({ gnb }) => {
 };
 
 function Sitemap() {
+    const [isLogin, setIsLogin] = useState(true);
+    // localStorage로부터 user info를 받아와서 처리해야 하는듯 하지만? 일단 간단하게 처리
+
     return (
         <div className='min-h-screen md:p-20 px-3 py-10'>
             <div>
@@ -105,7 +54,7 @@ function Sitemap() {
 
             <div className="mt-10 flex md:flex-row flex-col gap-3 md:justify-center items-start">
                 {
-                    gnbList.map((ele) => <GnbBox key={ele.gnbName} gnb={ele} />)
+                    gnbIsLogin.map((ele) => <GnbBox key={ele.gnbName} gnb={ele} isLogin={isLogin} />)
                 }
             </div>
 

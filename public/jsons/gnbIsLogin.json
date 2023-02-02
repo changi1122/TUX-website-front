@@ -1,0 +1,61 @@
+[
+    {
+        "gnbName": "TUX개요",
+        "subInfo": [
+            {
+                "subName": "개요",
+                "subHref": "/tuxinfo01"
+            },
+            {
+                "subName": "연혁",
+                "subHref": "/tuxinfo02"
+            },
+            {
+                "subName": "구성원 소개",
+                "subHref": "/tuxinfo03"
+            }
+        ]
+    },
+    {
+        "gnbName": "커뮤니티",
+        "subInfo": [
+            {
+                "subName": "공지사항",
+                "subHref": "/community01"
+            },
+            {
+                "subName": "팀원 모집",
+                "subHref": "/community02"
+            },
+            {
+                "subName": "건의 게시판",
+                "subHref": "/community03"
+            },
+            {
+                "subName": "잡담방",
+                "subHref": "/community04"
+            }
+        ]
+    },
+    {
+        "gnbName": "자료실",
+        "subInfo": [
+            {
+                "subName": "채용 · 취업 정보",
+                "subHref": "/data01"
+            },
+            {
+                "subName": "공모전 정보",
+                "subHref": "/data02"
+            },
+            {
+                "subName": "갤러리",
+                "subHref": "/data03"
+            },
+            {
+                "subName": "족보",
+                "subHref": "/exam"
+            }
+        ]
+    }
+]
