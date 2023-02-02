@@ -1,27 +1,44 @@
+import { useState, useEffect, Children} from 'react';
 import{
     Link,
   } from "react-router-dom";
 
-function List({prop}){
-    return(
-        <div className="exam-list">
-            <span><pre>{prop.id}        <Link to={"/exam/" + prop.id}>{prop.title}</Link></pre></span>
-            <span><pre>{prop.name}     {prop.day}</pre></span>
-        </div>
-    );
-    //list Çü½Ä > id, Á¦¸ñ, ÀÛ¼ºÀÚ+³¯Â¥
-}
+import {db} from './fbase'
+import { collection, getDocs, updateDoc } from "firebase/firestore";
+//firebaseë¡œ ì„ì‹œ ì‘ì—…
 
-function ListPrint({props}){
+function ListPrint({prop}){
+    const [users, setUsers] = useState([]);
+    const usersCollectionRef = collection(db, "users");
+    
+    const createCount = async (idx) =>{
+      await updateDoc(usersCollectionRef, {id: idx});
+    }
+
+    useEffect(()=>{
+      const getUsers = async () => {
+        const data = await getDocs(usersCollectionRef);
+        setUsers(data.docs.map((doc)=>({ ...doc.data(), id: doc.id})))
+      }
+  
+      getUsers();
+    },[])
+
+    const showList = 
+    users.map((value, idx) => (<div className="exam-list">
+                          <pre>{idx + 1}      <Link to={"/exam/" + idx}> {value.title} </Link></pre> 
+                          <pre>ì´ë¦„        ì‘ì„±ì¼  </pre>
+                        </div>))
+    
     return(
         <div>
-            {
-            props.map((prop) =>
-                <List prop={prop}/> 
-                )
-            }
+            <span>{showList}</span>
         </div>
     );
+    //list í˜•ì‹ > id, ì œëª©, ì‘ì„±ì+ë‚ ì§œ
 }
 
 export default ListPrint;
+
+{/* <span><pre>{prop.id}        <Link to={"/exam/" + prop.id}>{prop.title}</Link></pre></span>
+    <span><pre>{prop.name}     {prop.day}</pre></span> */}
