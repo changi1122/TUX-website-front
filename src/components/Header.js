@@ -96,7 +96,7 @@ function Header(props) {
         for (let i = 0; i < gnbIsLogin.length; i++) {
             result.push(
                 <ul className='flex-col flex px-10 border-b-2'>
-                    <a className='sm:text-xl text-base font-black w-full justify-end flex sm:py-3 py-2'
+                    <a className='text-xl font-black w-full justify-end flex py-3'
                         onClick={() => { navigate(process.env.PUBLIC_URL + gnbIsLogin[i].subInfo[0].subHref); toggleMenu(); }}>
                         {gnbIsLogin[i].gnbName}
                     </a>
@@ -178,7 +178,7 @@ function Header(props) {
             </nav>
 
             {/* 세부 메뉴 - ver.mobile*/}
-            <nav className={`${isOpen ? "show-moblie-menu" : "hide-mobile-menu"} absolute bg-white w-full h-screen z-50 sm:text-lg text-sm`}>
+            <nav className={`${isOpen ? "show-moblie-menu" : "hide-mobile-menu"} absolute top-0 drop-shadow-2xl bg-white w-[85vw] h-screen z-50 text-lg overflow-auto`}>
                 {
                     isLogin
                         ?
