@@ -2,8 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { IoLogoTux, IoMdMenu, IoIosLogIn, IoIosLogOut } from 'react-icons/io';
 import './style.css';
-import gnbIsLogin from "../static/jsons/gnbIsLogin.json"
-import gnbIsNotLogin from "../static/jsons/gnbIsNotLogin.json"
+import { gnbIsLogin, gnbIsNotLogin } from "../static/jsons"
 
 function Header(props) {
     const navigate = useNavigate();
@@ -88,7 +87,47 @@ function Header(props) {
                 result.push('');
             }
         }
+        return result;
+    }
 
+    const handleMobileMenu = () => {
+        const result = [];
+
+        for (let i = 0; i < gnbIsLogin.length; i++) {
+            result.push(
+                <ul className='flex-col flex px-10 border-b-2'>
+                    <a className='sm:text-xl text-base font-black w-full justify-end flex sm:py-3 py-2'
+                        onClick={() => { navigate(process.env.PUBLIC_URL + gnbIsLogin[i].subInfo[0].subHref); toggleMenu(); }}>
+                        {gnbIsLogin[i].gnbName}
+                    </a>
+                    {
+                        isLogin
+                            ?
+                            gnbIsLogin.map((ele, index) =>
+                                ele.subInfo.map((subEle) =>
+                                    i === index ?
+                                        <a className='w-full justify-end flex sm:py-3 py-2'
+                                            onClick={() => { navigate(process.env.PUBLIC_URL + subEle.subHref); toggleMenu(); }}>
+                                            {subEle.subName}
+                                        </a>
+                                        : ''
+                                )
+                            )
+                            :
+                            gnbIsNotLogin.map((ele, index) =>
+                                ele.subInfo.map((subEle) =>
+                                    i === index ?
+                                        <a className='w-full justify-end flex sm:py-3 py-2'
+                                            onClick={() => { navigate(process.env.PUBLIC_URL + subEle.subHref); toggleMenu(); }}>
+                                            {subEle.subName}
+                                        </a>
+                                        : ''
+                                )
+                            )
+                    }
+                </ul>
+            )
+        }
         return result;
     }
 
@@ -161,81 +200,7 @@ function Header(props) {
                             <div className='ml-2'>로그인</div>
                         </button>
                 }
-
-                <ul className='flex-col flex px-10 border-b-2'>
-                    <a className='sm:text-xl text-base font-black w-full justify-end flex sm:py-3 py-2'
-                        onClick={() => { navigate(process.env.PUBLIC_URL + '/tuxinfo01'); toggleMenu(); }}>
-                        TUX소개
-                    </a>
-                    <a className='w-full justify-end flex sm:py-3 py-2'
-                        onClick={() => { navigate(process.env.PUBLIC_URL + '/tuxinfo01'); toggleMenu(); }}>
-                        개요
-                    </a>
-                    <a className='w-full justify-end flex sm:py-3 py-2'
-                        onClick={() => { navigate(process.env.PUBLIC_URL + '/tuxinfo02'); toggleMenu(); }}>
-                        연혁
-                    </a>
-                    <a className='w-full justify-end flex sm:py-3 py-2'
-                        onClick={() => { navigate(process.env.PUBLIC_URL + '/tuxinfo03'); toggleMenu(); }}>
-                        구성원 소개
-                    </a>
-                </ul>
-                <ul className='flex-col flex px-10 border-b-2'>
-                    <a className='sm:text-xl text-base font-black w-full justify-end flex sm:py-3 py-2'
-                        onClick={() => { navigate(process.env.PUBLIC_URL + '/community01'); toggleMenu(); }}>
-                        커뮤니티
-                    </a>
-                    <a className='w-full justify-end flex sm:py-3 py-2'
-                        onClick={() => { navigate(process.env.PUBLIC_URL + '/community01'); toggleMenu(); }}>
-                        공지사항
-                    </a>
-                    <a className='w-full justify-end flex sm:py-3 py-2'
-                        onClick={() => { navigate(process.env.PUBLIC_URL + '/community02'); toggleMenu(); }}>
-                        팀원 모집
-                    </a>
-                    <a className='w-full justify-end flex sm:py-3 py-2'
-                        onClick={() => { navigate(process.env.PUBLIC_URL + '/community03'); toggleMenu(); }}>
-                        건의 게시판
-                    </a>
-                    {
-                        isLogin
-                            ?
-                            <a className='w-full justify-end flex sm:py-3 py-2'
-                                onClick={() => { navigate(process.env.PUBLIC_URL + '/community04'); toggleMenu(); }}>
-                                {/* private */}
-                                잡담방
-                            </a>
-                            : ''
-                    }
-                </ul>
-                <ul className='flex-col flex px-10 border-b-2'>
-                    <a className='sm:text-xl text-base font-black w-full justify-end flex sm:py-3 py-2'
-                        onClick={() => { navigate(process.env.PUBLIC_URL + '/data01'); toggleMenu(); }}>
-                        자료실
-                    </a>
-                    <a className='w-full justify-end flex sm:py-3 py-2'
-                        onClick={() => { navigate(process.env.PUBLIC_URL + '/data01'); toggleMenu(); }}>
-                        채용 · 취업 정보
-                    </a>
-                    <a className='w-full justify-end flex sm:py-3 py-2'
-                        onClick={() => { navigate(process.env.PUBLIC_URL + '/data02'); toggleMenu(); }}>
-                        공모전 정보
-                    </a>
-                    <a className='w-full justify-end flex sm:py-3 py-2'
-                        onClick={() => { navigate(process.env.PUBLIC_URL + '/data03'); toggleMenu(); }}>
-                        갤러리
-                    </a>
-                    {
-                        isLogin
-                            ?
-                            <a className='w-full justify-end flex sm:py-3 py-2'
-                                onClick={() => { navigate(process.env.PUBLIC_URL + '/exam'); toggleMenu(); }}>
-                                {/* private */}
-                                족보
-                            </a>
-                            : ''
-                    }
-                </ul>
+                {handleMobileMenu()}
             </nav>
         </div >
 
