@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { BsQuestionCircleFill } from 'react-icons/bs';
-import gnbIsLogin from "./static/gnbIsLogin.json"
-import gnbIsNotLogin from "./static/gnbIsNotLogin.json"
+import gnbIsLogin from "../static/jsons/gnbIsLogin.json"
+import gnbIsNotLogin from "../static/jsons/gnbIsNotLogin.json"
 
 const GnbSub = ({ sub }) => {
     return (
