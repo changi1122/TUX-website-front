@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { IoLogoTux, IoMdMenu, IoIosLogIn, IoIosLogOut } from 'react-icons/io';
 import './style.css';
+import gnbIsLogin from "../static/jsons/gnbIsLogin.json"
+import gnbIsNotLogin from "../static/jsons/gnbIsNotLogin.json"
 
 function Header(props) {
     const navigate = useNavigate();
@@ -14,7 +16,7 @@ function Header(props) {
     const [name, setName] = useState('dummy'); // 로그인 한 사용자 이름, 클릭 시 마이페이지로 이동..
 
     const [isScroll, setIsScroll] = useState(0);
-    const [hover, setHover] = useState(0); // hover 1 - TUX소개, 2 - 커뮤니티, 3 - 자료실
+    const [hover, setHover] = useState(-1); // hover 1 - TUX소개, 2 - 커뮤니티, 3 - 자료실
     const [isOpen, setIsOpen] = useState(false); // 모바일 기기 메뉴
 
     useEffect(() => {
@@ -46,30 +48,68 @@ function Header(props) {
         setIsOpen(isOpen => !isOpen); // on, off
     }
 
+    const handleLoptopMenu = () => {
+        const result = [];
+
+        for (let i = 0; i < gnbIsLogin.length; i++) {
+            if (hover === i) {
+                result.push(
+                    <ul className='flex px-20 py-5 border-b-2 items-center nav'>
+                        <li className='text-xl font-black'>
+                            <a href={process.env.PUBLIC_URL + gnbIsLogin[hover].subInfo[0].subHref}>{gnbIsLogin[hover].gnbName}</a>
+                        </li>
+                        {
+                            isLogin
+                                ?
+                                gnbIsLogin.map((ele, index) =>
+                                    ele.subInfo.map((subEle) =>
+                                        hover === index ?
+                                            <li>
+                                                <a href={process.env.PUBLIC_URL + subEle.subHref}>{subEle.subName}</a>
+                                            </li>
+                                            : ''
+                                    )
+                                )
+                                :
+                                gnbIsNotLogin.map((ele, index) =>
+                                    ele.subInfo.map((subEle) =>
+                                        hover === index ?
+                                            <li>
+                                                <a href={process.env.PUBLIC_URL + subEle.subHref}>{subEle.subName}</a>
+                                            </li>
+                                            : ''
+                                    )
+                                )
+                        }
+                    </ul>
+                )
+            }
+            else {
+                result.push('');
+            }
+        }
+
+        return result;
+    }
+
     return (
         <div className={`${isScroll === 1 ? 'top-0 z-50 sticky drop-shadow border-none' : ''} mb-2`}
-            onMouseLeave={() => setHover(0)}>
+            onMouseLeave={() => setHover(-1)}>
             <div className={`w-full flex justify-center border-b-2 bg-white md:p-0 py-2`}>
                 <div className="w-[90%] flex justify-between items-center nav">
                     <div className="flex">
                         <a href={process.env.PUBLIC_URL + "/"}
                             className="flex items-center gap-3 md:mr-5 text-left logo">
-                            <IoLogoTux
-                                size={40}
-                            // style={{ transform: 'scaleX(-1)' }}
-                            />
+                            <IoLogoTux size={40} />
                             <div>
                                 <h1 className="text-2xl font-black">CBNU TUX</h1>
                                 <div className='text-base'>Linux study club</div>
                             </div>
                         </a>
                         <div className='md:flex hidden items-center'>
-                            <a href={process.env.PUBLIC_URL + '/tuxinfo01'}
-                                onMouseOver={() => { setHover(1); }}>TUX소개</a>
-                            <a href={process.env.PUBLIC_URL + '/community01'}
-                                onMouseOver={() => { setHover(2); }} >커뮤니티</a>
-                            <a href={process.env.PUBLIC_URL + '/data01'}
-                                onMouseOver={() => { setHover(3); }} >자료실</a>
+                            {
+                                gnbIsLogin.map((ele, index) => <a href={process.env.PUBLIC_URL + ele.subInfo[0].subHref} onMouseOver={() => { setHover(index); }}>{ele.gnbName}</a>)
+                            }
                         </div>
                     </div>
                     {
@@ -94,84 +134,8 @@ function Header(props) {
             </div>
 
             {/* 세부 메뉴 - ver.Laptop*/}
-            <nav
-                className={`menu ${hover !== 0 ? 'active' : 'inactive'} absolute bg-gray-50 w-full z-50 text-left`}
-            >
-                {
-                    hover === 1
-                        ?
-                        <ul className='flex px-20 py-5 border-b-2 items-center nav'>
-                            <li className='text-xl font-black'>
-                                <a href={process.env.PUBLIC_URL + '/tuxinfo01'}>TUX소개</a>
-                            </li>
-                            <li>
-                                <a href={process.env.PUBLIC_URL + '/tuxinfo01'}>개요</a>
-                            </li>
-                            <li>
-                                <a href={process.env.PUBLIC_URL + '/tuxinfo02'}>연혁</a>
-                            </li>
-                            <li>
-                                <a href={process.env.PUBLIC_URL + '/tuxinfo03'}>구성원 소개</a>
-                            </li>
-                        </ul>
-                        : ''
-                }
-                {
-                    hover === 2
-                        ?
-                        <ul className='flex px-20 py-5 border-b-2 items-center nav'>
-                            <li className='text-xl font-black'>
-                                <a href={process.env.PUBLIC_URL + '/community01'}>커뮤니티</a>
-                            </li>
-                            <li>
-                                <a href={process.env.PUBLIC_URL + '/community01'}>공지사항</a>
-                            </li>
-                            <li>
-                                <a href={process.env.PUBLIC_URL + '/community02'}>팀원 모집</a>
-                            </li>
-                            <li>
-                                <a href={process.env.PUBLIC_URL + '/community03'}>건의 게시판</a>
-                            </li>
-                            {
-                                isLogin
-                                    ?
-                                    <li>
-                                        {/* private */}
-                                        <a href={process.env.PUBLIC_URL + '/community04'}>잡담방</a>
-                                    </li>
-                                    : ''
-                            }
-                        </ul>
-                        : ''
-                }
-                {
-                    hover === 3
-                        ?
-                        <ul className='flex px-20 py-5 border-b-2 items-center nav'>
-                            <li className='text-xl font-black'>
-                                <a href={process.env.PUBLIC_URL + '/data01'}>자료실</a>
-                            </li>
-                            <li>
-                                <a href={process.env.PUBLIC_URL + '/data01'}>채용 · 취업 정보</a>
-                            </li>
-                            <li>
-                                <a href={process.env.PUBLIC_URL + '/data02'}>공모전 정보</a>
-                            </li>
-                            <li>
-                                <a href={process.env.PUBLIC_URL + '/data03'}>갤러리</a>
-                            </li>
-                            {
-                                isLogin
-                                    ?
-                                    <li>
-                                        {/* private */}
-                                        <a href={process.env.PUBLIC_URL + '/exam'}>족보</a>
-                                    </li>
-                                    : ''
-                            }
-                        </ul>
-                        : ''
-                }
+            <nav className={`menu ${hover !== -1 ? 'active' : 'inactive'} absolute bg-gray-50 w-full z-50 text-left`}>
+                {handleLoptopMenu()}
             </nav>
 
             {/* 세부 메뉴 - ver.mobile*/}
