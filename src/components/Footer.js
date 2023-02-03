@@ -2,10 +2,31 @@ import { useState, useRef } from "react";
 import { FaGithub } from 'react-icons/fa';
 import { FiLink } from 'react-icons/fi';
 import './style.css';
+import { relatedSites } from "../static/jsons";
 
 function Footer(props) {
     const [isActive, setIsActive] = useState(false);
     const onClick = () => setIsActive(!isActive);
+
+    const RelatedSites = ({ sites }) => {
+        return (
+            <li>
+                <a href={sites.siteHref} target="_blank">
+                    <table>
+                        <tr>
+                            <td className="pr-2 w-[25px]">
+                                <img src={sites.siteIcon} />
+                            </td>
+                            <td>
+                                {/* preformatted */}
+                                <pre>{sites.siteTitle}</pre>
+                            </td>
+                        </tr>
+                    </table>
+                </a>
+            </li>
+        )
+    }
 
     return (
         <div className={`w-full flex justify-center bg-[#efefef] mt-auto`}>
@@ -39,76 +60,9 @@ function Footer(props) {
                                 className={`site ${isActive ? 'active' : 'inactive'} text-sm`}
                             >
                                 <ul>
-                                    <li>
-                                        <a href="https://www.chungbuk.ac.kr/" target="_blank">
-                                            <table>
-                                                <tr>
-                                                    <td className="pr-2">
-                                                        <img src="https://www.chungbuk.ac.kr/favicon.ico" />
-                                                    </td>
-                                                    <td>
-                                                        <div>충북대학교</div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://software.cbnu.ac.kr/" target="_blank">
-                                            <table>
-                                                <tr>
-                                                    <td className="pr-2 w-[25px]">
-                                                        <img src="https://software.cbnu.ac.kr/files/attach/xeicon/favicon.ico" />
-                                                    </td>
-                                                    <td>
-                                                        <div>충북대학교<br></br>소프트웨어학부</div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://sw7up.cbnu.ac.kr/" target="_blank">
-                                            <table>
-                                                <tr>
-                                                    <td className="pr-2 w-[25px]">
-                                                        <img src="https://sw7up.cbnu.ac.kr/favicon.ico" />
-                                                    </td>
-                                                    <td>
-                                                        <div>충북대학교<br></br>SW중심대학사업단</div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://ece.cbnu.ac.kr/ECE" target="_blank">
-                                            <table>
-                                                <tr>
-                                                    <td className="pr-2 w-[25px]">
-                                                        <img src="https://ece.cbnu.ac.kr/files/attach/xeicon/favicon.ico" />
-                                                    </td>
-                                                    <td>
-                                                        <div>충북대학교<br></br>전자정보대학</div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://cieat.chungbuk.ac.kr/" target="_blank">
-                                            <table>
-                                                <tr>
-                                                    <td className="pr-2">
-                                                        <img src="https://cieat.chungbuk.ac.kr:443/contents/images/favicon.ico" />
-                                                    </td>
-                                                    <td>
-                                                        <div>충북대학교 씨앗</div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </a>
-                                    </li>
+                                    {
+                                        relatedSites.map((ele) => <RelatedSites key={ele.siteTitle} sites={ele} />)
+                                    }
                                 </ul>
                             </nav>
                         </div>

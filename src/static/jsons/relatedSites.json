@@ -1,0 +1,27 @@
+[
+    {
+        "siteTitle": "충북대학교",
+        "siteHref": "https://www.chungbuk.ac.kr/",
+        "siteIcon": "https://www.chungbuk.ac.kr/favicon.ico"
+    },
+    {
+        "siteTitle": "충북대학교\n소프트웨어학부",
+        "siteHref": "https://software.cbnu.ac.kr/",
+        "siteIcon": "https://software.cbnu.ac.kr/files/attach/xeicon/favicon.ico"
+    },
+    {
+        "siteTitle": "충북대학교\nSW중심대학사업단",
+        "siteHref": "https://sw7up.cbnu.ac.kr/",
+        "siteIcon": "https://sw7up.cbnu.ac.kr/favicon.ico"
+    },
+    {
+        "siteTitle": "충북대학교\n전자정보대학",
+        "siteHref": "https://ece.cbnu.ac.kr/ECE",
+        "siteIcon": "https://ece.cbnu.ac.kr/files/attach/xeicon/favicon.ico"
+    },
+    {
+        "siteTitle": "충북대학교 씨앗",
+        "siteHref": "https://cieat.chungbuk.ac.kr/",
+        "siteIcon": "https://cieat.chungbuk.ac.kr:443/contents/images/favicon.ico"
+    }
+]
