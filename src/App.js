@@ -10,6 +10,7 @@ import Main from './pages/Main';
 import Page from './pages/Page';
 import Sitemap from './pages/Sitemap'
 import { LoginPage, RegisterPage, MyPage } from "./pages/auth";
+import { Tuxinfo01, Tuxinfo02, Tuxinfo03 } from "./pages/tuxinfo"
 
 import PreviousExamination from "./pages/exam/PreviousExamination";
 import Writing from "./pages/exam/WritePage";
@@ -29,6 +30,11 @@ const App = () => {
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/register" element={<RegisterPage />}></Route>
           <Route path="/mypage" element={<MyPage />}></Route>
+
+          {/* TUX 개요 */}
+          <Route path="/tuxinfo01" element={<Tuxinfo01 />}></Route>
+          <Route path="/tuxinfo02" element={<Tuxinfo02 />}></Route>
+          <Route path="/tuxinfo03" element={<Tuxinfo03 />}></Route>
 
           <Route path="/exam" element={<PreviousExamination />}></Route>
           <Route path="/write_page" element={<Writing />}></Route>
