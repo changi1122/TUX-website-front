@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BsQuestionCircleFill } from 'react-icons/bs';
+import { MdDeveloperMode } from 'react-icons/md';
 import { gnbIsLogin, gnbIsNotLogin } from "../static/jsons"
 
 const GnbSub = ({ sub }) => {
@@ -57,11 +58,24 @@ function Sitemap() {
                 }
             </div>
 
-            <div className="mt-20 px-[25vw]">
-                <BsQuestionCircleFill size={20} style={{ margin: 'auto' }} />
-                <div className="text-left mt-2">
-                    <p>사이트 맵이란?</p>
-                    <p className="text-justify">시스템 구조를 바탕으로 사이트에 표시할 콘텐츠들을 한 눈에 알아볼 수 있도록, 메뉴별로 구분하여 설계한 것을 말합니다.</p>
+            <div className="w-full flex md:flex-row flex-col justify-between mt-20 gap-8">
+                <div className="">
+                    <BsQuestionCircleFill size={20} style={{ margin: 'auto auto auto 0' }} />
+                    <div className="text-left mt-2">
+                        <p>사이트 맵이란?</p>
+                        <p className="text-justify">사이트에 표시할 콘텐츠들을 한 눈에 알아볼 수 있도록, 메뉴별로 구분하여 설계한 것을 말합니다.</p>
+                    </div>
+                </div>
+
+                <div className="w-[300px] md:ml-0 ml-auto md:mt-0 mt-10">
+                    <MdDeveloperMode size={30} style={{ margin: 'auto 0 auto auto' }} color="rgb(100 116 139)" />
+                    <div className="text-right mt-2 text-slate-500">
+                        <p>_Developers</p>
+                        <p>Front-End</p>
+                        <p className="">김예원, 변진호, 최경호</p>
+                        <p>Back-End</p>
+                        <p className="">오지우, 임수연, 차현아</p>
+                    </div>
                 </div>
             </div>
         </div>
