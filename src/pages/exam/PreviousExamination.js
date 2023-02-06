@@ -2,24 +2,19 @@ import{
   Link,
 } from "react-router-dom";
 import ListPrint from "./ListPrint";
+import "../../components/table/CommonTable.css"
 
 function PreviousExamination(){
   return (
     <div>
-      <div className="exam-head">
-        <span><pre>글번호    제목</pre></span>
-        <span><pre>작성자       작성일    </pre></span>
-      </div>
-      <hr/>
+      <ListPrint/>
       <div>
-        <ListPrint/>
+        <input placeholder="Search..."/>
+        <button>검색</button>
+          <Link className="exam-right" to={"/write_page"} >
+            글쓰기
+          </Link>
       </div>
-      
-      <input placeholder="Search..."/>
-      <button>검색</button>
-        <Link className="exam-right" to={"/write_page"} >
-          글쓰기
-        </Link>
     </div>
   );
 }

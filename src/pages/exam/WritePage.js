@@ -6,19 +6,19 @@ import{
 } from "react-router-dom";
 
 import {db} from './fbase'
-import { collection, getDocs, addDoc} from "firebase/firestore";
+import { collection, addDoc} from "firebase/firestore";
 //firebase로 임시 작업
 
-//족보 공유를 위한 글쓰기 창인데..
-function Writing(){
+function WritePage(){
   const [newTitle, setTitle] = useState("");
   const [newContent, setContent] = useState("");
-  const [newId, setId] = useState(0);
+  //title, content를 입력 받을 것
 
   const usersCollectionRef = collection(db, "users");
 
   const createContent = async () =>{
-      await addDoc(usersCollectionRef, {title: newTitle, content: newContent, id: newId});
+      await addDoc(usersCollectionRef, {title: newTitle, content: newContent, idx: 0, timestamp: new Date()});
+      //각각 제목, 내용, 글 번호 + 작성일 (시간 순서로 정렬 + 리스트에 보여주기 위함), 
   }
 
     return (
@@ -32,16 +32,16 @@ function Writing(){
           }}
 
           onChange={(event, editor) => {
-            const edata = editor.getData().replace(/<[^>]*>?/g, '');
+            const edata = editor.getData();
             {setContent(edata)};
           }}
         />  
         </form>
         <p>
-          <button style={{margin: 10}} onClick={createContent}><Link to={"/exam"}>UpLoad</Link></button>
+          <button style={{margin: 20}} onClick={createContent}><Link to={"/exam"}>UpLoad</Link></button>
         </p>
       </div>
     );
 }
 
-export default Writing;
+export default WritePage;
