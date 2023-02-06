@@ -11,14 +11,8 @@ import Footer from './components/Footer';
 import Main from './pages/Main';
 import Page from './pages/Page';
 import Sitemap from './pages/Sitemap'
-<<<<<<< HEAD
-
-import LoginPage from "./pages/auth/LoginPage";
-import RegisterPage from "./pages/auth/RegisterPage";
-=======
 import { LoginPage, RegisterPage, MyPage } from "./pages/auth";
 import { Tuxinfo01, Tuxinfo02, Tuxinfo03 } from "./pages/tuxinfo"
->>>>>>> 1bf73722a24ac707729d57f625b175d1349ba650
 
 import PreviousExamination from "./pages/exam/PreviousExamination";
 import ExamPage from './pages/exam/ExamPage';
@@ -36,8 +30,6 @@ const App = () => {
           <Route path="/sitemap" element={<Sitemap />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/register" element={<RegisterPage />}></Route>
-<<<<<<< HEAD
-=======
           <Route path="/mypage" element={<MyPage />}></Route>
 
           {/* TUX 개요 */}
@@ -45,7 +37,6 @@ const App = () => {
           <Route path="/tuxinfo02" element={<Tuxinfo02 />}></Route>
           <Route path="/tuxinfo03" element={<Tuxinfo03 />}></Route>
 
->>>>>>> 1bf73722a24ac707729d57f625b175d1349ba650
           <Route path="/exam" element={<PreviousExamination />}></Route>
           <Route path="/write_page" element={<WritePage />}></Route>
           <Route path="/exam/*" element={<ExamPage />}></Route>
