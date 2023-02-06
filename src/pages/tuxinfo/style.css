@@ -6,9 +6,10 @@
 
 .history h1::before {
     content: "";
+    /* ㄴ 이거 빼먹으면 아무것도 표현되지 않는답니다 */
     position: absolute;
-    left: -40px;
-    top: 50%;
+    left: 144px;
+    top: 14px;
     width: 14px;
     height: 14px;
     border-radius: 100%;
@@ -25,9 +26,8 @@
 
 .history div::before {
     content: "";
-    /* ㄴ 이거 빼먹으면 아무것도 표현되지 않는답니다 */
     position: absolute;
-    left: 6px;
+    left: 190px;
     top: 0;
     height: 100%;
     border-left: 2px solid #dddddd;
@@ -39,7 +39,7 @@
 }
 
 .history ol {
-    padding: 20px 0 60px;
+    padding-bottom: 60px;
 }
 
 .history li {

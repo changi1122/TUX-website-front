@@ -4,9 +4,9 @@ import { history } from "../../static/jsons"
 
 const HistoryBox = ({ props }) => {
     return (
-        <div>
-            <h1 className="text-2xl">{props.year}</h1>
-            <ol>
+        <div className="flex gap-28">
+            <h1 className="text-3xl font-bold">{props.year}</h1>
+            <ol className="text-xl">
                 {
                     props.contents.map((ele) =>
                         <li>{"- " + ele}</li>
@@ -25,10 +25,10 @@ function Tuxinfo02() {
                 <div className="text-4xl font-bold">연혁</div>
             </div>
 
-            <div className="mt-20 text-left md:px-[20vw] px-0">
+            <div className="mt-20 text-left md:px-[25vw] px-0">
                 <div>
-                    <div className="text-3xl text-black">TUX HISTORY</div>
-                    <p>주요 활동과 실적들</p>
+                    <div className="text-4xl text-black">TUX HISTORY</div>
+                    <p className="text-2xl">TUX의 주요 활동과 실적들</p>
                 </div>
 
                 <div className="history mt-10">
