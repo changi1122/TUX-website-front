@@ -5,6 +5,11 @@ function Tuxinfo01() {
 
     return (
         <div className='min-h-screen md:py-20 md:px-[20vw] px-3 py-10'>
+            <div className="border-b border-black w-full pb-10 z-10">
+                <div className="text-lg">TUX개요</div>
+                <div className="text-4xl font-bold">개요</div>
+            </div>
+
             <div className="w-full flex md:flex-row flex-col justify-between mt-20 gap-8">
                 <div className="md:w-[50%] w-full">
                     <div className="text-left mt-2 text-2xl">
