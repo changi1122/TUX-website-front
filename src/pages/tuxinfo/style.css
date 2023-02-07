@@ -8,7 +8,7 @@
     content: "";
     /* ㄴ 이거 빼먹으면 아무것도 표현되지 않는답니다 */
     position: absolute;
-    left: 144px;
+    left: 7.15rem;
     top: 14px;
     width: 14px;
     height: 14px;
@@ -27,7 +27,7 @@
 .history div::before {
     content: "";
     position: absolute;
-    left: 190px;
+    left: 10rem;
     top: 0;
     height: 100%;
     border-left: 2px solid #dddddd;
@@ -39,7 +39,7 @@
 }
 
 .history ol {
-    padding-bottom: 60px;
+    padding-bottom: 2em;
 }
 
 .history li {
