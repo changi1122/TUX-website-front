@@ -3,14 +3,10 @@
         content: "";
         /* ㄴ 이거 빼먹으면 아무것도 표현되지 않는답니다 */
         position: absolute;
-        left: 19.4rem;
-        top: 19px;
+        left: 19.45rem;
+        top: 0.5em;
         width: 20px;
-        height: 20px;
-        border-radius: 100%;
-        background: #fff;
-        transform: translateY(-50%);
-        border: 3px solid #000000;
+        border: 0.5px solid #000000;
         box-sizing: border-box;
     }
 
