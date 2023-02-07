@@ -4,12 +4,12 @@ import { history } from "../../static/jsons"
 
 const HistoryBox = ({ props }) => {
     return (
-        <div className="flex gap-28">
-            <h1 className="text-3xl font-bold">{props.year}</h1>
-            <ol className="text-xl">
+        <div className="flex lg:gap-28 gap-10 relative">
+            <h1 className="lg:text-5xl text-4xl font-bold bg-[#efefef] text-slate-500 relative leading-none lg:pl-36 pl-10">{props.year}</h1>
+            <ol className="text-lg pb-20">
                 {
                     props.contents.map((ele) =>
-                        <li>{"- " + ele}</li>
+                        <li className="leading-8">{"- " + ele}</li>
                     )
                 }
             </ol>
@@ -25,13 +25,13 @@ function Tuxinfo02() {
                 <div className="text-4xl font-bold">연혁</div>
             </div>
 
-            <div className="mt-20 text-left md:px-[25vw] px-0">
+            <div className="mt-20 text-left lg:px-[25vw] px-0">
                 <div>
                     <div className="text-4xl text-black">TUX HISTORY</div>
                     <p className="text-2xl">TUX의 주요 활동과 실적들</p>
                 </div>
 
-                <div className="history mt-10">
+                <div className="history mt-10 mx-auto">
                     {
                         history.map((ele) => <HistoryBox key={ele.year} props={ele} />)
                     }
