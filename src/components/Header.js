@@ -145,27 +145,26 @@ function Header(props) {
                                 <div className='text-base'>Linux study club</div>
                             </div>
                         </a>
-                        <div className='md:flex hidden items-center'>
+                        <div className='lg:flex hidden items-center'>
                             {
                                 gnbIsLogin.map((ele, index) => <a href={process.env.PUBLIC_URL + ele.subInfo[0].subHref} onMouseOver={() => { setHover(index); }}>{ele.gnbName}</a>)
                             }
                         </div>
                     </div>
-                    {
-                        isLogin
-                            ?
-                            <div className='md:flex hidden'>
-                                <a href={process.env.PUBLIC_URL + '/mypage'} className="hover:text-[#E95420]" >{name} 님</a>
-                                <a href="#" className="hover:text-[#E95420]" >로그아웃</a>
-                            </div>
-                            :
-                            <div className='md:flex hidden'>
+                    <div className='lg:flex hidden'>
+                        {
+                            isLogin
+                                ?
+                                <div>
+                                    <a href={process.env.PUBLIC_URL + '/mypage'} className="hover:text-[#E95420]" >{name} 님</a>
+                                    <a href="#" className="hover:text-[#E95420]" >로그아웃</a>
+                                </div>
+                                :
                                 <a href={process.env.PUBLIC_URL + '/login'} className="hover:text-[#E95420]" >로그인</a>
-                            </div>
-                    }
-
+                        }
+                    </div>
                     {/* 모바일 기기 메뉴 */}
-                    <div className='md:hidden flex'
+                    <div className='lg:hidden flex'
                         onClick={() => toggleMenu()}>
                         <IoMdMenu size={25} />
                     </div>
