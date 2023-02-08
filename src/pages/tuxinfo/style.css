@@ -25,7 +25,7 @@
     }
 }
 
-.fadein-up {
+.ani-fadein-up {
     animation: fadeinUp 2s ease;
 }
 
@@ -66,5 +66,15 @@
         opacity: 1;
         filter: alpha(opacity=100);
         transform: translateY(0);
+    }
+}
+
+.ani-blinking {
+    animation: blink 2s step-end infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
     }
 }

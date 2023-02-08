@@ -1,4 +1,5 @@
-import { useRef, useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
+import { Octokit } from "https://cdn.skypack.dev/octokit";
 
 function Tuxinfo01() {
     useEffect(() => {
@@ -23,7 +24,7 @@ function Tuxinfo01() {
 
     return (
         <div className='min-h-screen px-3 md:py-20 py-10'>
-            <div className="border-b border-black w-full md:pb-20 pb-10 fadein-up">
+            <div className="border-b border-black w-full md:pb-20 pb-10 ani-fadein-up">
                 <div className="text-lg">TUX개요</div>
                 <div className="text-4xl font-bold">개요</div>
             </div>
@@ -45,7 +46,7 @@ function Tuxinfo01() {
 
                     <div className="md:w-[50%] w-full md:ml-0 ml-auto md:mt-0 mt-5">
                         <div className="text-justify mt-2 flex flex-col gap-3">
-                            <p className="text-4xl font-thin">Hello, world! _</p>
+                            <p className="text-4xl font-thin">Hello, world! <span className="ani-blinking">_</span></p>
                             <p>
                                 오픈소스 소프트웨어의 활용 능력을 중시하는 기업이 늘면서, OSS의 근간이 되는 Linux에 대한 이해의 필요성이 부각되고 있습니다.
                             </p>
