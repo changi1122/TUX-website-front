@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { people } from "../../static/jsons"
 
 const PeopleBox = ({ props }) => {
