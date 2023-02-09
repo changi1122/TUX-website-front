@@ -3,7 +3,7 @@ import { Octokit } from "https://cdn.skypack.dev/octokit";
 
 const OSSProjects = ({ props }) => {
     return (
-        <li className="float-left lg:w-[48%] w-full m-[1%] hover:shadow-2xl ani-effect">
+        <li className="float-left lg:w-[48%] w-full m-[1%] hover:shadow-2xl transition duration-300 ease-in-out ani-effect">
             <a href={props.html_url} target="_blank" >
                 <img src={`https://opengraph.githubassets.com/${props.id}/CBNU-TUX/${props.name}`} />
                 {/* 참고: https://stackoverflow.com/questions/68839829/how-can-i-get-the-open-graph-image-for-a-github-repository */}
@@ -101,7 +101,12 @@ function Tuxinfo01() {
                 </div>
 
                 <div className="mt-20 text-justify flex flex-col gap-2">
-                    <div className="text-left w-fit py-2 px-4 border-b-2 border-black font-bold">공개한 오픈소스 프로젝트</div>
+                    <div className="flex justify-between items-end">
+                        <div className="text-left w-fit py-2 px-4 border-b-2 border-black font-bold">공개한 오픈소스 프로젝트</div>
+                        <span className="underline text-xl text-slate-500 hover:animate-pulse hover:scale-110 transition duration-300 ease-in-out">
+                            <a href="https://github.com/orgs/CBNU-TUX/repositories" target="_blank">more ◹</a>
+                        </span>
+                    </div>
                     <ul>
                         {
                             projects.map((ele) => <OSSProjects key={ele.id} props={ele} />)
