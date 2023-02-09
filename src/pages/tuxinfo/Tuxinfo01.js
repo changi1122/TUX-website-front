@@ -20,10 +20,11 @@ function Tuxinfo01() {
             auth: process.env.REACT_APP_OCTOKIT_TOKEN
         });
 
-        return await octokit.request('GET /orgs/{org}/repos?sort={sort}', {
+        return await octokit.request('GET /orgs/{org}/repos?sort={sort}&per_page={perPage}', {
+            // 매개변수 정보는 이곳에서: https://docs.github.com/ko/rest/repos/repos?apiVersion=2022-11-28
             org: 'CBNU-TUX',
-            sort: 'updated'
-            // created(기본값), updated, pushed, full_name
+            sort: 'updated', // created(기본값), updated, pushed, full_name
+            perPage: 6 // The number of results per page (max 100, 기본값 30)
         })
     }
 
