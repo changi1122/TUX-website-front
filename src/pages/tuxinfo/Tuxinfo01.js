@@ -1,7 +1,32 @@
 import { useState, useEffect } from "react";
 import { Octokit } from "https://cdn.skypack.dev/octokit";
 
+const OSSProjects = ({ props }) => {
+    return (
+        <li className="float-left lg:w-[48%] w-full m-[1%] hover:shadow-2xl ani-effect">
+            <a href={props.html_url} target="_blank" >
+                <img src={`https://opengraph.githubassets.com/${props.id}/CBNU-TUX/${props.name}`} />
+                {/* 참고: https://stackoverflow.com/questions/68839829/how-can-i-get-the-open-graph-image-for-a-github-repository */}
+            </a>
+        </li>
+    )
+}
+
 function Tuxinfo01() {
+    const [projects, setProjects] = useState([]);
+
+    async function getProjects() {
+        const octokit = new Octokit({
+            auth: process.env.REACT_APP_OCTOKIT_TOKEN
+        });
+
+        return await octokit.request('GET /orgs/{org}/repos?sort={sort}', {
+            org: 'CBNU-TUX',
+            sort: 'updated'
+            // created(기본값), updated, pushed, full_name
+        })
+    }
+
     useEffect(() => {
         const io = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
@@ -20,6 +45,15 @@ function Tuxinfo01() {
         $items.forEach((item) => {
             io.observe(item);
         })
+    });
+
+    useEffect(() => {
+        // github api를 통해, org CBNU-TUX의 repos 정보들을 받아와 projects에 저장
+        getProjects().then(response => {
+            if (response.status === 200) {
+                setProjects(response.data);
+            }
+        });
     }, []);
 
     return (
@@ -29,8 +63,8 @@ function Tuxinfo01() {
                 <div className="text-4xl font-bold">개요</div>
             </div>
 
-            <ul className="mt-20 text-left md:px-[20vw] px-0">
-                <li className="w-full flex md:flex-row flex-col justify-between mt-20 gap-8 ani-effect ">
+            <div className="mt-20 text-left md:px-[20vw] px-0">
+                <div className="w-full flex md:flex-row flex-col justify-between mt-20 gap-8">
                     <div className="md:w-[50%] w-full">
                         <div className="text-left mt-2 text-2xl">
                             <div className="text-6xl font-black">TUX</div>
@@ -58,20 +92,22 @@ function Tuxinfo01() {
                             </p>
                         </div>
                     </div>
-                </li>
+                </div>
 
-                <li className="mt-20 text-justify flex flex-col gap-2 ani-effect">
+                <div className="mt-20 text-justify flex flex-col gap-2">
                     <div className="text-left w-fit py-2 px-4 border-b-2 border-black font-bold">주요 활동</div>
                     <div className="px-3">Linux 및 OSS 연구, 프로그래밍 언어(C, C++, Java, Python) 스터디, 웹사이트 및 서버 구축</div>
-                </li>
+                </div>
 
-                <li className="mt-20 text-justify flex flex-col gap-2 ani-effect">
+                <div className="mt-20 text-justify flex flex-col gap-2">
                     <div className="text-left w-fit py-2 px-4 border-b-2 border-black font-bold">공개한 오픈소스 프로젝트</div>
-                    <div className="px-3">
-                        github api
-                    </div>
-                </li>
-            </ul>
+                    <ul>
+                        {
+                            projects.map((ele) => <OSSProjects key={ele.id} props={ele} />)
+                        }
+                    </ul>
+                </div>
+            </div>
         </div >
     );
 }
