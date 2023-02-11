@@ -14,6 +14,8 @@ import Sitemap from './pages/Sitemap'
 import { LoginPage, RegisterPage, MyPage } from "./pages/auth";
 import { Tuxinfo01, Tuxinfo02, Tuxinfo03 } from "./pages/tuxinfo"
 
+import PostView from './pages/post/Postview';
+
 import PreviousExamination from "./pages/exam/PreviousExamination";
 import ExamPage from './pages/exam/ExamPage';
 import WritePage from './pages/exam/WritePage';
@@ -21,8 +23,12 @@ import WritePage from './pages/exam/WritePage';
 const App = () => {
   return (
     <div className='App'>
+      
+
       <BrowserRouter>
         <Header />
+
+        
 
         <Routes>
           <Route path="/" element={<Main />}></Route>
@@ -41,14 +47,22 @@ const App = () => {
           <Route path="/write_page" element={<WritePage />}></Route>
           <Route path="/exam/*" element={<ExamPage />}></Route>
 
+          <Route path='/postView/:no' component= {<PostView/>} />
+
           {/* 엘리먼트의 상단에 위치하는 라우트들의 규칙을 모두 확인하고, 일치하는 라우트가 없다면 이 라우트가 화면에 나타나게 됩니다. */}
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
+
+        
 
         <Footer />
       </BrowserRouter>
     </div>
   );
 };
+
+
+
+
 
 export default App;
