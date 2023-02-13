@@ -53,6 +53,3 @@ function ListPrint(){
 }
 
 export default ListPrint;
-
-{/* <span><pre>{prop.id}        <Link to={"/exam/" + prop.id}>{prop.title}</Link></pre></span>
-    <span><pre>{prop.name}     {prop.day}</pre></span> */}

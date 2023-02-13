@@ -8,10 +8,10 @@ function PreviousExamination(){
   return (
     <div>
       <ListPrint/>
-      <div>
+      <div style={{margin: 10}}>
         <input placeholder="Search..."/>
         <button>검색</button>
-          <Link className="exam-right" to={"/write_page"} >
+          <Link className="exam-right" to={"/write_page"}>
             글쓰기
           </Link>
       </div>
