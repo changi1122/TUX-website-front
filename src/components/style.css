@@ -92,28 +92,29 @@
     transition: transform 0.4s ease, visibility 0.4s;
 }
 
-.exam-list {
-    margin: 20px;
-    padding: 10px;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.exam-head {
-    margin: 10px;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
 
 .exam-right {
-    margin: 0px 30px;
+    margin: 0px 90px;
     float: right;
 }
 
 .exam-write {
     margin: 30px 50px;
+}
+
+.page-button{
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  margin: 0;
+  background: white;
+  font-size: 1rem;
+}
+
+.page-nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    margin: 16px;
 }

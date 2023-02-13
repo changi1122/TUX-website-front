@@ -2,9 +2,9 @@ import { useState, useEffect} from 'react';
 import{
     Link,
   } from "react-router-dom";
-
+import { useLocation } from 'react-router';
 import {db} from './fbase'
-import { collection, getDocs, updateDoc, doc, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, updateDoc, doc, query, orderBy, limit, startAfter } from "firebase/firestore";
 import "../../components/table/CommonTable.css"
 import CommonTable from '../../components/table/CommonTable';
 import CommonTableColumn from '../../components/table/CommonTableColumn';
@@ -14,6 +14,11 @@ import CommonTableRow from '../../components/table/CommonTableRow';
 function ListPrint(){
     const [users, setUsers] = useState([]);
     const usersCollectionRef = collection(db, "users");
+    const location = useLocation();
+
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(1);
+    const offset = (page - 1) * 10;
 
 
     const idUpdate = async (id, idx) =>{
@@ -33,6 +38,16 @@ function ListPrint(){
       getUsers();
     },[])
 
+  // const documentSnapshots = async () => await getDocs();
+  // const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+  // console.log("last", lastVisible);
+
+  // const next = query(collection(db, "cities"),
+  //   orderBy("population"),
+  //   startAfter(lastVisible),
+  //   limit(5));
+
+
     const showList = 
     users.map((value, idx) => (
                           <CommonTableRow onLoad={idUpdate(value.id, idx + 1)}>
@@ -48,6 +63,7 @@ function ListPrint(){
       <CommonTable headersName={['글번호', '제목', '등록일', '작성자']}>
             {showList}
       </CommonTable>
+      
     );
     //list 형식 > id, 제목, 작성자+날짜 
 }
