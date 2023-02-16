@@ -49,15 +49,19 @@ const Main = (props) => {
       </div>
 
       <div style={{flex: 1 }}>
+      <h3 className='text-xl font-bold'>공지 사항</h3>
       <div >
         <PostMain />
       </div>
+      <h3 className='text-xl font-bold'>팀원 모집</h3>
       <div >
         <PostMain />
       </div>
+      <h3 className='text-xl font-bold'>건의 게시판</h3>
       <div >
         <PostMain />
       </div>
+      <h3 className='text-xl font-bold'>잡담 방</h3>
       <div >
         <PostMain />
       </div>

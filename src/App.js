@@ -12,13 +12,17 @@ import Main from './pages/Main';
 import Page from './pages/Page';
 import Sitemap from './pages/Sitemap'
 import { LoginPage, RegisterPage, MyPage } from "./pages/auth";
-import { Tuxinfo01, Tuxinfo02, Tuxinfo03 } from "./pages/tuxinfo"
+import { Tuxinfo01, Tuxinfo02, Tuxinfo03 } from "./pages/tuxinfo";
 
 import PostView from './pages/post/Postview';
 
 import PreviousExamination from "./pages/exam/PreviousExamination";
 import ExamPage from './pages/exam/ExamPage';
-import WritePage from './pages/exam/WritePage';
+import WritePage_exam from './pages/exam/WritePage_exam';
+
+import PreviousGallery from "./pages/gallery/PreviousGallery";
+import GalleryPage from "./pages/gallery/GalleryPage";
+import WritePage_gall from './pages/gallery/WritePage_gall';
 
 const App = () => {
   return (
@@ -43,9 +47,15 @@ const App = () => {
           <Route path="/tuxinfo02" element={<Tuxinfo02 />}></Route>
           <Route path="/tuxinfo03" element={<Tuxinfo03 />}></Route>
 
+          <Route path="/gallery" element={<PreviousGallery />}></Route>
+          <Route path="/write_page_gall" element={<WritePage_gall />}></Route>
+          <Route path="/gallery/*" element={<GalleryPage />}></Route>
+
           <Route path="/exam" element={<PreviousExamination />}></Route>
-          <Route path="/write_page" element={<WritePage />}></Route>
+          <Route path="/write_page" element={<WritePage_exam />}></Route>
           <Route path="/exam/*" element={<ExamPage />}></Route>
+
+        
 
           <Route path='/postView/:no' component= {<PostView/>} />
 

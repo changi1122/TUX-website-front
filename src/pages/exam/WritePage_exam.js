@@ -9,7 +9,7 @@ import {db} from './fbase'
 import { collection, addDoc} from "firebase/firestore";
 //firebase로 임시 작업
 
-function WritePage(){
+function WritePage_exam(){
   const [newTitle, setTitle] = useState("");
   const [newContent, setContent] = useState("");
   //title, content를 입력 받을 것
@@ -22,7 +22,7 @@ function WritePage(){
   }
 
     return (
-      <div className="exam-write">
+      <div className="write">
         <form>
         <input style={{margin: 10}} type='text' placeholder="제목..." size={60} onChange={(event) => {setTitle(event.target.value)}}/>
         <CKEditor 
@@ -44,4 +44,4 @@ function WritePage(){
     );
 }
 
-export default WritePage;
+export default WritePage_exam;

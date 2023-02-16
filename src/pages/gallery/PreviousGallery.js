@@ -5,11 +5,11 @@ import ListPrint from "./ListPrint";
 import "../../components/table/CommonTable.css";
 import Pagination from "./Pagination";
 
-function PreviousExamination(){
+function PreviousGallery(){
   return (
     <div>
       <p style={{margin: 30, fontSize: 30, float:"left"}}>
-        족보게시판
+        갤러리
       </p>
       
       <ListPrint/>
@@ -22,7 +22,7 @@ function PreviousExamination(){
       <div style={{margin: 10}}>
         <input placeholder="Search..."/>
         <button>검색</button>
-          <Link className="right" to={"/write_page"}>
+          <Link className="right" to={"/write_page_gall"}>
             글쓰기
           </Link>
       </div>
@@ -30,4 +30,4 @@ function PreviousExamination(){
   );
 }
 
-export default PreviousExamination;
+export default PreviousGallery;
