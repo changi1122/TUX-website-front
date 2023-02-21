@@ -16,9 +16,7 @@ const Main = (props) => {
 
 	return (
 		<>	
-		<div>
-			<h3 className='text-xl font-bold'>메인페이지</h3>
-			</div>
+		
 			<div>
 			<Swiper className='Banner'
       // install Swiper modules
@@ -33,38 +31,43 @@ const Main = (props) => {
 	  
 	}
     >
-      <SwiperSlide className='swiper-slide'><img className="w-100 h-80" src={process.env.PUBLIC_URL + '/Slide_dummy.jpg'} /></SwiperSlide>
-      <SwiperSlide className='swiper-slide'><img className="w-100 h-80" src={process.env.PUBLIC_URL + '/Slide_dummy.jpg'} /></SwiperSlide>
-      <SwiperSlide className='swiper-slide'><img className="w-100 h-80" src={process.env.PUBLIC_URL + '/Slide_dummy.jpg'} /></SwiperSlide>
-      <SwiperSlide className='swiper-slide'><img className="w-100 h-80" src={process.env.PUBLIC_URL + '/Slide_dummy.jpg'} />	</SwiperSlide>
+      <SwiperSlide className='swiper-slide'><img className="w-200 h-80" src={process.env.PUBLIC_URL + '/Slide_dummy.jpg'} /></SwiperSlide>
+      <SwiperSlide className='swiper-slide'><img className="w-200 h-80" src={process.env.PUBLIC_URL + '/Slide_dummy.jpg'} /></SwiperSlide>
+      <SwiperSlide className='swiper-slide'><img className="w-200 h-80" src={process.env.PUBLIC_URL + '/Slide_dummy.jpg'} /></SwiperSlide>
+      <SwiperSlide className='swiper-slide'><img className="w-200 h-80" src={process.env.PUBLIC_URL + '/Slide_dummy.jpg'} />	</SwiperSlide>
       ...
     </Swiper>
     </div>
     <div style={{padding:40,  flex: 1 , flexDirection: 'column'}}>
+
+
+      <div  style={{display: 'flex'}}>
+        <div style={{padding:30,  flex: 1 , flexDirection: 'column'}}>
+          <h3 className='text-3xl font-bold' style={{padding:20}}>공지 사항</h3>
+          <PostMain />
+        </div>
+        <div style={{padding:30,  flex: 1 , flexDirection: 'column'}}>
+          <h3 className='text-3xl font-bold' style={{padding:20}}>팀원 모집</h3>
+          <PostMain />
+        </div>
+      </div>
+
+      <div  style={{display: 'flex'}}>
+        <div style={{margin:30,  flex: 1 , flexDirection: 'column'}} >
+          <h3 className='text-3xl font-bold' style={{padding:20}}>건의 게시판</h3>
+          <PostMain />
+        </div>
+        <div style={{margin:30,  flex: 1 , flexDirection: 'column'}}>
+          <h3 className='text-3xl font-bold' style={{padding:20}}>잡담 방</h3>
+          <PostMain />
+        </div>
+      </div>
+
       <div style={{ flex: 1}} >
         <Calendar
          onChange={onChange}
          value={value}
        />
-      </div>
-
-      <div style={{flex: 1 }}>
-      <h3 className='text-xl font-bold'>공지 사항</h3>
-      <div >
-        <PostMain />
-      </div>
-      <h3 className='text-xl font-bold'>팀원 모집</h3>
-      <div >
-        <PostMain />
-      </div>
-      <h3 className='text-xl font-bold'>건의 게시판</h3>
-      <div >
-        <PostMain />
-      </div>
-      <h3 className='text-xl font-bold'>잡담 방</h3>
-      <div >
-        <PostMain />
-      </div>
       </div>
 
       </div>
