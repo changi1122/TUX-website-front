@@ -2,24 +2,22 @@ import { useState, useEffect} from 'react';
 import{
     Link,
   } from "react-router-dom";
-import { useLocation } from 'react-router';
+
+
 import {db} from './fbase'
-import { collection, getDocs, updateDoc, doc, query, orderBy, limit, startAfter } from "firebase/firestore";
+import { collection, getDocs, updateDoc, doc, query, orderBy} from "firebase/firestore";
 import "../../components/table/CommonTable.css"
 import CommonTable from '../../components/table/CommonTable';
 import CommonTableColumn from '../../components/table/CommonTableColumn';
 import CommonTableRow from '../../components/table/CommonTableRow';
+import Pagination from "react-js-pagination";
+import "../../components/pagination.css"
 //firebase로 임시 작업
 
 function ListPrint(){
     const [users, setUsers] = useState([]);
     const usersCollectionRef = collection(db, "users");
-    const location = useLocation();
-
-    const [limit, setLimit] = useState(10);
-    const [page, setPage] = useState(1);
-    const offset = (page - 1) * 10;
-
+    const [items, setItems] = useState(10);
 
     const idUpdate = async (id, idx) =>{
       const userDoc = doc(db, "users", id);
@@ -38,21 +36,23 @@ function ListPrint(){
       getUsers();
     },[])
 
-  // const documentSnapshots = async () => await getDocs();
-  // const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
-  // console.log("last", lastVisible);
-
-  // const next = query(collection(db, "cities"),
-  //   orderBy("population"),
-  //   startAfter(lastVisible),
-  //   limit(5));
-
+    const [page, setPage] = useState(1);
+    const handlePageChange = page => {
+        setPage(page);
+    };
+    const itemChange = (e) => {
+      setItems(Number(e.target.value))
+  
+    }
 
     const showList = 
-    users.map((value, idx) => (
-                          <CommonTableRow onLoad={idUpdate(value.id, idx + 1)}>
-                            <CommonTableColumn>{idx + 1}</CommonTableColumn>      
-                            <Link to={`/gallery/${idx+1}`} state={{adress: idx+1}}><CommonTableColumn> {value.title} </CommonTableColumn></Link> 
+    users.slice(
+      items*(page-1),
+      items*(page-1)+items
+    ).map((value, idx) => (
+                          <CommonTableRow onLoad={idUpdate(value.id, ((page - 1)* 5) + idx + 1)}>
+                            <CommonTableColumn>{((page - 1) * 5) + idx + 1}</CommonTableColumn>      
+                            <Link to={`/exam/${idx+1}`} state={{adress: idx+1}}><CommonTableColumn> {value.title} </CommonTableColumn></Link> 
                             <CommonTableColumn>{value.timestamp.toDate().getFullYear()}.{value.timestamp.toDate().getMonth()+1}.{value.timestamp.toDate().getDate()}</CommonTableColumn>  
                             <CommonTableColumn>이름</CommonTableColumn>
                           </CommonTableRow>
@@ -60,12 +60,23 @@ function ListPrint(){
                         //이동할 Link의 state로 클릭한 항목의 번호를 전달
     
     return(
-      <CommonTable headersName={['글번호', '제목', '등록일', '작성자']}>
-            {showList}
-      </CommonTable>
-      
+      <div>
+        <CommonTable headersName={['글번호', '제목', '등록일', '작성자']} onChange={itemChange}>
+              {showList}
+        </CommonTable>
+        
+          <Pagination 
+            activePage={page}
+            itemsCountPerPage={items}
+            totalItemsCount={users.length}
+            prevPageText="이전"
+            nextPageText="다음"
+            onChange={handlePageChange}>
+          </Pagination>
+      </div>
     );
     //list 형식 > id, 제목, 작성자+날짜 
 }
+
 
 export default ListPrint;

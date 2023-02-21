@@ -16,6 +16,8 @@
     "react-device-detect": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
+    "react-js-pagination": "^3.0.3",
+    "react-paginate": "^8.1.4",
     "react-password-strength-bar": "^0.4.1",
     "react-router": "^6.8.1",
     "react-router-dom": "^6.8.1",

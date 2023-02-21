@@ -3,7 +3,6 @@ import{
 } from "react-router-dom";
 import ListPrint from "./ListPrint";
 import "../../components/table/CommonTable.css";
-import Pagination from "./Pagination";
 
 function PreviousGallery(){
   return (
@@ -13,11 +12,6 @@ function PreviousGallery(){
       </p>
       
       <ListPrint/>
-      <Pagination
-        total={100}
-        limit={10}
-        page={1}
-        setPage={1}/>
 
       <div style={{margin: 10}}>
         <input placeholder="Search..."/>
