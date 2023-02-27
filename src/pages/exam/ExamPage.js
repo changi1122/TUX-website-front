@@ -9,7 +9,7 @@ import{
 
 function ExamPage(){
     const [users, setUsers] = useState([]);
-    const usersCollectionRef = collection(db, "users");
+    const usersCollectionRef = collection(db, "jocbo");
     const location = useLocation();
     //location > state > adress 값을 가져오기(ListPrint.js에서 전달)
 
@@ -26,16 +26,9 @@ function ExamPage(){
 
     const deleteContentSub = async(id) =>{
         window.confirm("삭제하시겠습니까?");
-        const contentDoc = doc(db, "users", id);
+        const contentDoc = doc(db, "jocbo", id);
         await deleteDoc(contentDoc);
     }
-
-    // const deleteContent = 
-    // users.map((value) => {
-    //     if(value.idx == location.state.adress){
-    //         deleteContentSub(value.id);
-    //     }
-    // })
 
     const showContent = (value)=> (<div> 
                                     <div  style={{display: "flex", justifyContent: "space-between", margin: 20}}>

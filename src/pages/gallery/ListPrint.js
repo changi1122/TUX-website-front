@@ -16,11 +16,11 @@ import "../../components/pagination.css"
 
 function ListPrint(){
     const [users, setUsers] = useState([]);
-    const usersCollectionRef = collection(db, "users");
+    const usersCollectionRef = collection(db, "img");
     const [items, setItems] = useState(10);
 
     const idUpdate = async (id, idx) =>{
-      const userDoc = doc(db, "users", id);
+      const userDoc = doc(db, "img", id);
       const newId = {idx: idx};
       await updateDoc(userDoc, newId);
     }

@@ -14,7 +14,7 @@ function WritePage_gall(){
   const [newContent, setContent] = useState("");
   //title, content를 입력 받을 것
 
-  const usersCollectionRef = collection(db, "users");
+  const usersCollectionRef = collection(db, "img");
 
   const createContent = async () =>{
       await addDoc(usersCollectionRef, {title: newTitle, content: newContent, idx: 0, timestamp: new Date()});

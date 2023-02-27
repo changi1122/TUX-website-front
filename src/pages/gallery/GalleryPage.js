@@ -9,7 +9,7 @@ import{
 
 function GalleryPage(){
     const [users, setUsers] = useState([]);
-    const usersCollectionRef = collection(db, "users");
+    const usersCollectionRef = collection(db, "img");
     const location = useLocation();
     //location > state > adress 값을 가져오기(ListPrint.js에서 전달)
 
@@ -26,7 +26,7 @@ function GalleryPage(){
 
     const deleteContentSub = async(id) =>{
         window.confirm("삭제하시겠습니까?");
-        const contentDoc = doc(db, "users", id);
+        const contentDoc = doc(db, "img", id);
         await deleteDoc(contentDoc);
     }
 
