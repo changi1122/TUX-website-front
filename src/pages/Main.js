@@ -38,39 +38,46 @@ const Main = (props) => {
       ...
     </Swiper>
     </div>
-    <div style={{padding:40,  flex: 1 , flexDirection: 'column'}}>
+    <div className='p-2 flex-auto'>
 
 
-      <div  style={{display: 'flex'}}>
-        <div style={{padding:30,  flex: 1 , flexDirection: 'column'}}>
-          <h3 className='text-3xl font-bold' style={{padding:20}}>공지 사항</h3>
+      <div  >
+        <div className='p-5 m-30 flex-auto xl:px-48'>
+          <h3 className='max-w-md mx-auto  overflow-hidden md:max-w-2xl font-bold text-2xl'>공지 사항</h3>
           <PostMain />
         </div>
-        <div style={{padding:30,  flex: 1 , flexDirection: 'column'}}>
-          <h3 className='text-3xl font-bold' style={{padding:20}}>팀원 모집</h3>
-          <PostMain />
-        </div>
-      </div>
-
-      <div  style={{display: 'flex'}}>
-        <div style={{margin:30,  flex: 1 , flexDirection: 'column'}} >
-          <h3 className='text-3xl font-bold' style={{padding:20}}>건의 게시판</h3>
-          <PostMain />
-        </div>
-        <div style={{margin:30,  flex: 1 , flexDirection: 'column'}}>
-          <h3 className='text-3xl font-bold' style={{padding:20}}>잡담 방</h3>
+        <div className='p-5 m-30 flex-auto xl:px-48'>
+          <h3 className='max-w-md mx-auto  overflow-hidden md:max-w-2xl font-bold text-2xl'>팀원 모집</h3>
           <PostMain />
         </div>
       </div>
 
-      <div style={{ flex: 1}} >
-        <Calendar
-         onChange={onChange}
-         value={value}
-       />
+      <div  >
+        <div className='p-5 m-30 flex-auto xl:px-48' >
+          <h3 className='max-w-md mx-auto overflow-hidden md:max-w-2xl font-bold text-2xl '>건의 게시판</h3>
+          <PostMain />
+        </div>
+        <div className='p-5 m-30 flex-auto xl:px-48'>
+          <h3 className='max-w-md mx-auto overflow-hidden md:max-w-2xl font-bold text-2xl ' >잡담 방</h3>
+          <PostMain />
+        </div>
       </div>
 
+
+      <div class="md:w-1/3 w-d h-full lg:flex lg:float-left">
+        <div class="md:w-1/3 w-full bg-blue-0 xxxx-bg flex flex-wrap content-center">
+            <div class="m-auto w-100">
+            <Calendar
+              onChange={onChange}
+              value={value}
+            />
+            </div>
+        </div>
+    </div>
+        
       </div>
+
+      
 		</>
 	);
 };
