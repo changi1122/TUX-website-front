@@ -48,7 +48,7 @@ function GalleryPage(){
                                         </p>
                                     </div>
                                     <hr/>
-                                    <h1 dangerouslySetInnerHTML={{ __html: value.content }} style={{margin: 20, float:"left"}}></h1> 
+                                    <h1 className='min-h-screen px-3 md:py-20 py-10'dangerouslySetInnerHTML={{ __html: value.content }} style={{margin: 20, float:"left"}}></h1> 
                                 </div>)
                                 //value값을 전달 받아서 출력
 

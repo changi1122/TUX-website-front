@@ -53,6 +53,7 @@ function ListPrint(){
                           <CommonTableRow onLoad={idUpdate(value.id, ((page - 1)* 5) + idx + 1)}>
                             <CommonTableColumn>{((page - 1) * 5) + idx + 1}</CommonTableColumn>      
                             <Link to={`/exam/${idx+1}`} state={{adress: idx+1}}><CommonTableColumn> {value.title} </CommonTableColumn></Link> 
+                            <CommonTableColumn> {value.name} </CommonTableColumn>
                             <CommonTableColumn>{value.timestamp.toDate().getFullYear()}.{value.timestamp.toDate().getMonth()+1}.{value.timestamp.toDate().getDate()}</CommonTableColumn>  
                             <CommonTableColumn>이름</CommonTableColumn>
                           </CommonTableRow>
@@ -61,7 +62,7 @@ function ListPrint(){
     
     return(
       <div className='min-h-screen px-3 md:py-20 py-10'>
-        <CommonTable headersName={['글번호', '제목', '등록일', '작성자']} onChange={itemChange}>
+        <CommonTable headersName={['글번호', '제목', '교수님', '등록일', '작성자']} onChange={itemChange}>
               {showList}
         </CommonTable>
         

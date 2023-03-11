@@ -31,9 +31,12 @@ function ExamPage(){
     }
 
     const showContent = (value)=> (<div> 
-                                    <div  style={{display: "flex", justifyContent: "space-between", margin: 20}}>
+                                    <div     style={{display: "flex", justifyContent: "space-between", margin: 20}}>
                                         <p>
                                             <h1 style={{fontSize: 30}}>제목: {value.title}</h1>
+                                        </p>
+                                        <p>
+                                            <h6 >교수: {value.name}</h6>
                                         </p>
                                         <p>
                                             <Link to={"/exam"}><button onClick={() =>  deleteContentSub(value.id)}>삭제</button></Link>
@@ -41,7 +44,7 @@ function ExamPage(){
                                         </p>
                                     </div>
                                     <hr/>
-                                    <h1 dangerouslySetInnerHTML={{ __html: value.content }} style={{margin: 20, float:"left"}}></h1> 
+                                    <h1 className='min-h-screen px-3 md:py-20 py-10' dangerouslySetInnerHTML={{ __html: value.content }} style={{margin: 20, float:"left"}}></h1> 
                                 </div>)
                                 //value값을 전달 받아서 출력
 
