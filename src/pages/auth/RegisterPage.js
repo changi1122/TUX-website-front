@@ -142,6 +142,12 @@ function RegisterPage() {
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>
                         <div className={`text-sm text-justify text-[#E95420]`}>{useridMessage}</div>
                     </lebel>
+                    <div className="relative">
+                        <button type="button" className="absolute bottom-[0.25em] right-[1.9em] bg-[#efefef] hover:bg-gray-200 rounded border-2 px-3 py-1">
+                            확인
+                        </button>
+                    </div>
+
                     <lebel>
                         <input type="text"
                             name="studentId"
