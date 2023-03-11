@@ -37,7 +37,7 @@ function GalleryPage(){
     //     }
     // })
 
-    const showContent = (value)=> (<div> 
+    const showContent = (value)=> (<div > 
                                     <div  style={{display: "flex", justifyContent: "space-between", margin: 20}}>
                                         <p>
                                             <h1 style={{fontSize: 30}}>제목: {value.title}</h1>
@@ -48,7 +48,7 @@ function GalleryPage(){
                                         </p>
                                     </div>
                                     <hr/>
-                                    <h1 dangerouslySetInnerHTML={{ __html: value.content }} style={{margin: 20, float:"left"}}></h1> 
+                                    <h1 className='min-h-screen px-3 md:py-20 py-10'dangerouslySetInnerHTML={{ __html: value.content }} style={{margin: 20, float:"left"}}></h1> 
                                 </div>)
                                 //value값을 전달 받아서 출력
 
