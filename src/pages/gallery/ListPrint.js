@@ -60,7 +60,7 @@ function ListPrint(){
                         //이동할 Link의 state로 클릭한 항목의 번호를 전달
     
     return(
-      <div>
+      <div className='min-h-screen px-3 md:py-20 py-10'>
         <CommonTable headersName={['글번호', '제목', '등록일', '작성자']} onChange={itemChange}>
               {showList}
         </CommonTable>

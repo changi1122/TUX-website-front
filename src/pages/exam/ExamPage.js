@@ -56,7 +56,7 @@ function ExamPage(){
     //adress와 데이터 안 idx 값이 같으면 adressCheck로 value를 전달
     
     return (
-      <div>
+      <div >
           {idCheck(location.state.adress)}
           {showContent(adressCheck)}
       </div>

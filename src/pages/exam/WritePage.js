@@ -22,6 +22,7 @@ function WritePage(){
   }
 
     return (
+    <div className='min-h-screen px-3 md:py-20 py-10'>
       <div className="exam-write">
         <form>
         <input style={{margin: 10}} type='text' placeholder="제목..." size={60} onChange={(event) => {setTitle(event.target.value)}}/>
@@ -41,6 +42,7 @@ function WritePage(){
           <button style={{margin: 20}} onClick={createContent}><Link to={"/exam"}>UpLoad</Link></button>
         </p>
       </div>
+    </div>  
     );
 }
 

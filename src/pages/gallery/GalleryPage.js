@@ -37,7 +37,7 @@ function GalleryPage(){
     //     }
     // })
 
-    const showContent = (value)=> (<div> 
+    const showContent = (value)=> (<div > 
                                     <div  style={{display: "flex", justifyContent: "space-between", margin: 20}}>
                                         <p>
                                             <h1 style={{fontSize: 30}}>제목: {value.title}</h1>
