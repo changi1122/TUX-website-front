@@ -52,13 +52,12 @@ function RegisterPage() {
         const useridCurrent = e.target.value;
         setUserid(useridCurrent);
 
+        setIsUserid(false);
         if (!useridRegex.test(useridCurrent) || useridRegex2.test(useridCurrent)) {
             setUseridMessage('아이디는 영문자 또는 영문자와 숫자의 조합으로 2~20자 작성해야 합니다.');
-            setIsUserid(false);
         }
         else {
-            setUseridMessage('');
-            setIsUserid(true);
+            setUseridMessage('아이디 중복 확인을 부탁드립니다.');
         }
     }, [])
 
@@ -165,7 +164,7 @@ function RegisterPage() {
                             placeholder="아이디(영문자 또는 영문자 숫자 조합 2-20자)"
                             autoFocus />
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>
-                        <div className={`text-sm text-justify text-[#E95420]`}>{useridMessage}</div>
+                        <div className={`text-sm text-justify ${isUserid ? 'text-green-600' : 'text-[#E95420]'}`}>{useridMessage}</div>
                     </lebel>
 
                     <lebel>
