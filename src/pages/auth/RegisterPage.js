@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import axios from "axios";
 import PasswordStrengthBar from 'react-password-strength-bar';
 
 function RegisterPage() {
@@ -24,6 +25,26 @@ function RegisterPage() {
     const [isCheckpw, setIsCheckpw] = useState(false);
     const [isEmail, setIsEmail] = useState(true); // 필수 입력란이 아니므로
 
+    // userid 중복 확인
+    const dupleIdCheck = async (userid) => {
+        await axios.post('/user/idCheck', {
+            id: userid,
+        })
+            .then(response => {
+                if (response.data === true) {
+                    setUseridMessage('이미 사용 중인 아이디 입니다.');
+                    setIsUserid(false);
+                }
+                else {
+                    setUseridMessage('사용 가능한 아이디 입니다.');
+                    setIsUserid(true);
+                }
+            })
+            .catch((err) => {
+                console.warn(err.message);
+            });
+    };
+
     // userid
     const onChangeUserid = useCallback((e) => {
         const useridRegex = /^(?=.*[a-zA-Z])(?=.*[a-zA-Z0-9]).{2,20}$/
@@ -36,11 +57,8 @@ function RegisterPage() {
             setIsUserid(false);
         }
         else {
-            // if 중복된 아이디가 아니라면 {
             setUseridMessage('');
             setIsUserid(true);
-            // }
-            // else setUseridMessage('이미 사용 중인 아이디 입니다.');
         }
     }, [])
 
@@ -131,6 +149,13 @@ function RegisterPage() {
                 <form className="mt-3"
                     onSubmit={() => { }}>
 
+                    <div className="relative">
+                        <button type="button"
+                            className="absolute top-[0.25em] right-[1.9em] bg-[#efefef] hover:bg-gray-200 rounded border-2 px-3 py-1"
+                            onClick={(e) => { dupleIdCheck(userid) }}>
+                            확인
+                        </button>
+                    </div>
                     <lebel>
                         <input type="text"
                             name="userid"
@@ -142,11 +167,6 @@ function RegisterPage() {
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>
                         <div className={`text-sm text-justify text-[#E95420]`}>{useridMessage}</div>
                     </lebel>
-                    <div className="relative">
-                        <button type="button" className="absolute bottom-[0.25em] right-[1.9em] bg-[#efefef] hover:bg-gray-200 rounded border-2 px-3 py-1">
-                            확인
-                        </button>
-                    </div>
 
                     <lebel>
                         <input type="text"
