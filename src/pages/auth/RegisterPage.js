@@ -1,15 +1,19 @@
 import { useCallback, useState } from "react";
+import { useNavigate } from "react-router";
 import axios from "axios";
 import PasswordStrengthBar from 'react-password-strength-bar';
 
 function RegisterPage() {
-    // 아이디, 학번, 이름, 비밀번호, 이메일
+    const navigate = new useNavigate();
+
+    // 아이디, 학번, 이름, 비밀번호, 이메일, 전화번호
     const [userid, setUserid] = useState('');
     const [studentId, setStudentId] = useState('');
     const [name, setName] = useState('');
     const [userpw, setUserpw] = useState('');
     // 비밀번호 확인을 위한 state는 필요 없는 것으로 판단.. onChangeCheckpw() 에서 지역 변수로 처리
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
 
     // 오류메시지 상태 저장
     const [useridMessage, setUseridMessage] = useState('');
@@ -25,6 +29,33 @@ function RegisterPage() {
     const [isUserpw, setIsUserpw] = useState(false);
     const [isCheckpw, setIsCheckpw] = useState(false);
     const [isEmail, setIsEmail] = useState(true); // 필수 입력란이 아니므로
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+
+        await axios.post('/user/signup', {
+            id: userid,
+            name: name,
+            studentNum: studentId,
+            password1: userpw,
+            password2: userpw,
+            email: email,
+            phoneNum: phone,
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    // 회원가입 성공
+                    navigate('/signup/successful');
+                }
+                else {
+                    alert('회원가입에 실패하였습니다. 다시 시도해 주세요.');
+                    navigate('/signup');
+                }
+            })
+            .catch((err) => {
+                console.warn(err.message);
+            });
+    };
 
     // userid 중복 확인
     const dupleIdCheck = async (userid) => {
@@ -127,6 +158,11 @@ function RegisterPage() {
         }
     }, [])
 
+    const onChangePhone = useCallback((e) => {
+        const phoneCurrent = e.target.value;
+        setPhone(phoneCurrent);
+    }, [])
+
     return (
         <div className='min-h-screen md:p-20 px-3 py-10'>
             <div>
@@ -148,7 +184,7 @@ function RegisterPage() {
 
                 {/* form */}
                 <form className="mt-3"
-                    onSubmit={() => { }}>
+                    onSubmit={(e) => { onSubmit(e) }}>
 
                     <div className="relative">
                         <button type="button"
@@ -227,12 +263,14 @@ function RegisterPage() {
                             name="tel"
                             className="border border-x-gray-300 rounded px-4 py-2 w-full mt-3
                         focus:outline-none focus:ring focus:ring-[#E95420]"
-                            onChange={(e) => { }}
+                            onChange={(e) => { onChangePhone(e); }}
                             placeholder="전화번호" />
                     </div>
 
                     {/* 버튼 */}
-                    <button className="bg-[#efefef] hover:bg-gray-200 rounded py-2 w-full mt-6
+                    <button
+                        type="submit"
+                        className="bg-[#efefef] hover:bg-gray-200 rounded py-2 w-full mt-6
                         disabled:opacity-50 disabled:hover:bg-[#efefef]"
                         disabled={!(isUsableId && isUserpw && isCheckpw && isEmail)} >
                         회원가입
