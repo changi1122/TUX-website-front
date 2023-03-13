@@ -19,7 +19,8 @@ function RegisterPage() {
     const [emailMessage, setEmailMessage] = useState('');
 
     // 유효성 검사
-    const [isUserid, setIsUserid] = useState(false);
+    const [isUserid, setIsUserid] = useState(false); // 정규식 확인
+    const [isUsableId, setIsUsableId] = useState(false); // 중복 확인
     const [isStudentId, setIsStudentId] = useState(false);
     const [isUserpw, setIsUserpw] = useState(false);
     const [isCheckpw, setIsCheckpw] = useState(false);
@@ -31,13 +32,13 @@ function RegisterPage() {
             id: userid,
         })
             .then(response => {
-                if (response.data === true) {
-                    setUseridMessage('이미 사용 중인 아이디 입니다.');
-                    setIsUserid(false);
+                if (response.data === false && isUserid === true) {
+                    setIsUsableId(true);
+                    setUseridMessage('✅ 사용 가능한 아이디 입니다.');
                 }
                 else {
-                    setUseridMessage('사용 가능한 아이디 입니다.');
-                    setIsUserid(true);
+                    setIsUsableId(false);
+                    setUseridMessage('이미 사용 중인 아이디 입니다.');
                 }
             })
             .catch((err) => {
@@ -52,11 +53,12 @@ function RegisterPage() {
         const useridCurrent = e.target.value;
         setUserid(useridCurrent);
 
-        setIsUserid(false);
         if (!useridRegex.test(useridCurrent) || useridRegex2.test(useridCurrent)) {
+            setIsUserid(false);
             setUseridMessage('아이디는 영문자 또는 영문자와 숫자의 조합으로 2~20자 작성해야 합니다.');
         }
         else {
+            setIsUserid(true);
             setUseridMessage('아이디 중복 확인을 부탁드립니다.');
         }
     }, [])
@@ -150,8 +152,10 @@ function RegisterPage() {
 
                     <div className="relative">
                         <button type="button"
-                            className="absolute top-[0.25em] right-[1.9em] bg-[#efefef] hover:bg-gray-200 rounded border-2 px-3 py-1"
-                            onClick={(e) => { dupleIdCheck(userid) }}>
+                            className="absolute top-[0.25em] right-[1.9em] bg-[#efefef] hover:bg-gray-200 rounded border-2 px-3 py-1
+                            disabled:opacity-50 disabled:hover:bg-[#efefef]"
+                            onClick={(e) => { dupleIdCheck(userid) }}
+                            disabled={!isUserid} >
                             확인
                         </button>
                     </div>
@@ -164,7 +168,7 @@ function RegisterPage() {
                             placeholder="아이디(영문자 또는 영문자 숫자 조합 2-20자)"
                             autoFocus />
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>
-                        <div className={`text-sm text-justify ${isUserid ? 'text-green-600' : 'text-[#E95420]'}`}>{useridMessage}</div>
+                        <div className={`text-sm text-justify text-[#E95420]`}>{useridMessage}</div>
                     </lebel>
 
                     <lebel>
@@ -230,7 +234,7 @@ function RegisterPage() {
                     {/* 버튼 */}
                     <button className="bg-[#efefef] hover:bg-gray-200 rounded py-2 w-full mt-6
                         disabled:opacity-50 disabled:hover:bg-[#efefef]"
-                        disabled={!(isUserid && isUserpw && isCheckpw && isEmail)} >
+                        disabled={!(isUsableId && isUserpw && isCheckpw && isEmail)} >
                         회원가입
                     </button>
                     <div className="text-xs mt-3 justify-center flex">
