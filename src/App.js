@@ -11,7 +11,7 @@ import Footer from './components/Footer';
 import Main from './pages/Main';
 import Page from './pages/Page';
 import Sitemap from './pages/Sitemap'
-import { LoginPage, RegisterPage, MyPage } from "./pages/auth";
+import { LoginPage, RegisterPage, SuccessfulSignup, MyPage } from "./pages/auth";
 import { Tuxinfo01, Tuxinfo02, Tuxinfo03 } from "./pages/tuxinfo";
 
 import PostView from './pages/post/Postview';
@@ -40,6 +40,7 @@ const App = () => {
           <Route path="/sitemap" element={<Sitemap />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/signup" element={<RegisterPage />}></Route>
+          <Route path="/signup/successful" element={<SuccessfulSignup />}></Route>
           <Route path="/mypage" element={<MyPage />}></Route>
 
           {/* TUX 개요 */}
