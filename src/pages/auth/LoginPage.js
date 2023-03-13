@@ -43,7 +43,7 @@ function LoginPage() {
                         </label>
                         <div className="flex gap-4">
                             <a href={process.env.PUBLIC_URL + '/findAccount'} className="hover:text-[#E95420]" >ID/PW 찾기</a>
-                            <a href={process.env.PUBLIC_URL + '/register'} className="hover:text-[#E95420]" >회원가입</a>
+                            <a href={process.env.PUBLIC_URL + '/signup'} className="hover:text-[#E95420]" >회원가입</a>
                         </div>
                     </div>
                 </form>
