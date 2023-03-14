@@ -28,7 +28,7 @@ function RegisterPage() {
     const [isStudentId, setIsStudentId] = useState(false);
     const [isUserpw, setIsUserpw] = useState(false);
     const [isCheckpw, setIsCheckpw] = useState(false);
-    const [isEmail, setIsEmail] = useState(true); // 필수 입력란이 아니므로
+    const [isEmail, setIsEmail] = useState(false);
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -145,10 +145,10 @@ function RegisterPage() {
         if (!emailRegex.test(emailCurrent)) {
             setEmailMessage('올바른 이메일 형식이 아닙니다.');
             setIsEmail(false);
-            if (emailCurrent === '') { // 필수 입력란이 아니므로..
-                setEmailMessage('');
-                setIsEmail(true);
-            }
+            // if (emailCurrent === '') { // 필수 입력란이 아니므로.. -> 23. 3. 14. 필수 입력란으로 변경
+            //     setEmailMessage('');
+            //     setIsEmail(true);
+            // }
         } else {
             setEmailMessage('');
             setIsEmail(true);
@@ -249,10 +249,11 @@ function RegisterPage() {
                     <div>
                         <input type="email"
                             name="email"
-                            className="border border-x-gray-300 rounded px-4 py-2 w-full mt-9
+                            className="border border-x-gray-300 rounded px-4 py-2 w-[92%] mt-9
                         focus:outline-none focus:ring focus:ring-[#E95420]"
                             onChange={(e) => { onChangeEmail(e); }}
                             placeholder="이메일" />
+                        <span className="w-[10%] pl-4 text-[#E95420]">*</span>
                         <div className={`text-sm text-justify text-[#E95420]`}>{emailMessage}</div>
                     </div>
                     <div>
