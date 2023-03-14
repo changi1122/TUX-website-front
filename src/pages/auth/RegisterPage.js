@@ -11,7 +11,7 @@ function RegisterPage() {
     const [studentId, setStudentId] = useState('');
     const [name, setName] = useState('');
     const [userpw, setUserpw] = useState('');
-    // 비밀번호 확인을 위한 state는 필요 없는 것으로 판단.. onChangeCheckpw() 에서 지역 변수로 처리
+    const [userpwCheck, setUserpwCheck] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
 
@@ -38,22 +38,18 @@ function RegisterPage() {
             name: name,
             studentNum: studentId,
             password1: userpw,
-            password2: userpw,
+            password2: userpwCheck,
             email: email,
             phoneNum: phone,
         })
             .then(response => {
-                if (response.status === 200) {
-                    // 회원가입 성공
-                    navigate('/signup/successful');
-                }
-                else {
-                    alert('회원가입에 실패하였습니다. 다시 시도해 주세요.');
-                    navigate('/signup');
-                }
+                // 회원가입 성공
+                navigate('/signup/successful');
             })
             .catch((err) => {
                 console.warn(err.message);
+                alert('회원가입에 실패하였습니다. 다시 시도해 주세요.\n\nError message:\n' + err.response.data.message);
+                navigate('/signup');
             });
     };
 
@@ -128,6 +124,7 @@ function RegisterPage() {
 
     const onChangeCheckpw = useCallback((e) => {
         const checkpwCurrent = e.target.value;
+        setUserpwCheck(checkpwCurrent);
 
         if (userpw === checkpwCurrent) {
             setCheckpwMessage('');
@@ -272,7 +269,7 @@ function RegisterPage() {
                         type="submit"
                         className="bg-[#efefef] hover:bg-gray-200 rounded py-2 w-full mt-6
                         disabled:opacity-50 disabled:hover:bg-[#efefef]"
-                        disabled={!(isUsableId && isUserpw && isCheckpw && isEmail)} >
+                        disabled={!(isUsableId && isStudentId && isUserpw && isCheckpw && isEmail)} >
                         회원가입
                     </button>
                     <div className="text-xs mt-3 justify-center flex">
