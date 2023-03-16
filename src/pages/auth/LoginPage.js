@@ -1,6 +1,56 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
+import axios from "axios";
 
 function LoginPage() {
+    const navigate = new useNavigate();
+
+    // 아이디, 비밀번호
+    const [userid, setUserid] = useState('');
+    const [userpw, setUserpw] = useState('');
+    const [keepAuth, setKeepAuth] = useState(false);
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+
+        await axios.post('/user/login', {
+            id: userid,
+            password: userpw,
+        })
+            .then(response => {
+                // 로그인 성공
+                if (keepAuth === true) {
+                    console.log('로그인 정보 유지할게요 -> localStorage');
+                }
+                else {
+                    console.log('로그인 정보 버려주세요 -> sessionStorage');
+                }
+
+                // navigate('/');
+            })
+            .catch((err) => {
+                console.warn(err);
+                alert('로그인에 실패하였습니다. 다시 시도해 주세요.\n\nError message:\n' + err.response.data.message);
+                navigate('/login');
+            });
+    };
+
+    // userid
+    const onChangeUserid = (e) => {
+        const useridCurrent = e.target.value;
+        setUserid(useridCurrent);
+    }
+
+    // userpw
+    const onChangeUserpw = (e) => {
+        const userpwCurrent = e.target.value;
+        setUserpw(userpwCurrent);
+    }
+
+    const onClickKeepAuth = () => {
+        setKeepAuth(!keepAuth);
+    }
+
     return (
         <div className='min-h-screen md:p-20 px-3 py-10'>
             <div>
@@ -17,28 +67,29 @@ function LoginPage() {
                 </div>
 
                 <form className="mt-10"
-                    onSubmit={() => { }}>
+                    onSubmit={(e) => { onSubmit(e) }}>
                     <input type="text"
                         name="userid"
                         className="border border-x-gray-300 rounded px-4 py-2 w-full
                         focus:outline-none focus:ring focus:ring-[#E95420]"
-                        onChange={(e) => { }}
+                        onChange={(e) => { onChangeUserid(e); }}
                         placeholder="아이디"
                         autoFocus />
                     <input type="password"
                         name="userpw"
                         className="border border-x-gray-300 rounded px-4 py-2 w-full mt-3
                         focus:outline-none focus:ring focus:ring-[#E95420]"
-                        onChange={(e) => { }}
+                        onChange={(e) => { onChangeUserpw(e); }}
                         placeholder="비밀번호" />
                     <button className="bg-[#efefef] hover:bg-gray-200 rounded py-2 w-full mt-6">
                         로그인
                     </button>
                     <div className="text-xs mt-3 justify-between flex">
                         <label>
-                            <input type="checkbox" name="keepAuth" value=""
+                            <input type="checkbox" name="keepAuth"
                                 className="mr-1 translate-y-[1.8px]
-                                checked:accent-black" />
+                                checked:accent-black"
+                                onClick={onClickKeepAuth} />
                             로그인 상태 유지
                         </label>
                         <div className="flex gap-4">
