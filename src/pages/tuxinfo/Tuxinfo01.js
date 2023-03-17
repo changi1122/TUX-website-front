@@ -3,7 +3,7 @@ import { Octokit } from "https://cdn.skypack.dev/octokit";
 
 const OSSProjects = ({ props }) => {
     return (
-        <li className="float-left lg:w-[48%] w-full m-[1%] hover:shadow-2xl transition duration-300 ease-in-out ani-effect">
+        <li className="float-left lg:w-[48%] xl:w-[31.33%] w-full m-[1%] hover:shadow-2xl transition duration-300 ease-in-out ani-effect">
             <a href={props.html_url} target="_blank" >
                 <img src={`https://opengraph.githubassets.com/${props.id}/CBNU-TUX/${props.name}`} />
                 {/* 참고: https://stackoverflow.com/questions/68839829/how-can-i-get-the-open-graph-image-for-a-github-repository */}
