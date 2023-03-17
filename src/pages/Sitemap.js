@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BsQuestionCircleFill } from 'react-icons/bs';
 import { MdDeveloperMode } from 'react-icons/md';
 import { gnbIsLogin, gnbIsNotLogin } from "../static/jsons"
@@ -41,10 +40,7 @@ const GnbBox = ({ gnb, isLogin }) => {
     )
 };
 
-function Sitemap() {
-    const [isLogin, setIsLogin] = useState(true);
-    // localStorage로부터 user info를 받아와서 처리해야 하는듯 하지만? 일단 간단하게 처리
-
+function Sitemap(props) {
     return (
         <div className='min-h-screen px-3 md:py-20 py-10'>
             <div className="border-b border-black w-full md:pb-20 pb-10">
@@ -55,7 +51,7 @@ function Sitemap() {
             <div className="mt-20 md:px-20 px-0">
                 <div className="flex md:flex-row flex-col gap-3 md:justify-center items-start">
                     {
-                        gnbIsLogin.map((ele) => <GnbBox key={ele.gnbName} gnb={ele} isLogin={isLogin} />)
+                        gnbIsLogin.map((ele) => <GnbBox key={ele.gnbName} gnb={ele} isLogin={props.isLogin} />)
                     }
                 </div>
 

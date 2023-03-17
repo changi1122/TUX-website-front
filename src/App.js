@@ -37,7 +37,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Main />}></Route>
           <Route path="/page/:pageId" element={<Page />}></Route>
-          <Route path="/sitemap" element={<Sitemap />}></Route>
+          <Route path="/sitemap" element={<Sitemap isLogin={isLogin} />}></Route>
+
           <Route path="/login" element={<LoginPage isLogin={isLogin} setIsLogin={setIsLogin} />}></Route>
           <Route path="/signup" element={<RegisterPage />}></Route>
           <Route path="/signup/successful" element={<SuccessfulSignup />}></Route>
