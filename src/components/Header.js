@@ -48,8 +48,8 @@ function Header(props) {
     }, []);
 
     const onClickLogout = () => {
-        localStorage.clear();
-        sessionStorage.clear();
+        localStorage.removeItem('userid');
+        sessionStorage.removeItem('userid');
         setName('');
         props.setIsLogin(false);
         navigate('/');
