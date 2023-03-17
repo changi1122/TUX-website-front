@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
 
-function LoginPage() {
+function LoginPage(props) {
     const navigate = new useNavigate();
 
     // 아이디, 비밀번호
@@ -20,13 +20,15 @@ function LoginPage() {
             .then(response => {
                 // 로그인 성공
                 if (keepAuth === true) {
-                    console.log('로그인 정보 유지할게요 -> localStorage');
+                    // console.log('로그인 정보 유지할게요 -> localStorage');
+                    localStorage.setItem('userid', response.data.data);
                 }
                 else {
-                    console.log('로그인 정보 버려주세요 -> sessionStorage');
+                    // console.log('로그인 정보 버려주세요 -> sessionStorage');
+                    sessionStorage.setItem('userid', response.data.data);
                 }
-
-                // navigate('/');
+                props.setIsLogin(true);
+                navigate('/');
             })
             .catch((err) => {
                 console.warn(err);
@@ -89,6 +91,7 @@ function LoginPage() {
                             <input type="checkbox" name="keepAuth"
                                 className="mr-1 translate-y-[1.8px]
                                 checked:accent-black"
+                                checked={keepAuth}
                                 onClick={onClickKeepAuth} />
                             로그인 상태 유지
                         </label>

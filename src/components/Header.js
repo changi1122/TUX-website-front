@@ -7,7 +7,6 @@ import { gnbIsLogin, gnbIsNotLogin } from "../static/jsons"
 function Header(props) {
     const navigate = useNavigate();
 
-    const [isLogin, setIsLogin] = useState(true); // 테스트를 위해 임의로 'true'로 설정, 추후 기본값 'false'로 변경
     /*
         사용자 로그인이 된 상태라면, Header 상단에 '로그인' 대신, '사용자 이름'과 '로그아웃' 표시
         또한, private page인 [커뮤니티]>[잡담방], [자료실]>[족보]가 노출됨
@@ -19,12 +18,26 @@ function Header(props) {
     const [isOpen, setIsOpen] = useState(false); // 모바일 기기 메뉴
 
     useEffect(() => {
-        // if 로그인 됐니? {
-        //   그럼 setIsLogin(1);
-        // }
-
-        // setName('로그인_중인_사용자의_이름');
-    }, [])
+        // 로그인 체크
+        let token;
+        if (localStorage.userid !== undefined) {
+            // 로그인 할 때, '로그인 정보 유지' 체크했어요
+            token = localStorage.getItem('userid');
+            props.setIsLogin(true);
+        }
+        else {
+            if (sessionStorage.userid !== undefined) {
+                // 로그인 할 때, '로그인 정보 유지' 체크 안 했어요
+                token = sessionStorage.getItem('userid');
+                props.setIsLogin(true);
+            }
+            else {
+                // 로그인 안 했어요
+                setName('');
+            }
+        }
+        setName(token);
+    }, [props.isLogin]);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -33,6 +46,14 @@ function Header(props) {
             window.removeEventListener('scroll', handleScroll);
         }
     }, []);
+
+    const onClickLogout = () => {
+        localStorage.clear();
+        sessionStorage.clear();
+        setName('');
+        props.setIsLogin(false);
+        navigate('/');
+    }
 
     const handleScroll = () => {
         const scrollPosition = window.pageYOffset;
@@ -58,7 +79,7 @@ function Header(props) {
                             <a href={process.env.PUBLIC_URL + gnbIsLogin[hover].subInfo[0].subHref}>{gnbIsLogin[hover].gnbName}</a>
                         </li>
                         {
-                            isLogin
+                            props.isLogin
                                 ?
                                 gnbIsLogin.map((ele, index) =>
                                     ele.subInfo.map((subEle) =>
@@ -101,7 +122,7 @@ function Header(props) {
                         {gnbIsLogin[i].gnbName}
                     </a>
                     {
-                        isLogin
+                        props.isLogin
                             ?
                             gnbIsLogin.map((ele, index) =>
                                 ele.subInfo.map((subEle) =>
@@ -153,11 +174,11 @@ function Header(props) {
                     </div>
                     <div className='lg:flex hidden'>
                         {
-                            isLogin
+                            props.isLogin
                                 ?
                                 <div>
                                     <a href={process.env.PUBLIC_URL + '/mypage'} className="hover:text-[#E95420]" >{name} 님</a>
-                                    <a href="#" className="hover:text-[#E95420]" >로그아웃</a>
+                                    <a href="#" className="hover:text-[#E95420]" onClick={onClickLogout} >로그아웃</a>
                                 </div>
                                 :
                                 <a href={process.env.PUBLIC_URL + '/login'} className="hover:text-[#E95420]" >로그인</a>
@@ -179,11 +200,11 @@ function Header(props) {
             {/* 세부 메뉴 - ver.mobile*/}
             <nav className={`${isOpen ? "show-moblie-menu" : "hide-mobile-menu"} absolute top-0 drop-shadow-2xl bg-white w-[85vw] h-screen z-50 text-lg overflow-auto`}>
                 {
-                    isLogin
+                    props.isLogin
                         ?
                         <div className='px-10 py-5 border-b-2 flex'>
                             <button className='inline-flex w-[50vw] justify-end'
-                                onClick={() => { toggleMenu(); }}>
+                                onClick={() => { toggleMenu(); onClickLogout(); }}>
                                 < IoIosLogOut style={{ transform: 'translate(0, 4px)' }} />
                                 <div className='ml-2'>로그아웃</div>
                             </button>

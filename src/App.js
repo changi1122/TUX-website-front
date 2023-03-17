@@ -1,7 +1,7 @@
 /* eslint-disable*/
 
 import './App.css'
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NotFound from './NotFound';
 
@@ -25,12 +25,12 @@ import GalleryPage from "./pages/gallery/GalleryPage";
 import WritePage_gall from './pages/gallery/WritePage_gall';
 
 const App = () => {
+  const [isLogin, setIsLogin] = useState(false);
+
   return (
     <div className='App'>
-
-
       <BrowserRouter>
-        <Header />
+        <Header isLogin={isLogin} setIsLogin={setIsLogin} />
 
 
 
@@ -38,7 +38,7 @@ const App = () => {
           <Route path="/" element={<Main />}></Route>
           <Route path="/page/:pageId" element={<Page />}></Route>
           <Route path="/sitemap" element={<Sitemap />}></Route>
-          <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/login" element={<LoginPage isLogin={isLogin} setIsLogin={setIsLogin} />}></Route>
           <Route path="/signup" element={<RegisterPage />}></Route>
           <Route path="/signup/successful" element={<SuccessfulSignup />}></Route>
           <Route path="/mypage" element={<MyPage />}></Route>
