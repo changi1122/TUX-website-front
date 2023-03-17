@@ -28,7 +28,7 @@ function LoginPage(props) {
                     sessionStorage.setItem('userid', response.data.data);
                 }
                 props.setIsLogin(true);
-                navigate('/');
+                navigate(-1);
             })
             .catch((err) => {
                 console.warn(err);
