@@ -28,7 +28,7 @@ function LoginPage(props) {
                     sessionStorage.setItem('cbnu_tux_userid', response.data.data);
                 }
                 props.setIsLogin(true);
-                navigate(-1);
+                navigate('/');
             })
             .catch((err) => {
                 console.warn(err);
