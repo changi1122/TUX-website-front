@@ -18,8 +18,7 @@ function Footer(props) {
                                 <img src={sites.siteIcon} />
                             </td>
                             <td>
-                                {/* preformatted */}
-                                <pre>{sites.siteTitle}</pre>
+                                <div>{sites.siteTitle}</div>
                             </td>
                         </tr>
                     </table>

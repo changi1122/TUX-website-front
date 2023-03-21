@@ -4,6 +4,7 @@
 
 .App {
   text-align: center;
+  white-space: pre-line;
 }
 
 .nav-bar {
@@ -18,7 +19,7 @@
 
 }
 
-.line_delete{
+.line_delete {
   text-decoration-line: none;
   color: black;
 }
@@ -60,6 +61,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -68,5 +70,5 @@
 @import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
 
 * {
-    font-family: "TTHoves", "NanumSquare", "나눔스퀘어", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Apple SD Gothic Neo", "돋움", dotum, arial, sans-serif;
+  font-family: "TTHoves", "NanumSquare", "나눔스퀘어", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Apple SD Gothic Neo", "돋움", dotum, arial, sans-serif;
 }
