@@ -153,7 +153,7 @@ function Header(props) {
     }
 
     return (
-        <div className={`${isScroll === 1 ? 'top-0 z-50 sticky drop-shadow border-none' : ''} mb-2`}
+        <div className={`${isScroll === 1 ? 'top-0 z-40 sticky drop-shadow border-none' : ''} mb-2`}
             onMouseLeave={() => setHover(-1)}>
             <div className={`w-full flex justify-center border-b-2 bg-white md:p-0 py-2`}>
                 <div className="w-[90%] flex justify-between items-center nav">
