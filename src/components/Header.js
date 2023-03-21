@@ -2,7 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { IoLogoTux, IoMdMenu, IoIosLogIn, IoIosLogOut } from 'react-icons/io';
 import './style.css';
-import { gnbIsLogin, gnbIsNotLogin } from "../static/jsons"
+import { gnbIsLogin, gnbIsNotLogin } from "../static/jsons";
+import ConfirmPopup from "../components/popup/ConfirmPopup";
 
 function Header(props) {
     const navigate = useNavigate();
@@ -16,6 +17,9 @@ function Header(props) {
     const [isScroll, setIsScroll] = useState(0);
     const [hover, setHover] = useState(-1); // hover 1 - TUX소개, 2 - 커뮤니티, 3 - 자료실
     const [isOpen, setIsOpen] = useState(false); // 모바일 기기 메뉴
+
+    // 로그아웃 팝업
+    const [logoutPopup, setLogoutPopup] = useState({ open: false, title: "", message: "" });
 
     useEffect(() => {
         // 로그인 체크
@@ -48,6 +52,10 @@ function Header(props) {
     }, []);
 
     const onClickLogout = () => {
+        setLogoutPopup({ open: !(logoutPopup.open), title: '로그아웃', message: '로그아웃 하시겠습니까?' });
+    }
+
+    const handleConfirm = () => {
         localStorage.removeItem('cbnu_tux_userid');
         sessionStorage.removeItem('cbnu_tux_userid');
         setName('');
@@ -155,6 +163,8 @@ function Header(props) {
     return (
         <div className={`${isScroll === 1 ? 'top-0 z-40 sticky drop-shadow border-none' : ''} mb-2`}
             onMouseLeave={() => setHover(-1)}>
+            {logoutPopup.open && <ConfirmPopup onOpenAlert={onClickLogout} onConfirm={handleConfirm} title={logoutPopup.title} message={logoutPopup.message} />}
+
             <div className={`w-full flex justify-center border-b-2 bg-white md:p-0 py-2`}>
                 <div className="w-[90%] flex justify-between items-center nav">
                     <div className="flex">
