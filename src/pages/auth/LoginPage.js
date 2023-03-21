@@ -21,11 +21,11 @@ function LoginPage(props) {
                 // 로그인 성공
                 if (keepAuth === true) {
                     // console.log('로그인 정보 유지할게요 -> localStorage');
-                    localStorage.setItem('userid', response.data.data);
+                    localStorage.setItem('cbnu_tux_userid', response.data.data);
                 }
                 else {
                     // console.log('로그인 정보 버려주세요 -> sessionStorage');
-                    sessionStorage.setItem('userid', response.data.data);
+                    sessionStorage.setItem('cbnu_tux_userid', response.data.data);
                 }
                 props.setIsLogin(true);
                 navigate(-1);

@@ -20,15 +20,15 @@ function Header(props) {
     useEffect(() => {
         // 로그인 체크
         let token;
-        if (localStorage.userid !== undefined) {
+        if (localStorage.cbnu_tux_userid !== undefined) {
             // 로그인 할 때, '로그인 정보 유지' 체크했어요
-            token = localStorage.getItem('userid');
+            token = localStorage.getItem('cbnu_tux_userid');
             props.setIsLogin(true);
         }
         else {
-            if (sessionStorage.userid !== undefined) {
+            if (sessionStorage.cbnu_tux_userid !== undefined) {
                 // 로그인 할 때, '로그인 정보 유지' 체크 안 했어요
-                token = sessionStorage.getItem('userid');
+                token = sessionStorage.getItem('cbnu_tux_userid');
                 props.setIsLogin(true);
             }
             else {
@@ -48,8 +48,8 @@ function Header(props) {
     }, []);
 
     const onClickLogout = () => {
-        localStorage.removeItem('userid');
-        sessionStorage.removeItem('userid');
+        localStorage.removeItem('cbnu_tux_userid');
+        sessionStorage.removeItem('cbnu_tux_userid');
         setName('');
         props.setIsLogin(false);
         navigate('/');
