@@ -22,12 +22,12 @@ const NotFound = () => {
                 <div>올바른 URL을 입력하셨는지 확인해 주세요.</div>
             </div>
             <div className='inline-flex md:gap-10 gap-3 mt-20'>
-                <button className='md:text-xl text-base rounded-full py-3 px-6 font-semibold bg-[#efefef] hover:bg-gray-200 inline-flex'
+                <button className='md:text-xl text-base rounded-full py-3 px-6 font-semibold bg-gray-100 hover:bg-gray-200 inline-flex'
                     onClick={() => navigate(-1)}>
                     <IoMdArrowBack style={{ transform: 'translate(0, 4px)' }} />
                     <div className='ml-2'>이전 화면</div>
                 </button>
-                <button className='md:text-xl text-base rounded-full py-3 px-6 font-semibold bg-[#efefef] hover:bg-gray-200 inline-flex'
+                <button className='md:text-xl text-base rounded-full py-3 px-6 font-semibold bg-gray-100 hover:bg-gray-200 inline-flex'
                     onClick={() => navigate('/')}>
                     <IoMdHome style={{ transform: 'translate(0, 4px)' }} />
                     <div className='ml-2'>메인으로</div>

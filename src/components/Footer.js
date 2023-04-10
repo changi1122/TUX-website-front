@@ -28,7 +28,7 @@ function Footer(props) {
     }
 
     return (
-        <div className={`w-full flex justify-center bg-[#efefef] mt-auto`}>
+        <div className={`w-full flex justify-center bg-gray-100 mt-auto`}>
             <div className="w-[90%] flex justify-between items-center py-4
              md:flex-row flex-col gap-4">
                 <div className="flex md:justify-start justify-between gap-2 items-center text-start text-xs md:w-auto w-full">

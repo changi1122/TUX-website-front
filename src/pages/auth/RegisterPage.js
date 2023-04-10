@@ -185,8 +185,8 @@ function RegisterPage() {
 
                     <div className="relative">
                         <button type="button"
-                            className="absolute top-[0.25em] right-[1.9em] bg-[#efefef] hover:bg-gray-200 rounded border-2 px-3 py-1
-                            disabled:opacity-50 disabled:hover:bg-[#efefef]"
+                            className="absolute top-[0.25em] right-[1.9em] bg-gray-100 hover:bg-gray-200 rounded border-2 px-3 py-1
+                            disabled:opacity-50 disabled:hover:bg-gray-100"
                             onClick={(e) => { dupleIdCheck(userid) }}
                             disabled={!isUserid} >
                             확인
@@ -268,8 +268,8 @@ function RegisterPage() {
                     {/* 버튼 */}
                     <button
                         type="submit"
-                        className="bg-[#efefef] hover:bg-gray-200 rounded py-2 w-full mt-6
-                        disabled:opacity-50 disabled:hover:bg-[#efefef]"
+                        className="bg-gray-100 hover:bg-gray-200 rounded py-2 w-full mt-6
+                        disabled:opacity-50 disabled:hover:bg-gray-100"
                         disabled={!(isUsableId && isStudentId && isUserpw && isCheckpw && isEmail)} >
                         회원가입
                     </button>

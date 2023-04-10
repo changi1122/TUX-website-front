@@ -6,7 +6,7 @@ const GnbSub = ({ sub }) => {
     return (
         <li>
             <a href={process.env.PUBLIC_URL + sub.subHref}
-                className="md:w-[30vw] w-[90vw] block py-4 px-auto hover:bg-[#efefef] border-2">
+                className="md:w-[30vw] w-[90vw] block py-4 px-auto hover:bg-gray-100 border-2">
                 {sub.subName}
             </a>
         </li>
@@ -17,7 +17,7 @@ const GnbBox = ({ gnb, isLogin }) => {
     return (
         <div className="mx-2">
             <a href={process.env.PUBLIC_URL + gnb.subInfo[0].subHref}
-                className="md:w-[30vw] w-[90vw] block py-4 px-auto text-xl font-bold bg-[#efefef] hover:bg-gray-200">
+                className="md:w-[30vw] w-[90vw] block py-4 px-auto text-xl font-bold bg-gray-100 hover:bg-gray-200">
                 {gnb.gnbName}</a>
             <ul>
                 {

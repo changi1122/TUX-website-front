@@ -83,7 +83,7 @@ function LoginPage(props) {
                         focus:outline-none focus:ring focus:ring-[#E95420]"
                         onChange={(e) => { onChangeUserpw(e); }}
                         placeholder="비밀번호" />
-                    <button className="bg-[#efefef] hover:bg-gray-200 rounded py-2 w-full mt-6">
+                    <button className="bg-gray-100 hover:bg-gray-200 rounded py-2 w-full mt-6">
                         로그인
                     </button>
                     <div className="text-xs mt-3 justify-between flex">
