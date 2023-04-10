@@ -9,8 +9,9 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 
 import Main from './pages/Main';
-import Page from './pages/Page';
+import AdministratorPage from './pages/AdministratorPage'
 import Sitemap from './pages/Sitemap'
+
 import { LoginPage, RegisterPage, SuccessfulSignup, MyPage } from "./pages/auth";
 import { Tuxinfo01, Tuxinfo02, Tuxinfo03 } from "./pages/tuxinfo";
 
@@ -33,12 +34,12 @@ const App = () => {
         <Header isLogin={isLogin} setIsLogin={setIsLogin} />
 
 
-
         <Routes>
           <Route path="/" element={<Main />}></Route>
-          <Route path="/page/:pageId" element={<Page />}></Route>
+          <Route path="/admin" element={<AdministratorPage />}></Route>
           <Route path="/sitemap" element={<Sitemap isLogin={isLogin} />}></Route>
 
+          {/* auth pages */}
           <Route path="/login" element={<LoginPage isLogin={isLogin} setIsLogin={setIsLogin} />}></Route>
           <Route path="/signup" element={<RegisterPage />}></Route>
           <Route path="/signup/successful" element={<SuccessfulSignup />}></Route>
