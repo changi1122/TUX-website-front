@@ -17,9 +17,10 @@ function SuccessfulSignup() {
 
                 <p className='mt-10 text-3xl'>🎉</p>
 
-                <div className="mt-10 text-lg">
-                    <p>CBNU TUX 홈페이지에 성공적으로 회원가입 되셨습니다.</p>
-                    <p>해당 계정으로 로그인 하시면, 회원으로서 활동하실 수 있습니다.</p>
+                <div className="mt-10 text-xl">
+                    <p>귀하의 승인 요청이 대기열에 추가되었습니다.</p>
+                    <p>승인 요청이 수락된 후에 정식으로 CBNU TUX의 회원으로서 활동하실 수 있습니다.</p>
+                    <p>승인이 장시간 지연될 시, CBNU TUX 임원진에 문의 부탁드립니다.</p>
                 </div>
 
                 <button className="mt-32 bg-[#efefef] hover:bg-gray-200 rounded py-2 w-full"
