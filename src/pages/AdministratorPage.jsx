@@ -49,7 +49,7 @@ function AdministratorPage() {
             <div className="mt-20 mx-auto xl:w-[70%] w-full">
                 <div className="relative">
                     <div className="absolute top-[12px] inset-x-auto w-full h-[1px] bg-gray-300 -z-10"></div>
-                    <div className="bg-white w-28 mx-auto text-center">
+                    <div className="bg-white w-32 mx-auto text-center">
                         <span className="box-border text-xl">승인 대기자</span>
                     </div>
                 </div>
