@@ -1,7 +1,7 @@
 ---
 name: Featrue Request
 about: An idea for this project
-title: "[FEAT] Features Request Template"
+title: "[FEAT]Features Request Template"
 labels: "\U0001F4A1enhancement"
 assignees: ''
 
