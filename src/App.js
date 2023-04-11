@@ -5,7 +5,7 @@ import React, { Component, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NotFound from './NotFound';
 
-import { Header, Footer, PrivateRoute, AlreadyLoginRoute, AdminRoute } from './components';
+import { Header, Footer, PrivateRoute } from './components';
 import Main from './pages/Main';
 import AdministratorPage from './pages/AdministratorPage'
 import Sitemap from './pages/Sitemap'
@@ -45,7 +45,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={
             // 로그인 한 사용자의 id가 'admin'일 경우, 관리자 페이지로 route
-            <AdminRoute isAdmin={isAdmin} admin={<AdministratorPage />} notAdmin={<Main />} />
+            <PrivateRoute isThatTrue={isAdmin} isTrue={<AdministratorPage />} isFalse={<Main />} />
           } />
           <Route path="/sitemap" element={<Sitemap isLogin={isLogin} />}></Route>
 

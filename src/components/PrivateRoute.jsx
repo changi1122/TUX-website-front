@@ -1,9 +1,9 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import AdministratorPage from "../pages/AdministratorPage";
 
-function PrivateRoute({ isLogin, component: Component }) {
+function PrivateRoute({ isThatTrue, isTrue: goToTrue, isFalse: goToFalse }) {
     return (
-        isLogin ? Component : <Navigate to='/NotFound' />
+        isThatTrue ? goToTrue : goToFalse
     )
 }
 
