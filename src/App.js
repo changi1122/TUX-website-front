@@ -51,10 +51,20 @@ const App = () => {
 
 
           {/* auth pages */}
-          <Route path="/login" element={<LoginPage isLogin={isLogin} setIsLogin={setIsLogin} />}></Route>
-          <Route path="/signup" element={<RegisterPage />}></Route>
-          <Route path="/signup/successful" element={<SuccessfulSignup />}></Route>
-          <Route path="/mypage" element={<MyPage />}></Route>
+          <Route path="/login" element={
+            // 이미 로그인 되어 있는 상태라면, login page에 접근 불가 -> NotFound page로 route
+            <PrivateRoute isThatTrue={isLogin} isTrue={<NotFound />} isFalse={<LoginPage isLogin={isLogin} setIsLogin={setIsLogin} />} />
+          } />
+          <Route path="/signup" element={
+            <PrivateRoute isThatTrue={isLogin} isTrue={<NotFound />} isFalse={<RegisterPage />} />
+          } />
+          <Route path="/signup/successful" element={
+            <PrivateRoute isThatTrue={isLogin} isTrue={<NotFound />} isFalse={<SuccessfulSignup />} />
+          } />
+          <Route path="/mypage" element={
+            // 로그인 하지 않은 사용자는, mypage에 접근할 수 없음
+            <PrivateRoute isThatTrue={isLogin} isTrue={<MyPage />} isFalse={<NotFound />} />
+          } />
 
 
           {/* TUX 개요 */}
@@ -69,7 +79,7 @@ const App = () => {
           <Route path="/community03" element={<Community03 />}></Route>
           <Route path="/community04" element={
             // 잡담방(private)
-            <PrivateRoute isLogin={isLogin} component={<Community04 />} />
+            <PrivateRoute isThatTrue={isLogin} isTrue={<Community04 />} isFalse={<NotFound />} />
           } /> */}
 
 
@@ -78,9 +88,16 @@ const App = () => {
           <Route path="/write_page_gall" element={<WritePage_gall />}></Route>
           <Route path="/gallery/*" element={<GalleryPage />}></Route>
 
-          <Route path="/exam" element={<PreviousExamination />}></Route>
-          <Route path="/write_page" element={<WritePage_exam />}></Route>
-          <Route path="/exam/*" element={<ExamPage />}></Route>
+          {/* 족보(private) */}
+          <Route path="/exam" element={
+            <PrivateRoute isThatTrue={isLogin} isTrue={<PreviousExamination />} isFalse={<NotFound />} />
+          } />
+          <Route path="/write_page" element={
+            <PrivateRoute isThatTrue={isLogin} isTrue={<WritePage_exam />} isFalse={<NotFound />} />
+          } />
+          <Route path="/exam/*" element={
+            <PrivateRoute isThatTrue={isLogin} isTrue={<ExamPage />} isFalse={<NotFound />} />
+          } />
 
 
           <Route path='/postView/:no' component={<PostView />} />
