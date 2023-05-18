@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Octokit } from "https://cdn.skypack.dev/octokit";
+import { Octokit } from "octokit";
 
 const OSSProjects = ({ props }) => {
     return (
