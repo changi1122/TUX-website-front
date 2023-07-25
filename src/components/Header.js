@@ -4,6 +4,7 @@ import { IoLogoTux, IoMdMenu, IoIosLogIn, IoIosLogOut } from 'react-icons/io';
 import './style.css';
 import { gnbIsLogin, gnbIsNotLogin } from "../static/jsons";
 import ConfirmPopup from "../components/popup/ConfirmPopup";
+import axios from 'axios';
 
 function Header(props) {
     const navigate = useNavigate();
@@ -12,7 +13,7 @@ function Header(props) {
         사용자 로그인이 된 상태라면, Header 상단에 '로그인' 대신, '사용자 이름'과 '로그아웃' 표시
         또한, private page인 [커뮤니티]>[잡담방], [자료실]>[족보]가 노출됨
     */
-    const [name, setName] = useState('dummy'); // 로그인 한 사용자 이름, 클릭 시 마이페이지로 이동..
+    const [nickname, setNickname] = useState(''); // 로그인 한 사용자 이름, 클릭 시 마이페이지로 이동..
 
     const [isScroll, setIsScroll] = useState(0);
     const [hover, setHover] = useState(-1); // hover 1 - TUX소개, 2 - 커뮤니티, 3 - 자료실
@@ -27,20 +28,21 @@ function Header(props) {
         if (localStorage.cbnu_tux_userid !== undefined) {
             // 로그인 할 때, '로그인 정보 유지' 체크했어요
             token = localStorage.getItem('cbnu_tux_userid');
+            setNickname(localStorage.getItem('nickname'));
             props.setIsLogin(true);
         }
         else {
             if (sessionStorage.cbnu_tux_userid !== undefined) {
                 // 로그인 할 때, '로그인 정보 유지' 체크 안 했어요
                 token = sessionStorage.getItem('cbnu_tux_userid');
+                setNickname(sessionStorage.getItem('nickname'));
                 props.setIsLogin(true);
             }
             else {
                 // 로그인 안 했어요
-                setName('');
+                setNickname('');
             }
         }
-        setName(token);
     }, [props.isLogin]);
 
     useEffect(() => {
@@ -55,10 +57,22 @@ function Header(props) {
         setLogoutPopup({ open: !(logoutPopup.open), title: '로그아웃', message: '로그아웃 하시겠습니까?' });
     }
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
+        await axios.delete('/api/auth', {
+            withCredentials: true,
+        });
+
         localStorage.removeItem('cbnu_tux_userid');
         sessionStorage.removeItem('cbnu_tux_userid');
-        setName('');
+        localStorage.removeItem('userId');
+        sessionStorage.removeItem('userId');
+        localStorage.removeItem('username');
+        sessionStorage.removeItem('username');
+        localStorage.removeItem('role');
+        sessionStorage.removeItem('role');
+        localStorage.removeItem('nickname');
+        sessionStorage.removeItem('nickname');
+        setNickname('');
         props.setIsLogin(false);
         navigate('/');
     }
@@ -187,7 +201,7 @@ function Header(props) {
                             props.isLogin
                                 ?
                                 <div>
-                                    <a href={process.env.PUBLIC_URL + '/mypage'} className="hover:text-[#E95420]" >{name} 님</a>
+                                    <a href={process.env.PUBLIC_URL + '/mypage'} className="hover:text-[#E95420]" >{nickname} 님</a>
                                     <a href="#" className="hover:text-[#E95420]" onClick={onClickLogout} >로그아웃</a>
                                 </div>
                                 :
@@ -203,7 +217,7 @@ function Header(props) {
             </div>
 
             {/* 세부 메뉴 - ver.Laptop*/}
-            <nav className={`menu ${hover !== -1 ? 'active' : 'inactive'} absolute bg-gray-50 w-full z-50 text-left`}>
+            <nav className={`menu ${hover !== -1 ? 'active' : 'inactive'} absolute bg-gray-50 w-full z-40 text-left`}>
                 {handleLoptopMenu()}
             </nav>
 
@@ -220,7 +234,7 @@ function Header(props) {
                             </button>
                             <button className='inline-flex w-[50vw] justify-end'
                                 onClick={() => { navigate(process.env.PUBLIC_URL + '/mypage'); toggleMenu(); }}>
-                                <div className='ml-2'>{name} 님</div>
+                                <div className='ml-2'>{nickname} 님</div>
                             </button>
                         </div>
                         :

@@ -28,7 +28,7 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    if (localStorage.cbnu_tux_userid === 'admin' || sessionStorage.cbnu_tux_userid === 'admin') {
+    if (localStorage.role === 'ADMIN' || sessionStorage.role === 'ADMIN') {
       setIsAdmin(true);
     }
     else {

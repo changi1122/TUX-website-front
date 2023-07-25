@@ -33,14 +33,14 @@ function RegisterPage() {
     const onSubmit = async (e) => {
         e.preventDefault();
 
-        await axios.post('/user/signup', {
-            id: userid,
-            name: name,
-            studentNum: studentId,
-            password1: userpw,
-            password2: userpwCheck,
+        await axios.post('/api/user', {
+            username: userid,
+            password: userpw,
             email: email,
-            phoneNum: phone,
+            nickname: name,
+            department: '소프트웨어학부',
+            studentNumber: studentId,
+            phoneNumber: phone,
         })
             .then(response => {
                 // 회원가입 성공
@@ -55,34 +55,30 @@ function RegisterPage() {
 
     // userid 중복 확인
     const dupleIdCheck = async (userid) => {
-        await axios.post('/user/idCheck', {
-            id: userid,
-        })
-            .then(response => {
-                if (response.data === false && isUserid === true) {
-                    setIsUsableId(true);
-                    setUseridMessage('✅ 사용 가능한 아이디 입니다.');
-                }
-                else {
-                    setIsUsableId(false);
-                    setUseridMessage('이미 사용 중인 아이디 입니다.');
-                }
-            })
-            .catch((err) => {
-                console.warn(err.message);
-            });
+        try {
+            const res = await axios.get(`/api/user/check/username?username=${userid}`);
+        
+            if (res.data && isUserid === true) {
+                setIsUsableId(true);
+                setUseridMessage('✅ 사용 가능한 아이디 입니다.');
+            } else {
+                setIsUsableId(false);
+                setUseridMessage('이미 사용 중인 아이디 입니다.');
+            }
+        } catch (err) {
+            console.warn(err.message);
+        }
     };
 
     // userid
     const onChangeUserid = useCallback((e) => {
-        const useridRegex = /^(?=.*[a-zA-Z])(?=.*[a-zA-Z0-9]).{2,20}$/
-        const useridRegex2 = /^(?=.*[^a-zA-Z])(?=.*[^a-zA-Z0-9]).{2,20}$/ // 이거 제외하고 다른 것 들어왔을 때, 에러 처리 하기 위해
+        const useridRegex = /^[A-Za-z0-9_]{4,}$/
         const useridCurrent = e.target.value;
         setUserid(useridCurrent);
 
-        if (!useridRegex.test(useridCurrent) || useridRegex2.test(useridCurrent)) {
+        if (!useridRegex.test(useridCurrent)) {
             setIsUserid(false);
-            setUseridMessage('아이디는 영문자 또는 영문자와 숫자의 조합으로 2~20자 작성해야 합니다.');
+            setUseridMessage('아이디는 영문자와 숫자의 조합으로 4자 이상 작성해야 합니다.');
         }
         else {
             setIsUserid(true);
@@ -109,12 +105,12 @@ function RegisterPage() {
     }, [])
 
     const onChangeUserpw = useCallback((e) => {
-        const userpwRegex = /^(?=.*[a-zA-Z])(?=.*[!?*@#$%^&+=-])(?=.*[0-9]).{8,30}$/
+        const userpwRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9@$!%*#?&]{8,}$/
         const userpwCurrent = e.target.value;
         setUserpw(userpwCurrent);
 
         if (!userpwRegex.test(userpwCurrent)) {
-            setUserpwMessage('비밀번호는 영문, 숫자, 특수문자(!, @, #, $, %, ^, &, +, =)의 조합으로 8~30자 작성해야 합니다.');
+            setUserpwMessage('비밀번호는 영문자와 숫자를 포함하여 8자 이상이어야 합니다.');
             setIsUserpw(false);
         } else {
             setUserpwMessage('');
@@ -198,7 +194,7 @@ function RegisterPage() {
                             className="border border-x-gray-300 rounded px-4 py-2 w-[92%]
                                 focus:outline-none focus:ring focus:ring-[#E95420]"
                             onChange={(e) => { onChangeUserid(e); }}
-                            placeholder="아이디(영문자 또는 영문자 숫자 조합 2-20자)"
+                            placeholder="아이디 (영문자 숫자 4자 이상)"
                             autoFocus />
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>
                         <div className={`text-sm text-justify text-[#E95420]`}>{useridMessage}</div>
@@ -220,7 +216,7 @@ function RegisterPage() {
                             className="border border-x-gray-300 rounded px-4 py-2 w-[92%] mt-3
                         focus:outline-none focus:ring focus:ring-[#E95420]"
                             onChange={(e) => { setName(e.target.value); }}
-                            placeholder="이름" />
+                            placeholder="이름 (18학번 홍길동)" />
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>
                     </lebel>
 
@@ -230,7 +226,7 @@ function RegisterPage() {
                             className="border border-x-gray-300 rounded px-4 py-2 w-[92%] mt-9
                         focus:outline-none focus:ring focus:ring-[#E95420]"
                             onChange={(e) => { onChangeUserpw(e); }}
-                            placeholder="비밀번호(영문, 숫자, 특수문자 8-30자)" />
+                            placeholder="비밀번호 (영문 숫자 포함 8자 이상)" />
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>
                         <PasswordStrengthBar password={userpw} className="my-2" />
                         <div className={`text-sm text-justify text-[#E95420]`}>{userpwMessage}</div>

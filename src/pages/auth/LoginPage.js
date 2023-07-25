@@ -13,19 +13,29 @@ function LoginPage(props) {
     const onSubmit = async (e) => {
         e.preventDefault();
 
-        await axios.post('/user/login', {
-            id: userid,
+        await axios.post('/api/auth', {
+            username: userid,
             password: userpw,
         })
-            .then(response => {
+            .then(async response => {
                 // 로그인 성공
+                const res = await axios.get('/api/auth', {}, { withCredentials: true });
+
                 if (keepAuth === true) {
-                    // console.log('로그인 정보 유지할게요 -> localStorage');
-                    localStorage.setItem('cbnu_tux_userid', response.data.data);
+                    // console.log('로그인 정보 유지할게요 -> localStorage')
+                    localStorage.setItem('cbnu_tux_userid', res.data.id);
+                    localStorage.setItem('userId', res.data.id);
+                    localStorage.setItem('username', res.data.username);
+                    localStorage.setItem('role', res.data.role);
+                    localStorage.setItem('nickname', res.data.nickname);
                 }
                 else {
                     // console.log('로그인 정보 버려주세요 -> sessionStorage');
-                    sessionStorage.setItem('cbnu_tux_userid', response.data.data);
+                    sessionStorage.setItem('cbnu_tux_userid', response.data.id);
+                    sessionStorage.setItem('userId', res.data.id);
+                    sessionStorage.setItem('username', res.data.username);
+                    sessionStorage.setItem('role', res.data.role);
+                    sessionStorage.setItem('nickname', res.data.nickname);
                 }
                 props.setIsLogin(true);
                 navigate('/');
