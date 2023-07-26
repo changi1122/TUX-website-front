@@ -1,6 +1,7 @@
 [
     {
-        "gnbName": "TUX개요",
+        "gnbName": "TUX 소개",
+        "gnbHref": "/tuxinfo01",
         "subInfo": [
             {
                 "subName": "개요",
@@ -18,27 +19,33 @@
     },
     {
         "gnbName": "커뮤니티",
+        "gnbHref": "/community",
         "subInfo": [
             {
                 "subName": "공지사항",
-                "subHref": "/community01"
+                "subHref": "/community?type=notice"
             },
             {
                 "subName": "팀원 모집",
-                "subHref": "/community02"
+                "subHref": "/community?type=teamrecruitment"
             },
             {
-                "subName": "건의 게시판",
-                "subHref": "/community03"
+                "subName": "대회/공모전",
+                "subHref": "/community?type=contest"
             },
             {
-                "subName": "잡담방",
-                "subHref": "/community04"
+                "subName": "채용/취업",
+                "subHref": "/community?type=job"
+            },
+            {
+                "subName": "잡담",
+                "subHref": "/community?type=free"
             }
         ]
     },
     {
         "gnbName": "자료실",
+        "gnbHref": "/data01",
         "subInfo": [
             {
                 "subName": "채용 · 취업 정보",

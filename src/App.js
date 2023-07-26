@@ -12,6 +12,7 @@ import Sitemap from './pages/Sitemap'
 
 import { LoginPage, RegisterPage, SuccessfulSignup, MyPage } from "./pages/auth";
 import { Tuxinfo01, Tuxinfo02, Tuxinfo03 } from "./pages/tuxinfo";
+import Community from './pages/community/Community';
 
 import PostView from './pages/post/Postview';
 
@@ -74,6 +75,8 @@ const App = () => {
 
 
           {/* 커뮤니티 */}
+          <Route path="/community" element={<Community />}></Route>
+
           {/* <Route path="/community01" element={<Community01 />}></Route>
           <Route path="/community02" element={<Community02 />}></Route>
           <Route path="/community03" element={<Community03 />}></Route>

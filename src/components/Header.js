@@ -90,6 +90,34 @@ function Header(props) {
         setIsOpen(isOpen => !isOpen); // on, off
     }
 
+    const GNDIsLogin = () => {
+        return (
+            gnbIsLogin.map((ele, index) =>
+                ele.subInfo.map((subEle) =>
+                    hover === index ?
+                        <li key={subEle.subHref}>
+                            <a href={process.env.PUBLIC_URL + subEle.subHref}>{subEle.subName}</a>
+                        </li>
+                        : ''
+                )
+            )
+        )
+    }
+
+    const GNDIsNotLogin = () => {
+        return (
+            gnbIsNotLogin.map((ele, index) =>
+                ele.subInfo.map((subEle) =>
+                    hover === index ?
+                        <li key={subEle.subHref}>
+                            <a href={process.env.PUBLIC_URL + subEle.subHref}>{subEle.subName}</a>
+                        </li>
+                        : ''
+                )
+            )
+        );
+    }
+
     const handleLoptopMenu = () => {
         const result = [];
 
@@ -97,31 +125,26 @@ function Header(props) {
             if (hover === i) {
                 result.push(
                     <ul className='flex px-20 py-5 border-b-2 items-center nav'>
-                        <li className='text-xl font-black'>
-                            <a href={process.env.PUBLIC_URL + gnbIsLogin[hover].subInfo[0].subHref}>{gnbIsLogin[hover].gnbName}</a>
-                        </li>
                         {
-                            props.isLogin
-                                ?
-                                gnbIsLogin.map((ele, index) =>
-                                    ele.subInfo.map((subEle) =>
-                                        hover === index ?
-                                            <li>
-                                                <a href={process.env.PUBLIC_URL + subEle.subHref}>{subEle.subName}</a>
-                                            </li>
-                                            : ''
-                                    )
-                                )
-                                :
-                                gnbIsNotLogin.map((ele, index) =>
-                                    ele.subInfo.map((subEle) =>
-                                        hover === index ?
-                                            <li>
-                                                <a href={process.env.PUBLIC_URL + subEle.subHref}>{subEle.subName}</a>
-                                            </li>
-                                            : ''
-                                    )
-                                )
+                            props.isLogin ? (
+                                <>
+                                <li className='text-xl font-black'>
+                                    <a href={process.env.PUBLIC_URL + gnbIsLogin[hover].gnbHref}>
+                                        {gnbIsLogin[hover].gnbName}
+                                    </a>
+                                </li>
+                                <GNDIsLogin />
+                                </>
+                            ) : (
+                                <>
+                                <li className='text-xl font-black'>
+                                    <a href={process.env.PUBLIC_URL + gnbIsNotLogin[hover].gnbHref}>
+                                        {gnbIsNotLogin[hover].gnbName}
+                                    </a>
+                                </li>
+                                <GNDIsNotLogin />
+                                </>
+                            )
                         }
                     </ul>
                 )
@@ -136,19 +159,19 @@ function Header(props) {
     const handleMobileMenu = () => {
         const result = [];
 
-        for (let i = 0; i < gnbIsLogin.length; i++) {
+        for (const gnb of (props.isLogin ? gnbIsLogin : gnbIsNotLogin)) {
             result.push(
                 <ul className='flex-col flex px-10 border-b-2'>
                     <a className='text-xl font-black w-full justify-end flex py-3'
-                        onClick={() => { navigate(process.env.PUBLIC_URL + gnbIsLogin[i].subInfo[0].subHref); toggleMenu(); }}>
-                        {gnbIsLogin[i].gnbName}
+                        onClick={() => { navigate(process.env.PUBLIC_URL + gnb.subInfo[0].subHref); toggleMenu(); }}>
+                        {gnb.gnbName}
                     </a>
                     {
                         props.isLogin
                             ?
                             gnbIsLogin.map((ele, index) =>
                                 ele.subInfo.map((subEle) =>
-                                    i === index ?
+                                    ele.gnbName == gnb.gnbName ?
                                         <a className='w-full justify-end flex sm:py-3 py-2'
                                             onClick={() => { navigate(process.env.PUBLIC_URL + subEle.subHref); toggleMenu(); }}>
                                             {subEle.subName}
@@ -159,7 +182,7 @@ function Header(props) {
                             :
                             gnbIsNotLogin.map((ele, index) =>
                                 ele.subInfo.map((subEle) =>
-                                    i === index ?
+                                    ele.gnbName == gnb.gnbName ?
                                         <a className='w-full justify-end flex sm:py-3 py-2'
                                             onClick={() => { navigate(process.env.PUBLIC_URL + subEle.subHref); toggleMenu(); }}>
                                             {subEle.subName}
@@ -192,7 +215,19 @@ function Header(props) {
                         </a>
                         <div className='lg:flex hidden items-center'>
                             {
-                                gnbIsLogin.map((ele, index) => <a href={process.env.PUBLIC_URL + ele.subInfo[0].subHref} onMouseOver={() => { setHover(index); }}>{ele.gnbName}</a>)
+                                props.isLogin ? (
+                                    gnbIsLogin.map((ele, index) =>
+                                    <a href={process.env.PUBLIC_URL + ele.gnbHref}
+                                        onMouseOver={() => { setHover(index); }} key={ele.gnbName}>
+                                        {ele.gnbName}
+                                    </a>)
+                                ) : (
+                                    gnbIsNotLogin.map((ele, index) =>
+                                    <a href={process.env.PUBLIC_URL + ele.gnbHref}
+                                        onMouseOver={() => { setHover(index); }} key={ele.gnbName}>
+                                        {ele.gnbName}
+                                    </a>)
+                                )
                             }
                         </div>
                     </div>
