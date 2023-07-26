@@ -172,7 +172,7 @@ function Header(props) {
                             gnbIsLogin.map((ele, index) =>
                                 ele.subInfo.map((subEle) =>
                                     ele.gnbName == gnb.gnbName ?
-                                        <a className='w-full justify-end flex sm:py-3 py-2'
+                                        <a key={subEle.subHref} className='w-full justify-end flex sm:py-3 py-2'
                                             onClick={() => { navigate(process.env.PUBLIC_URL + subEle.subHref); toggleMenu(); }}>
                                             {subEle.subName}
                                         </a>
@@ -183,7 +183,7 @@ function Header(props) {
                             gnbIsNotLogin.map((ele, index) =>
                                 ele.subInfo.map((subEle) =>
                                     ele.gnbName == gnb.gnbName ?
-                                        <a className='w-full justify-end flex sm:py-3 py-2'
+                                        <a key={subEle.subHref} className='w-full justify-end flex sm:py-3 py-2'
                                             onClick={() => { navigate(process.env.PUBLIC_URL + subEle.subHref); toggleMenu(); }}>
                                             {subEle.subName}
                                         </a>

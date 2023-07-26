@@ -1,6 +1,7 @@
 /* eslint-disable*/
 
-import './App.css'
+import './App.css';
+import './components/Pagination.scss';
 import React, { Component, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NotFound from './NotFound';
@@ -23,6 +24,14 @@ import WritePage_exam from './pages/exam/WritePage_exam';
 import PreviousGallery from "./pages/gallery/PreviousGallery";
 import GalleryPage from "./pages/gallery/GalleryPage";
 import WritePage_gall from './pages/gallery/WritePage_gall';
+
+/* Dayjs */
+import * as dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+var relativeTime = require('dayjs/plugin/relativeTime');
+
+dayjs.extend(relativeTime);
+dayjs().locale('ko');
 
 const App = () => {
   const [isLogin, setIsLogin] = useState(false);

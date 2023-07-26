@@ -1,0 +1,87 @@
+.pagination-container {
+    display: flex;
+    flex-wrap: wrap;
+    list-style-type: none;
+  
+    .pagination-item {
+      padding: 0.6rem 1rem;
+      text-align: center;
+      margin: 8px 4px;
+      background-color: #fff;
+      color: rgb(107, 114, 128);
+      display: flex;
+      box-sizing: border-box;
+      align-items: center;
+      letter-spacing: 0.01071em;
+      border-radius: 0.5rem;
+      line-height: 1.43;
+      font-size: 16px;
+      min-width: 32px;
+      border-width: 1px;
+      border-color: rgb(229, 231, 235);
+      border-style: solid;
+
+      --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+      --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  
+      &.dots:hover {
+        background-color: transparent;
+        cursor: default;
+      }
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.04);
+        cursor: pointer;
+      }
+  
+      &.selected {
+        --tw-text-opacity: 1;
+        color: rgb(28 100 242/var(--tw-text-opacity));
+        --tw-bg-opacity: 1;
+        background-color: rgb(235 245 255/var(--tw-bg-opacity));
+      }
+      &.selected:hover {
+        --tw-text-opacity: 1;
+        color: rgb(26 86 219/var(--tw-text-opacity));
+        --tw-bg-opacity: 1;
+        background-color: rgb(225 239 254/var(--tw-bg-opacity));
+      }
+  
+      .arrow {
+        &::before {
+          position: relative;
+          /* top: 3pt; Uncomment this to lower the icons as requested in comments*/
+          content: '';
+          /* By using an em scale, the arrows will size with the font */
+          display: inline-block;
+          width: 0.4em;
+          height: 0.4em;
+          border-right: 0.12em solid rgba(0, 0, 0, 0.87);
+          border-top: 0.12em solid rgba(0, 0, 0, 0.87);
+        }
+  
+        &.lleft {
+          transform: rotate(-135deg) translate(-50%);
+        }
+  
+        &.rright {
+          transform: rotate(45deg);
+        }
+      }
+  
+      &.disabled {
+        pointer-events: none;
+  
+        .arrow::before {
+          border-right: 0.12em solid rgba(0, 0, 0, 0.43);
+          border-top: 0.12em solid rgba(0, 0, 0, 0.43);
+        }
+  
+        &:hover {
+          background-color: transparent;
+          cursor: default;
+        }
+      }
+    }
+  }
+  
