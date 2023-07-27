@@ -45,23 +45,19 @@
     },
     {
         "gnbName": "자료실",
-        "gnbHref": "/data01",
+        "gnbHref": "/dataroom",
         "subInfo": [
             {
-                "subName": "채용 · 취업 정보",
-                "subHref": "/data01"
+                "subName": "강의/스터디",
+                "subHref": "/dataroom?type=study"
             },
             {
-                "subName": "공모전 정보",
-                "subHref": "/data02"
+                "subName": "시험 정보",
+                "subHref": "/dataroom?type=exam"
             },
             {
                 "subName": "갤러리",
                 "subHref": "/gallery"
-            },
-            {
-                "subName": "족보",
-                "subHref": "/exam"
             }
         ]
     }

@@ -210,7 +210,7 @@ function Header(props) {
                             <IoLogoTux size={40} />
                             <div>
                                 <h1 className="text-2xl font-black">CBNU TUX</h1>
-                                <div className='text-base'>Linux study club</div>
+                                <div className='text-base'>Linux & OSS Club</div>
                             </div>
                         </a>
                         <div className='lg:flex hidden items-center'>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from "react";
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import Pagination from '../../components/Pagination';
 
 import * as dayjs from 'dayjs';
@@ -18,6 +18,7 @@ function Community() {
     useEffect(() => {
         getCommunityList(category[1], currentPage, 6, searchQuery);
     }, [category, searchQuery, currentPage]);
+
 
     async function getCommunityList(category, page, size, query) {
         if (category) {

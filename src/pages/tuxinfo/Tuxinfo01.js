@@ -69,7 +69,7 @@ function Tuxinfo01() {
                     <div className="md:w-[50%] w-full">
                         <div className="text-left mt-2 text-2xl">
                             <div className="text-6xl font-black">TUX</div>
-                            <div>Linux study club</div>
+                            <div>Linux & OSS Club</div>
                             <div>since 2020</div>
                             <br></br>
                             <div className="text-lg">

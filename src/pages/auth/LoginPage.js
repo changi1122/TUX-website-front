@@ -67,7 +67,7 @@ function LoginPage(props) {
         <div className='min-h-screen md:p-20 px-3 py-10'>
             <div>
                 <div className='text-5xl font-black'>CBNU TUX</div>
-                <div className="text-lg">Linux study club, since 2020</div>
+                <div className="text-lg">Linux & OSS Club, since 2020</div>
             </div>
 
             <div className="mt-10 mx-auto md:w-[300px] w-full">
