@@ -1,9 +1,10 @@
 /* eslint-disable*/
 
 import './App.css';
+import './components/markdown.scss';
 import './components/Pagination.scss';
 import React, { Component, useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import NotFound from './NotFound';
 
 import { Header, Footer, PrivateRoute } from './components';
@@ -30,6 +31,8 @@ import * as dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import CommunityWrite from './pages/community/CommunityWrite';
 import CommunityDetail from './pages/community/CommunityDetail';
+import JoinPage from './pages/join/JoinPage';
+import ContactPage from './pages/join/ContactPage';
 var relativeTime = require('dayjs/plugin/relativeTime');
 
 dayjs.extend(relativeTime);
@@ -38,9 +41,15 @@ dayjs().locale('ko');
 const App = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [role, setRole] = useState('');
 
   useEffect(() => {
-    if (localStorage.role === 'ADMIN' || sessionStorage.role === 'ADMIN') {
+    if (localStorage.role)
+      setRole(localStorage.role);
+    if (sessionStorage.role)
+      setRole(sessionStorage.role);
+
+    if (role === 'ADMIN' || role === 'ADMIN') {
       setIsAdmin(true);
     }
     else {
@@ -106,15 +115,18 @@ const App = () => {
 
           {/* 족보(private) */}
           <Route path="/exam" element={
-            <PrivateRoute isThatTrue={isLogin} isTrue={<PreviousExamination />} isFalse={<NotFound />} />
+            <PrivateRoute isThatTrue={isLogin && role != 'GUEST'} isTrue={<PreviousExamination />} isFalse={<Navigate to='/login' />} />
           } />
           <Route path="/write_page" element={
-            <PrivateRoute isThatTrue={isLogin} isTrue={<WritePage_exam />} isFalse={<NotFound />} />
+            <PrivateRoute isThatTrue={isLogin && role != 'GUEST'} isTrue={<WritePage_exam />} isFalse={<Navigate to='/login' />} />
           } />
           <Route path="/exam/*" element={
-            <PrivateRoute isThatTrue={isLogin} isTrue={<ExamPage />} isFalse={<NotFound />} />
+            <PrivateRoute isThatTrue={isLogin && role != 'GUEST'} isTrue={<ExamPage />} isFalse={<Navigate to='/login' />} />
           } />
 
+          {/* 지원하기 */}
+          <Route path="/join" element={<JoinPage />}></Route>
+          <Route path="/contact" element={<ContactPage />}></Route>
 
           <Route path='/postView/:no' component={<PostView />} />
 

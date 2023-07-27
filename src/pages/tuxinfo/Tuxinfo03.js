@@ -43,7 +43,7 @@ function Tuxinfo03() {
     return (
         <div className='min-h-screen px-3 md:py-20 py-10'>
             <div className="border-b border-black w-full md:pb-20 pb-10 ani-fadein-up">
-                <div className="text-lg">TUX개요</div>
+                <div className="text-lg">TUX 소개</div>
                 <div className="text-4xl font-bold">구성원 소개</div>
             </div>
 
@@ -58,6 +58,7 @@ function Tuxinfo03() {
                         people.map((ele) => <PeopleBox key={ele.generation} props={ele} />)
                     }
                 </ul>
+                <div className='clear-both py-2'></div>
             </div>
         </div>
     );

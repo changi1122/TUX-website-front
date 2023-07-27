@@ -45,11 +45,11 @@
     },
     {
         "gnbName": "지원하기",
-        "gnbHref": "/submit",
+        "gnbHref": "/join",
         "subInfo": [
             {
                 "subName": "부원 모집",
-                "subHref": "/submit"
+                "subHref": "/join"
             },
             {
                 "subName": "연락처",
