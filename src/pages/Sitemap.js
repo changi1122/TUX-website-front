@@ -51,7 +51,11 @@ function Sitemap(props) {
             <div className="mt-20 md:px-20 px-0">
                 <div className="flex md:flex-row flex-col gap-3 md:justify-center items-start">
                     {
-                        gnbIsLogin.map((ele) => <GnbBox key={ele.gnbName} gnb={ele} isLogin={props.isLogin} />)
+                        props.isLogin ? (
+                            gnbIsLogin.map((ele) => <GnbBox key={ele.gnbName} gnb={ele} isLogin={props.isLogin} />)
+                        ) : (
+                            gnbIsNotLogin.map((ele) => <GnbBox key={ele.gnbName} gnb={ele} isLogin={props.isLogin} />)
+                        )
                     }
                 </div>
 

@@ -28,6 +28,8 @@ import WritePage_gall from './pages/gallery/WritePage_gall';
 /* Dayjs */
 import * as dayjs from 'dayjs';
 import 'dayjs/locale/ko';
+import CommunityWrite from './pages/community/CommunityWrite';
+import CommunityDetail from './pages/community/CommunityDetail';
 var relativeTime = require('dayjs/plugin/relativeTime');
 
 dayjs.extend(relativeTime);
@@ -85,6 +87,8 @@ const App = () => {
 
           {/* 커뮤니티 */}
           <Route path="/community" element={<Community />}></Route>
+          <Route path="/community/:id" element={<CommunityDetail />}></Route>
+          <Route path="/community/write" element={<CommunityWrite />}></Route>
 
           {/* <Route path="/community01" element={<Community01 />}></Route>
           <Route path="/community02" element={<Community02 />}></Route>

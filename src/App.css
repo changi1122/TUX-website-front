@@ -72,3 +72,26 @@
 * {
   font-family: "TTHoves", "NanumSquare", "나눔스퀘어", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Apple SD Gothic Neo", "돋움", dotum, arial, sans-serif;
 }
+
+
+
+/* Quill */
+
+/* Quill 에디터 */
+.ql-toolbar {
+	border-radius: 0.5em 0.5em 0 0;
+}
+.ql-container {
+  min-height: 100px;
+	border-radius: 0 0 0.5em 0.5em;
+	font-size: 15.4px;
+}
+.quill-container>div {
+  display: none;
+}
+.quill-container>div:first-child {
+  display: block;
+}
+.quill-container>div:last-child {
+  display: block;
+}

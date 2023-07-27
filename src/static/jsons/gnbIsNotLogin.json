@@ -38,7 +38,7 @@
                 "subHref": "/community?type=job"
             },
             {
-                "subName": "잡담",
+                "subName": "자유게시판",
                 "subHref": "/community?type=free"
             }
         ]
