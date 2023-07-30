@@ -45,15 +45,15 @@
     },
     {
         "gnbName": "자료실",
-        "gnbHref": "/dataroom",
+        "gnbHref": "/referenceroom",
         "subInfo": [
             {
                 "subName": "강의/스터디",
-                "subHref": "/dataroom?type=study"
+                "subHref": "/referenceroom?type=study"
             },
             {
                 "subName": "시험 정보",
-                "subHref": "/dataroom?type=exam"
+                "subHref": "/referenceroom?type=exam"
             },
             {
                 "subName": "갤러리",

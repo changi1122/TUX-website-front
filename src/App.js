@@ -33,6 +33,9 @@ import CommunityWrite from './pages/community/CommunityWrite';
 import CommunityDetail from './pages/community/CommunityDetail';
 import JoinPage from './pages/join/JoinPage';
 import ContactPage from './pages/join/ContactPage';
+import ReferenceRoom from './pages/referenceroom/ReferenceRoom';
+import ReferenceRoomDetail from './pages/referenceroom/ReferenceRoomDetail';
+import ReferenceRoomWrite from './pages/referenceroom/ReferenceRoomWrite';
 var relativeTime = require('dayjs/plugin/relativeTime');
 
 dayjs.extend(relativeTime);
@@ -109,6 +112,10 @@ const App = () => {
 
 
           {/* 자료실 */}
+          <Route path="/referenceroom" element={<ReferenceRoom />}></Route>
+          <Route path="/referenceroom/:id" element={<ReferenceRoomDetail />}></Route>
+          <Route path="/referenceroom/write" element={<ReferenceRoomWrite />}></Route>
+
           <Route path="/gallery" element={<PreviousGallery />}></Route>
           <Route path="/write_page_gall" element={<WritePage_gall />}></Route>
           <Route path="/gallery/*" element={<GalleryPage />}></Route>

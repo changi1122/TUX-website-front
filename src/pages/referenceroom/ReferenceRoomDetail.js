@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useEffect } from "react";
-import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import * as dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 
-function CommunityDetail() {
+function ReferenceRoomDetail() {
     const navigate = useNavigate();
 
     // 글 id
@@ -22,24 +22,26 @@ function CommunityDetail() {
     const [comment, setComment] = useState('');
 
     useEffect(() => {
-        getCommunity(id);
+        getReferenceRoom(id);
     }, []);
 
-    async function getCommunity(id) {
-        const res = await fetch(`/api/community/${id}`);
+    async function getReferenceRoom(id) {
+        const res = await fetch(`/api/referenceroom/${id}`, {
+            credentials: 'include'
+        });
         setPost(await res.json());
     }
 
     async function handleDelete()
     {
         if (window.confirm("정말로 글을 삭제하시겠습니까?")) {
-            await deleteCommunity(post.id);
-            navigate('/community');
+            await deleteReferenceRoom(post.id);
+            navigate('/referenceroom');
         }
     }
 
-    async function deleteCommunity(id) {
-        await fetch(`/api/community/${id}`, {
+    async function deleteReferenceRoom(id) {
+        await fetch(`/api/referenceroom/${id}`, {
             method: "DELETE",
             credentials: 'include'
         });
@@ -55,7 +57,7 @@ function CommunityDetail() {
             return;
         }
 
-        const res = await postCmComment(post.id, comment);
+        const res = await postRfComment(post.id, comment);
         if (res.ok) {
             setComment('');
             navigate(0);
@@ -64,8 +66,8 @@ function CommunityDetail() {
         }
     }
 
-    async function postCmComment(id, body) {
-        return await fetch(`/api/community/${id}/comment`, {
+    async function postRfComment(id, body) {
+        return await fetch(`/api/referenceroom/${id}/comment`, {
             method: "POST",
             credentials: 'include',
             body: JSON.stringify({
@@ -79,7 +81,7 @@ function CommunityDetail() {
 
     async function handleDeleteComment(commentId) {
         if (window.confirm("정말로 댓글을 삭제하시겠습니까?")) {
-            const res =  await deleteCmComment(post.id, commentId);
+            const res =  await deleteRfComment(post.id, commentId);
 
             if (res.ok) {
                 navigate(0);
@@ -89,8 +91,8 @@ function CommunityDetail() {
         }
     }
 
-    async function deleteCmComment(id, commentId) {
-        return await fetch(`/api/community/${id}/comment/${commentId}`, {
+    async function deleteRfComment(id, commentId) {
+        return await fetch(`/api/referenceroom/${id}/comment/${commentId}`, {
             method: "DELETE",
             credentials: 'include'
         });
@@ -101,7 +103,7 @@ function CommunityDetail() {
         <div className='min-h-screen px-3 md:pt-10 md:pb-20 pt-5 pb-10'>
             <div className="border-b border-black w-full md:pb-10 pb-5 ani-fadein-up">
                 <div className="text-lg"></div>
-                <div className="text-4xl font-bold">커뮤니티</div>
+                <div className="text-4xl font-bold">자료실</div>
             </div>
 
             <div className="mt-20 mx-auto lg:w-[936px] w-full text-left">
@@ -113,6 +115,24 @@ function CommunityDetail() {
                             <>
                             <div className='block max-w px-6 py-6 my-3 bg-white border border-gray-200 rounded-lg shadow'>
                                 <span className={badge(post.category)[0] + " text-xs font-medium rounded mr-2 mb-2 px-2.5 py-0.5 inline-block"}>{badge(post.category)[1]}</span>
+                                {
+                                    post.lecture && 
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
+                                        {post.lecture}
+                                    </span>
+                                }
+                                {
+                                    post.semester && 
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
+                                        {post.semester}
+                                    </span>
+                                }
+                                {
+                                    post.professor && 
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
+                                        {post.professor}
+                                    </span>
+                                }
                                 <h3 className="mb-1 text-xl font-bold tracking-tight text-gray-900">
                                     {post.title}
                                 </h3>
@@ -126,6 +146,14 @@ function CommunityDetail() {
                                 <div className='md mt-4' dangerouslySetInnerHTML={{ __html: post.body }}>
                                 </div>
                             </div>
+                            {
+                                post.files.map(f => (
+                                <div key={f.path} className='block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow'>
+                                    <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">첨부파일</span>
+                                    <a className='text-sm hover:underline' href={f.path} target='_blank'>{f.filename}</a>
+                                </div>
+                                ))
+                            }
                             <div className='flex justify-between mt-4'>
                                 <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 mr-2 inline-block"
                                     onClick={() => { navigate(-1) }}>
@@ -204,17 +232,11 @@ function CommunityDetail() {
 
 function badge(category) {
     switch(category) {
-        case 'NOTICE':
-            return ['bg-green-100 text-green-800', '공지사항'];
-        case 'TEAMRECRUITMENT':
-            return ['bg-pink-100 text-pink-800', '팀원 모집'];
-        case 'CONTEST':
-            return ['bg-yellow-100 text-yellow-800', '대회/공모전'];
-        case 'JOB':
-            return ['bg-red-100 text-red-800', '채용/취업 정보'];
-        case 'FREE':
-            return ['bg-purple-100 text-purple-800', '자유게시판'];
+        case 'STUDY':
+            return ['bg-red-100 text-red-800', '강의/스터디'];
+        default:
+            return ['bg-purple-100 text-purple-800', '시험정보'];
     }
 }
 
-export default CommunityDetail;
+export default ReferenceRoomDetail;
