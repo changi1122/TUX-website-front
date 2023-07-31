@@ -60,11 +60,22 @@ const App = () => {
     }
   }, [isLogin]);
 
+  function isLogined() {
+    return (localStorage.cbnu_tux_userid || sessionStorage.cbnu_tux_userid);
+  }
+
+  function isNotGuest() {
+    if (localStorage.role)
+      return localStorage.role !== "GUEST";
+    if (sessionStorage.role)
+      return sessionStorage.role !== "GUEST";
+    return false;
+  }
+
   return (
     <div className='App'>
       <BrowserRouter>
         <Header isLogin={isLogin} setIsLogin={setIsLogin} />
-
 
         <Routes>
           <Route path="/" element={
@@ -77,17 +88,17 @@ const App = () => {
           {/* auth pages */}
           <Route path="/login" element={
             // 이미 로그인 되어 있는 상태라면, login page에 접근 불가 -> NotFound page로 route
-            <PrivateRoute isThatTrue={isLogin} isTrue={<NotFound />} isFalse={<LoginPage isLogin={isLogin} setIsLogin={setIsLogin} />} />
+            <PrivateRoute isThatTrue={isLogined()} isTrue={<NotFound />} isFalse={<LoginPage isLogin={isLogin} setIsLogin={setIsLogin} />} />
           } />
           <Route path="/signup" element={
-            <PrivateRoute isThatTrue={isLogin} isTrue={<NotFound />} isFalse={<RegisterPage />} />
+            <PrivateRoute isThatTrue={isLogined()} isTrue={<NotFound />} isFalse={<RegisterPage />} />
           } />
           <Route path="/signup/successful" element={
-            <PrivateRoute isThatTrue={isLogin} isTrue={<NotFound />} isFalse={<SuccessfulSignup />} />
+            <PrivateRoute isThatTrue={isLogined()} isTrue={<NotFound />} isFalse={<SuccessfulSignup />} />
           } />
           <Route path="/mypage" element={
             // 로그인 하지 않은 사용자는, mypage에 접근할 수 없음
-            <PrivateRoute isThatTrue={isLogin} isTrue={<MyPage />} isFalse={<NotFound />} />
+            <PrivateRoute isThatTrue={isLogined()} isTrue={<MyPage />} isFalse={<NotFound />} />
           } />
 
 
@@ -102,24 +113,16 @@ const App = () => {
           <Route path="/community/:id" element={<CommunityDetail />}></Route>
           <Route path="/community/write" element={<CommunityWrite />}></Route>
 
-          {/* <Route path="/community01" element={<Community01 />}></Route>
-          <Route path="/community02" element={<Community02 />}></Route>
-          <Route path="/community03" element={<Community03 />}></Route>
-          <Route path="/community04" element={
-            // 잡담방(private)
-            <PrivateRoute isThatTrue={isLogin} isTrue={<Community04 />} isFalse={<NotFound />} />
-          } /> */}
-
 
           {/* 자료실 */}
           <Route path="/referenceroom" element={
-            <PrivateRoute isThatTrue={isLogin && role != 'GUEST'} isTrue={<ReferenceRoom />} isFalse={<Navigate to='/login' />} />
+            <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoom />} isFalse={<Navigate to='/login' />} />
           } />
           <Route path="/referenceroom/:id" element={
-            <PrivateRoute isThatTrue={isLogin && role != 'GUEST'} isTrue={<ReferenceRoomDetail />} isFalse={<Navigate to='/login' />} />
+            <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoomDetail />} isFalse={<Navigate to='/login' />} />
           } />
           <Route path="/referenceroom/write" element={
-            <PrivateRoute isThatTrue={isLogin && role != 'GUEST'} isTrue={<ReferenceRoomWrite />} isFalse={<Navigate to='/login' />} />
+            <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoomWrite />} isFalse={<Navigate to='/login' />} />
           } />
 
           <Route path="/gallery" element={<PreviousGallery />}></Route>
@@ -128,13 +131,13 @@ const App = () => {
 
           {/* 족보(private) */}
           <Route path="/exam" element={
-            <PrivateRoute isThatTrue={isLogin && role != 'GUEST'} isTrue={<PreviousExamination />} isFalse={<Navigate to='/login' />} />
+            <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<PreviousExamination />} isFalse={<Navigate to='/login' />} />
           } />
           <Route path="/write_page" element={
-            <PrivateRoute isThatTrue={isLogin && role != 'GUEST'} isTrue={<WritePage_exam />} isFalse={<Navigate to='/login' />} />
+            <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<WritePage_exam />} isFalse={<Navigate to='/login' />} />
           } />
           <Route path="/exam/*" element={
-            <PrivateRoute isThatTrue={isLogin && role != 'GUEST'} isTrue={<ExamPage />} isFalse={<Navigate to='/login' />} />
+            <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ExamPage />} isFalse={<Navigate to='/login' />} />
           } />
 
           {/* 지원하기 */}
