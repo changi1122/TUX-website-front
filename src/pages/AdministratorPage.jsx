@@ -1,42 +1,97 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router';
 
-const waitingDummy = [
-    {
-        "id": "waitingID",
-        "student_num": "2020waiting",
-        "name": "김기다림",
-        "email": "waiting@waiting.com",
-        "phone_num": "010-wait-ting"
-    },
-    {
-        "id": "plzApprovID",
-        "student_num": "2023plzApprov",
-        "name": "이승인",
-        "email": "plz@approv.net",
-        "phone_num": "010-plea-seap"
-    }
-]
-
-const menberDummy = [
-    {
-        "id": "dummyID",
-        "student_num": "2020dummmy",
-        "name": "김더미",
-        "email": "dummy@dummy.com",
-        "phone_num": "010-dumm-mmmy"
-    },
-    {
-        "id": "testID",
-        "student_num": "2023tetest",
-        "name": "이테스트",
-        "email": "test@test.net",
-        "phone_num": "010-test-test"
-    }
-]
 
 function AdministratorPage() {
-    const [waitingList, setWaitingList] = useState(waitingDummy);
-    const [menberList, setMenberList] = useState(menberDummy);
+    const navigate = useNavigate();
+
+    const [waitingList, setWaitingList] = useState();
+    const [memberList, setMemberList] = useState();
+
+    useEffect(() => {
+        loadWaitingList();
+        loadMemeberList();
+    }, []);
+
+    async function loadWaitingList() {
+        const res = await fetch("/api/admin/user/waiting", {
+            credentials: 'include',
+        });
+        let waitings = await res.json();
+        waitings = waitings.map((w) => { return { ...w, newUserRole: 'USER' } });
+        setWaitingList(waitings);
+    }
+
+    function handleGuestRoleSelect(id, role) {
+        let newWaitings = waitingList.map((w) => { return (w.id === id) ? { ...w, newUserRole: role } : w });
+        setWaitingList(newWaitings);
+    }
+
+    async function changeUserRole(id, role) {
+        const res = await fetch(`/api/admin/user/${id}/role/${role}`, {
+            method: "POST",
+            credentials: 'include'
+        });
+        if (res.ok) {
+            navigate(0);
+        } else {
+            alert('회원 등급 변경 중 오류가 발생하였습니다.');
+        }
+    }
+
+
+    async function loadMemeberList() {
+        const res = await fetch("/api/admin/user/member", {
+            credentials: 'include',
+        });
+        let members = await res.json();
+        members = members.map((m) => { return { ...m, newUserRole: m.role } });
+        setMemberList(members);
+    }
+
+    function handleMemberRoleSelect(id, role) {
+        let newMembers = memberList.map((m) => { return (m.id === id) ? { ...m, newUserRole: role } : m });
+        setMemberList(newMembers);
+    }
+
+
+    async function changePassword(id) {
+        const newPassword = prompt("변경할 비밀번호를 입력하세요.");
+        const userpwRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9@$!%*#?&]{8,}$/
+
+        if (!userpwRegex.test(newPassword)) {
+            alert('비밀번호는 영문자와 숫자를 포함하여 8자 이상이어야 합니다.');
+            return;
+        }
+
+        if (newPassword) {
+            const res = await fetch(`/api/admin/user/${id}/password/${newPassword}`, {
+                method: "PUT",
+                credentials: 'include'
+            });
+            if (res.ok) {
+                navigate(0);
+            } else {
+                alert('비밀번호 변경 중 오류가 발생하였습니다.');
+            }
+        }
+    }
+
+    async function banUser(id) {
+        if (window.confirm("정말로 로그인할 수 없도록 설정하시겠습니까?\n(해제시 직접 DB 수정 필요)")) {
+            const res = await fetch(` /api/admin/user/${id}/ban`, {
+                method: "DELETE",
+                credentials: 'include'
+            });
+            if (res.ok) {
+                navigate(0);
+            } else {
+                alert('로그인 금지 설정 중 오류가 발생하였습니다.');
+            }
+        }
+    }
+
+
 
     return (
         <div className='min-h-screen xl:p-20 px-3 py-10'>
@@ -60,24 +115,42 @@ function AdministratorPage() {
                             <tr className="bg-gray-100">
                                 <th className="py-2">아이디</th>
                                 <th>학번</th>
-                                <th>이름</th>
+                                <th>닉네임</th>
                                 <th>이메일</th>
                                 <th>전화번호</th>
-                                <th>거부 / 승인</th>
+                                <th>삭제 여부</th>
+                                <th>회원 등급 변경</th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                waitingList.map((ele) =>
-                                    <tr>
-                                        <td className="py-2">{ele.id}</td>
-                                        <td>{ele.student_num}</td>
-                                        <td>{ele.name}</td>
+                                waitingList && waitingList.map((ele) =>
+                                    <tr key={ele.id}>
+                                        <td className="py-2">{ele.username}</td>
+                                        <td>{ele.studentNumber}</td>
+                                        <td>{ele.nickname}</td>
                                         <td>{ele.email}</td>
-                                        <td>{ele.phone_num}</td>
+                                        <td>{ele.phoneNumber}</td>
+                                        <td>{(ele.banned) ? "ban" : ele.deleted+""}</td>
                                         <td className="w-24 py-2">
-                                            <button type="button" className="p-2 mx-1 bg-red-700 hover:bg-red-900 rounded-sm text-xs text-white">거부</button>
-                                            <button type="button" className="p-2 mx-1 bg-gray-100 hover:bg-gray-200 rounded-sm text-xs">승인</button>
+                                            <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full my-1 p-2.5"
+                                                value={ele.newUserRole} onChange={(e) => { handleGuestRoleSelect(ele.id, e.target.value) }}>
+                                                <option value="USER">USER</option>
+                                                <option value="MANAGER">MANAGER</option>
+                                                <option value="ADMIN">ADMIN</option>
+                                            </select>
+                                            <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 w-full my-1 inline-block"
+                                                onClick={() => { changeUserRole(ele.id, ele.newUserRole) }}>
+                                                변경
+                                            </button>
+                                            <button className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-2 py-2 w-full my-1 inline-block"
+                                                onClick={(e) => { e.preventDefault(); changePassword(ele.id) }}>
+                                                비밀번호변경
+                                            </button>
+                                            <button className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 w-full my-1 inline-block"
+                                                onClick={(e) => { e.preventDefault(); banUser(ele.id) }}>
+                                                로그인 밴
+                                            </button>
                                         </td>
                                     </tr>
                                 )
@@ -96,7 +169,7 @@ function AdministratorPage() {
                     </div>
                 </div>
 
-                <div className="px-5 mt-5 text-left">
+                <div style={{ display: 'none' }} className="px-5 mt-5 text-left">
                     <div className="flex gap-3">
                         <span>
                             <form>
@@ -119,25 +192,46 @@ function AdministratorPage() {
                         <thead>
                             <tr className="bg-gray-100">
                                 <th className="py-2">아이디</th>
+                                <th>회원 등급</th>
                                 <th>학번</th>
-                                <th>이름</th>
+                                <th>닉네임</th>
                                 <th>이메일</th>
                                 <th>전화번호</th>
-                                <th>관리</th>
+                                <th>삭제 여부</th>
+                                <th>회원 등급 변경</th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                menberList.map((ele) =>
-                                    <tr>
-                                        <td className="py-2">{ele.id}</td>
-                                        <td>{ele.student_num}</td>
-                                        <td>{ele.name}</td>
+                                memberList && memberList.map((ele) =>
+                                    <tr key={ele.id}>
+                                        <td className="py-2">{ele.username}</td>
+                                        <td>{ele.role}</td>
+                                        <td>{ele.studentNumber}</td>
+                                        <td>{ele.nickname}</td>
                                         <td>{ele.email}</td>
-                                        <td>{ele.phone_num}</td>
-                                        <td className="w-20">
-                                            <button type="button" className="p-2 m-1 bg-rose-500 hover:bg-rose-700 rounded-sm text-xs text-white">활동 정지</button>
-                                            <button type="button" className="p-2 m-1 bg-red-700 hover:bg-red-900 rounded-sm text-xs text-white">강제 탈퇴</button>
+                                        <td>{ele.phoneNumber}</td>
+                                        <td>{(ele.banned) ? "ban" : ele.deleted+""}</td>
+                                        <td className="w-24 py-2">
+                                            <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full my-1 p-2.5"
+                                                value={ele.newUserRole} onChange={(e) => { handleMemberRoleSelect(ele.id, e.target.value) }}>
+                                                <option value="GUEST">GUEST</option>
+                                                <option value="USER">USER</option>
+                                                <option value="MANAGER">MANAGER</option>
+                                                <option value="ADMIN">ADMIN</option>
+                                            </select>
+                                            <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 w-full my-1 inline-block"
+                                                onClick={() => { changeUserRole(ele.id, ele.newUserRole) }}>
+                                                변경
+                                            </button>
+                                            <button className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-2 py-2 w-full my-1 inline-block"
+                                                onClick={(e) => { e.preventDefault(); changePassword(ele.id) }}>
+                                                비밀번호변경
+                                            </button>
+                                            <button className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 w-full my-1 inline-block"
+                                                onClick={(e) => { e.preventDefault(); banUser(ele.id) }}>
+                                                로그인 밴
+                                            </button>
                                         </td>
                                     </tr>
                                 )

@@ -64,9 +64,9 @@ const Main = (props) => {
       </div>
 
 
-      <div class="md:w-1/3 w-d h-full lg:flex lg:float-left">
-        <div class="md:w-1/3 w-full bg-blue-0 xxxx-bg flex flex-wrap content-center">
-            <div class="m-auto w-100">
+      <div className="md:w-1/3 w-d h-full lg:flex lg:float-left">
+        <div className="md:w-1/3 w-full bg-blue-0 xxxx-bg flex flex-wrap content-center">
+            <div className="m-auto w-100">
             <Calendar
               onChange={onChange}
               value={value}

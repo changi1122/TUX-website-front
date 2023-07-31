@@ -112,9 +112,15 @@ const App = () => {
 
 
           {/* 자료실 */}
-          <Route path="/referenceroom" element={<ReferenceRoom />}></Route>
-          <Route path="/referenceroom/:id" element={<ReferenceRoomDetail />}></Route>
-          <Route path="/referenceroom/write" element={<ReferenceRoomWrite />}></Route>
+          <Route path="/referenceroom" element={
+            <PrivateRoute isThatTrue={isLogin && role != 'GUEST'} isTrue={<ReferenceRoom />} isFalse={<Navigate to='/login' />} />
+          } />
+          <Route path="/referenceroom/:id" element={
+            <PrivateRoute isThatTrue={isLogin && role != 'GUEST'} isTrue={<ReferenceRoomDetail />} isFalse={<Navigate to='/login' />} />
+          } />
+          <Route path="/referenceroom/write" element={
+            <PrivateRoute isThatTrue={isLogin && role != 'GUEST'} isTrue={<ReferenceRoomWrite />} isFalse={<Navigate to='/login' />} />
+          } />
 
           <Route path="/gallery" element={<PreviousGallery />}></Route>
           <Route path="/write_page_gall" element={<WritePage_gall />}></Route>
