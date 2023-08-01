@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
-export default function QuillEditor({ body, handleQuillChange, mountBody }) {
+export default function QuillEditor({ body, handleQuillChange, mountBody, setMountBody }) {
     const quillElement = useRef();
     const quillInstance = useRef();
+    let quillTest;
 
     const [isError, setIsError] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -56,10 +57,11 @@ export default function QuillEditor({ body, handleQuillChange, mountBody }) {
             });
 
             function imageHandler() {
-                var range = quill.getSelection();
+                var range = quillInstance.current.getSelection();
                 var value = prompt('이미지 URL을 붙여넣어 주세요.');
-                if(value){
-                    this.quill.insertEmbed(range.index, 'image', value, window.Quill.sources.USER);
+                if (value){
+                    quillInstance.current.insertEmbed((range) ? range.index : 0, 'image', value, window.Quill.sources.USER);
+                    setMountBody(!mountBody);
                 }
             }
 

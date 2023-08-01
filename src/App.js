@@ -22,9 +22,6 @@ import PreviousExamination from "./pages/exam/PreviousExamination";
 import ExamPage from './pages/exam/ExamPage';
 import WritePage_exam from './pages/exam/WritePage_exam';
 
-import PreviousGallery from "./pages/gallery/PreviousGallery";
-import GalleryPage from "./pages/gallery/GalleryPage";
-import WritePage_gall from './pages/gallery/WritePage_gall';
 
 /* Dayjs */
 import * as dayjs from 'dayjs';
@@ -36,6 +33,9 @@ import ContactPage from './pages/join/ContactPage';
 import ReferenceRoom from './pages/referenceroom/ReferenceRoom';
 import ReferenceRoomDetail from './pages/referenceroom/ReferenceRoomDetail';
 import ReferenceRoomWrite from './pages/referenceroom/ReferenceRoomWrite';
+import Gallery from './pages/gallery/Gallery';
+import GalleryDetail from './pages/gallery/GalleryDetail';
+import GalleryWrite from './pages/gallery/GalleryWrite';
 var relativeTime = require('dayjs/plugin/relativeTime');
 
 dayjs.extend(relativeTime);
@@ -125,9 +125,16 @@ const App = () => {
             <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoomWrite />} isFalse={<Navigate to='/login' />} />
           } />
 
-          <Route path="/gallery" element={<PreviousGallery />}></Route>
-          <Route path="/write_page_gall" element={<WritePage_gall />}></Route>
-          <Route path="/gallery/*" element={<GalleryPage />}></Route>
+          {/* 갤러리 */}
+          <Route path="/gallery" element={
+            <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<Gallery />} isFalse={<Navigate to='/login' />} />
+          } />
+          <Route path="/gallery/:id" element={
+            <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<GalleryDetail />} isFalse={<Navigate to='/login' />} />
+          } />
+          <Route path="/gallery/write" element={
+            <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<GalleryWrite />} isFalse={<Navigate to='/login' />} />
+          } />
 
           {/* 족보(private) */}
           <Route path="/exam" element={

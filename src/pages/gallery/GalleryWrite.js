@@ -3,15 +3,13 @@ import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import QuillEditor from '../../components/QuillEditor';
 
-function ReferenceRoomWrite() {
+function GalleryWrite() {
     const navigate = useNavigate();
 
     const [id, setId] = useState(); // 글 ID : 파일업로드를 통해 글이 임시 생성되었을 경우, ID를 가짐
     const [post, setPost] = useState();
     const [loadAgain, setLoadAgain] = useState(false);
 
-    const [category, setCategory] = useState(['시험 정보', 'exam']);
-    const [isCategoryOpened, setIsUserMenuOpened] = useState(false);
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [lecture, setLecture] = useState('');
@@ -36,7 +34,7 @@ function ReferenceRoomWrite() {
     async function handleFileUpload(e) {
         if (!id) { // 첫 업로드
             let data = new FormData();
-            data.append('type', category[1]);
+            data.append('type', 'gallery');
             data.append('file', e.target.files[0]);
 
             const res = await fetch(`/api/referenceroom/file`, {
@@ -84,17 +82,17 @@ function ReferenceRoomWrite() {
         if (id)
             res = await postReferenceRoomAfterFileUpload(id);
         else
-            res = await postReferenceRoomWithoutFileUpload(category[1]);
+            res = await postReferenceRoomWithoutFileUpload();
 
         if (res.ok) {
-            navigate("/referenceroom");
+            navigate("/gallery");
         } else {
             alert('글쓰기 중 오류가 발생하였습니다.');
         }
     }
 
-    async function postReferenceRoomWithoutFileUpload(type) {
-        const res = await fetch(`/api/referenceroom?type=${type}`, {
+    async function postReferenceRoomWithoutFileUpload() {
+        const res = await fetch(`/api/referenceroom?type=gallery`, {
             method: "POST",
             credentials: 'include',
             body: JSON.stringify({
@@ -136,26 +134,6 @@ function ReferenceRoomWrite() {
                     <div className='w-60 max-md:hidden'></div>
                     <div className='flex-1 ml-4 max-md:ml-0'>
                         {/* 에디터 영역 */}
-                        <div style={{ position: 'relative' }}>
-                            <button className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200"
-                                type="button" onClick={() => { setIsUserMenuOpened(!isCategoryOpened) }}>
-                            { category[0] }
-                            <svg className="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
-                            </svg></button>
-                            <div style={{ display: (isCategoryOpened) ? 'block' : 'none', position: 'absolute', top: '100%' }} className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-                                <ul className="py-2 text-sm text-gray-700" aria-labelledby="dropdown-button">
-                                <li>
-                                    <button type="button" className="inline-flex w-full px-4 py-2 hover:bg-gray-100"
-                                        onClick={() => { setCategory(['강의/스터디', 'study']); setIsUserMenuOpened(false) }}>강의/스터디</button>
-                                </li>
-                                <li>
-                                    <button type="button" className="inline-flex w-full px-4 py-2 hover:bg-gray-100"
-                                        onClick={() => { setCategory(['시험 정보', 'exam']); setIsUserMenuOpened(false) }}>시험 정보</button>
-                                </li>
-                                </ul>
-                            </div>
-                        </div>
                         <form>
                             <div className="my-4">
                                 <input className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500"
@@ -163,15 +141,11 @@ function ReferenceRoomWrite() {
                             </div>
                             <div className="my-4">
                                 <input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    type="text" placeholder='강의 이름' value={lecture} onChange={(e) => { setLecture(e.target.value) }}/>
+                                    type="text" placeholder='촬영 장소' value={lecture} onChange={(e) => { setLecture(e.target.value) }}/>
                             </div>
                             <div className="my-4">
                                 <input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    type="text" placeholder='수강 학기' value={semester} onChange={(e) => { setSemester(e.target.value) }}/>
-                            </div>
-                            <div className="my-4">
-                                <input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    type="text" placeholder='담당 교수' value={professor} onChange={(e) => { setProfessor(e.target.value) }}/>
+                                    type="text" placeholder='촬영 일시' value={semester} onChange={(e) => { setSemester(e.target.value) }}/>
                             </div>
                             <div className='quill-container bg-white'>
                                 <QuillEditor
@@ -217,4 +191,4 @@ function ReferenceRoomWrite() {
     );
 }
 
-export default ReferenceRoomWrite;
+export default GalleryWrite;

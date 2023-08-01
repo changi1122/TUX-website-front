@@ -105,6 +105,7 @@ function CommunityWrite() {
                                     body={body}
                                     handleQuillChange={setBody}
                                     mountBody={mountBody}
+                                    setMountBody={setMountBody}
                                 />
                             </div>
                         </form>

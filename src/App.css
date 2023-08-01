@@ -95,3 +95,8 @@
 .quill-container>div:last-child {
   display: block;
 }
+
+/* 갤러리 스타일 일부 */
+.gallery-item .text-background {
+  background-color: rgba(0, 0, 0, 0.6);
+}

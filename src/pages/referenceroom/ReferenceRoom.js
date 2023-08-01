@@ -184,6 +184,8 @@ function badge(category) {
     switch(category) {
         case 'STUDY':
             return ['bg-red-100 text-red-800', '강의/스터디'];
+        case 'GALLERY':
+            return ['bg-yellow-100 text-yellow-800', '갤러리'];
         default:
             return ['bg-purple-100 text-purple-800', '시험정보'];
     }
