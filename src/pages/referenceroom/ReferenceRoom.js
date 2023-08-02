@@ -83,6 +83,10 @@ function ReferenceRoom() {
                                         <button type="button" className="inline-flex w-full px-4 py-2 hover:bg-gray-100"
                                             onClick={() => { handleCategorySelect('exam') }}>시험 정보</button>
                                     </li>
+                                    <li>
+                                        <button type="button" className="inline-flex w-full px-4 py-2 hover:bg-gray-100"
+                                            onClick={() => { handleCategorySelect('gallery') }}>갤러리</button>
+                                    </li>
                                     </ul>
                                 </div>
                                 <div className="relative w-full">
@@ -175,6 +179,8 @@ function defaultCategory(type) {
             return ['강의/스터디', 'study'];
         case 'exam':
             return ['시험정보', 'exam'];
+        case 'gallery':
+            return ['갤러리', 'gallery'];
         default:
             return ['전체 글', ''];
     }
