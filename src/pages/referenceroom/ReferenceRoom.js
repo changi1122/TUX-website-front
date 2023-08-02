@@ -5,6 +5,7 @@ import Pagination from '../../components/Pagination';
 
 import * as dayjs from 'dayjs';
 import 'dayjs/locale/ko';
+import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
 
 function ReferenceRoom() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -58,7 +59,10 @@ function ReferenceRoom() {
 
             <div className="mt-20 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
-                    <div className='w-60 max-md:hidden'>{/*사이드바*/}</div>
+                    <div className='w-60 max-md:hidden'>
+                        {/*사이드바*/}
+                        <ReferenceRoomRule />
+                    </div>
                     <div className='flex-1 ml-4 max-md:ml-0'>
                         {/* 카테고리/검색 바 */}
                         <form>

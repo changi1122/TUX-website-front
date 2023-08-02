@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import QuillEditor from '../../components/QuillEditor';
+import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
 
 function ReferenceRoomWrite() {
     const navigate = useNavigate();
@@ -133,7 +134,9 @@ function ReferenceRoomWrite() {
 
             <div className="mt-20 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
-                    <div className='w-60 max-md:hidden'></div>
+                    <div className='w-60 max-md:hidden'>
+                        <ReferenceRoomRule />
+                    </div>
                     <div className='flex-1 ml-4 max-md:ml-0'>
                         {/* 에디터 영역 */}
                         <div style={{ position: 'relative' }}>
@@ -197,7 +200,7 @@ function ReferenceRoomWrite() {
                             <input id="isAnonymized" type="checkbox" value={isAnonymized} className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300" required
                                 onChange={(e) => { setIsAnonymized(e.target.checked) }}/>
                             </div>
-                            <label for="isAnonymized" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">익명으로 올리기</label>
+                            <label for="isAnonymized" className="ml-2 text-sm font-medium text-gray-900">익명으로 올리기</label>
                         </div>
                         <div className='flex justify-between mt-4'>
                             <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 mr-2 inline-block"

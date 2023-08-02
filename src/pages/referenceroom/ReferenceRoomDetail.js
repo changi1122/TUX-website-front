@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import * as dayjs from 'dayjs';
 import 'dayjs/locale/ko';
+import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
 
 function ReferenceRoomDetail() {
     const navigate = useNavigate();
@@ -108,7 +109,9 @@ function ReferenceRoomDetail() {
 
             <div className="mt-20 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
-                    <div className='w-60 max-md:hidden'></div>
+                    <div className='w-60 max-md:hidden'>
+                        <ReferenceRoomRule />
+                    </div>
                     <div className='flex-1 ml-4 max-md:ml-0'>
                         {
                             post &&

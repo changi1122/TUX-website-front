@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'reac
 
 import * as dayjs from 'dayjs';
 import 'dayjs/locale/ko';
+import CommunityRule from '../../components/rule/CommunityRule';
 
 function CommunityDetail() {
     const navigate = useNavigate();
@@ -106,7 +107,9 @@ function CommunityDetail() {
 
             <div className="mt-20 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
-                    <div className='w-60 max-md:hidden'></div>
+                    <div className='w-60 max-md:hidden'>
+                        <CommunityRule />
+                    </div>
                     <div className='flex-1 ml-4 max-md:ml-0'>
                         {
                             post &&

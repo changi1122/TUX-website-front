@@ -171,7 +171,7 @@ function GalleryWrite() {
                             <input id="isAnonymized" type="checkbox" value={isAnonymized} className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300" required
                                 onChange={(e) => { setIsAnonymized(e.target.checked) }}/>
                             </div>
-                            <label for="isAnonymized" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">익명으로 올리기</label>
+                            <label for="isAnonymized" className="ml-2 text-sm font-medium text-gray-900">익명으로 올리기</label>
                         </div>
                         <div className='flex justify-between mt-4'>
                             <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 mr-2 inline-block"

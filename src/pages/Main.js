@@ -109,7 +109,7 @@ const Main = (props) => {
           <div>
             <div className='flex items-center justify-between'>
               <h3 className='text-xl font-bold mt-6 mb-4'>공지사항</h3>
-              <a href="/community?type=notice" className="font-medium text-gray-600 dark:text-gray-500 hover:underline mt-6 mb-4">더보기</a>
+              <a href="/community?type=notice" className="font-medium text-gray-600 hover:underline mt-6 mb-4">더보기</a>
             </div>
             {
               notices && notices.content.map(p => (
@@ -134,7 +134,7 @@ const Main = (props) => {
           <div>
             <div className='flex items-center justify-between'>
               <h3 className='text-xl font-bold mt-6 mb-4'>대회/공모전</h3>
-              <a href="/community?type=contest" className="font-medium text-gray-600 dark:text-gray-500 hover:underline mt-6 mb-4">더보기</a>
+              <a href="/community?type=contest" className="font-medium text-gray-600 hover:underline mt-6 mb-4">더보기</a>
             </div>
             {
               contests && contests.content.map(p => (
@@ -165,7 +165,7 @@ const Main = (props) => {
           <div>
             <div className='flex items-center justify-between'>
               <h3 className='text-xl font-bold mt-6 mb-4'>자유게시판</h3>
-              <a href="/community?type=free" className="font-medium text-gray-600 dark:text-gray-500 hover:underline mt-6 mb-4">더보기</a>
+              <a href="/community?type=free" className="font-medium text-gray-600 hover:underline mt-6 mb-4">더보기</a>
             </div>
               {
                 frees && frees.content.map(p => (
@@ -190,7 +190,7 @@ const Main = (props) => {
           <div>
             <div className='flex items-center justify-between'>
               <h3 className='text-xl font-bold mt-6 mb-4'>팀원 모집</h3>
-              <a href="/community?type=teamrecruitment" className="font-medium text-gray-600 dark:text-gray-500 hover:underline mt-6 mb-4">더보기</a>
+              <a href="/community?type=teamrecruitment" className="font-medium text-gray-600 hover:underline mt-6 mb-4">더보기</a>
             </div>
           {
             teams && teams.content.map(p => (

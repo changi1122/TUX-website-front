@@ -13,14 +13,16 @@ function Footer(props) {
             <li>
                 <a href={sites.siteHref} target="_blank">
                     <table>
-                        <tr>
-                            <td className="pr-2 w-[25px]">
-                                <img src={sites.siteIcon} />
-                            </td>
-                            <td>
-                                <div>{sites.siteTitle}</div>
-                            </td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <td className="pr-2 w-[25px]">
+                                    <img src={sites.siteIcon} />
+                                </td>
+                                <td>
+                                    <div>{sites.siteTitle}</div>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </a>
             </li>
@@ -38,7 +40,7 @@ function Footer(props) {
                         <div>전자정보대학 3관(S4-1) 108호 TUX</div>
                     </div>
                     <div>
-                        <a href={process.env.PUBLIC_URL + '/sitemap'} className="text-sm hover:bg-gray-200 px-[28px] py-[10px]">사이트 맵</a>
+                        <a href={process.env.PUBLIC_URL + '/sitemap'} className="text-sm hover:bg-gray-200 px-[28px] py-[10px] rounded-lg">사이트 맵</a>
                     </div>
                 </div>
 

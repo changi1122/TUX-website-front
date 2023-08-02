@@ -70,12 +70,12 @@ function Sitemap(props) {
 
                     <div className="w-[300px] md:ml-0 ml-auto md:mt-0 mt-10">
                         <MdDeveloperMode size={30} style={{ margin: 'auto 0 auto auto' }} color="rgb(100 116 139)" />
-                        <div className="text-right mt-2 text-slate-500">
+                        <div className="text-sm text-right mt-2 text-slate-500">
                             <p>_Developers</p>
                             <p>Front-End</p>
-                            <p className="">김예원, 변진호, 최경호</p>
+                            <p className="">김예원, 변진호, 최경호, 이우창</p>
                             <p>Back-End</p>
-                            <p className="">오지우, 임수연, 차현아</p>
+                            <p className="">오지우, 임수연, 차현아, 이우창</p>
                         </div>
                     </div>
                 </div>
