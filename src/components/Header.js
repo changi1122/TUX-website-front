@@ -268,13 +268,13 @@ function Header(props) {
                                 <div className='ml-2'>로그아웃</div>
                             </button>
                             <button className='inline-flex w-[50vw] justify-end'
-                                onClick={() => { navigate(process.env.PUBLIC_URL + '/mypage'); toggleMenu(); }}>
+                                onClick={() => { navigate('/mypage'); toggleMenu(); }}>
                                 <div className='ml-2'>{nickname} 님</div>
                             </button>
                         </div>
                         :
                         <button className='px-10 py-5 border-b-2 w-full justify-end inline-flex'
-                            onClick={() => { navigate(process.env.PUBLIC_URL + '/login'); toggleMenu(); }}>
+                            onClick={() => { navigate('/login'); toggleMenu(); }}>
                             < IoIosLogIn style={{ transform: 'translate(0, 4px)' }} />
                             <div className='ml-2'>로그인</div>
                         </button>
