@@ -136,8 +136,8 @@ const App = () => {
             <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<GalleryWrite />} isFalse={<Navigate to='/login' />} />
           } />
 
-          {/* 족보(private) */}
-          <Route path="/exam" element={
+          {/* 족보(private) : 사용안함 */}
+          {/*<Route path="/exam" element={
             <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<PreviousExamination />} isFalse={<Navigate to='/login' />} />
           } />
           <Route path="/write_page" element={
@@ -145,13 +145,13 @@ const App = () => {
           } />
           <Route path="/exam/*" element={
             <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ExamPage />} isFalse={<Navigate to='/login' />} />
-          } />
-
+          } />*/
+        }
           {/* 지원하기 */}
           <Route path="/join" element={<JoinPage />}></Route>
           <Route path="/contact" element={<ContactPage />}></Route>
 
-          <Route path='/postView/:no' component={<PostView />} />
+          {/* 사용안함: <Route path='/postView/:no' component={<PostView />} />*/}
 
           {/* 엘리먼트의 상단에 위치하는 라우트들의 규칙을 모두 확인하고, 일치하는 라우트가 없다면 이 라우트가 화면에 나타나게 됩니다. */}
           <Route path="*" element={<NotFound />}></Route>

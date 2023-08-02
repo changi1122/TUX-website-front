@@ -38,7 +38,7 @@ function Footer(props) {
                         <div>전자정보대학 3관(S4-1) 108호 TUX</div>
                     </div>
                     <div>
-                        <a href={process.env.PUBLIC_URL + '/sitemap'} className="text-sm hover:bg-gray-200 px-[28px] py-[33px]">사이트 맵</a>
+                        <a href={process.env.PUBLIC_URL + '/sitemap'} className="text-sm hover:bg-gray-200 px-[28px] py-[10px]">사이트 맵</a>
                     </div>
                 </div>
 
@@ -48,7 +48,7 @@ function Footer(props) {
                         <div className="relative">
                             {/* position: relative; parent가 child의 기준점이 됨 */}
                             <button onClick={onClick} className="site-trigger p-1 bg-white bg-opacity-50">
-                                <div className="pr-[86.36px] mb-1 text-sm">관련 사이트</div>
+                                <div className="pr-[98.5px] mb-1 text-sm">관련 사이트</div>
                                 {
                                     isActive
                                         ? <FiLink size={15} color="gray" style={{ transition: 'all ease 0.5s 0s', transform: 'rotate(45deg) translate(0, 5px)' }} />
@@ -56,7 +56,7 @@ function Footer(props) {
                                 }
                             </button>
                             <nav
-                                className={`site ${isActive ? 'active' : 'inactive'} text-sm`}
+                                className={`w-[190px] site ${isActive ? 'active' : 'inactive'} text-sm`}
                             >
                                 <ul>
                                     {

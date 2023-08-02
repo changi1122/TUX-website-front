@@ -163,7 +163,7 @@ function Header(props) {
             result.push(
                 <ul className='flex-col flex px-10 border-b-2'>
                     <a className='text-xl font-black w-full justify-end flex py-3'
-                        onClick={() => { navigate(process.env.PUBLIC_URL + gnb.subInfo[0].subHref); toggleMenu(); }}>
+                        href={process.env.PUBLIC_URL + gnb.subInfo[0].subHref}>
                         {gnb.gnbName}
                     </a>
                     {
@@ -173,7 +173,7 @@ function Header(props) {
                                 ele.subInfo.map((subEle) =>
                                     ele.gnbName == gnb.gnbName ?
                                         <a key={subEle.subHref} className='w-full justify-end flex sm:py-3 py-2'
-                                            onClick={() => { navigate(process.env.PUBLIC_URL + subEle.subHref); toggleMenu(); }}>
+                                            href={process.env.PUBLIC_URL + subEle.subHref}>
                                             {subEle.subName}
                                         </a>
                                         : ''
@@ -184,7 +184,7 @@ function Header(props) {
                                 ele.subInfo.map((subEle) =>
                                     ele.gnbName == gnb.gnbName ?
                                         <a key={subEle.subHref} className='w-full justify-end flex sm:py-3 py-2'
-                                            onClick={() => { navigate(process.env.PUBLIC_URL + subEle.subHref); toggleMenu(); }}>
+                                            href={process.env.PUBLIC_URL + subEle.subHref}>
                                             {subEle.subName}
                                         </a>
                                         : ''
