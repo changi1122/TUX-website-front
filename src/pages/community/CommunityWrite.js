@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import QuillEditor from '../../components/QuillEditor';
 import CommunityRule from '../../components/rule/CommunityRule';
 
 function CommunityWrite() {
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const [id, setId] = useState(); // 글 ID : 파일업로드를 통해 글이 임시 생성되었을 경우, ID를 가짐
     const [post, setPost] = useState(); // 첨부파일 리스트 표시용
     const [loadAgain, setLoadAgain] = useState(false);
 
-    const [category, setCategory] = useState(['자유게시판', 'free']);
+    const [category, setCategory] = useState(defaultCategory(searchParams.get('type')));
     const [isCategoryOpened, setIsUserMenuOpened] = useState(false);
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
@@ -209,5 +210,24 @@ function CommunityWrite() {
         </div>
     );
 }
+
+
+function defaultCategory(type) {
+    switch(type) {
+        case 'notice':
+            return ['공지사항', 'notice'];
+        case 'teamrecruitment':
+            return ['팀원 모집', 'teamrecruitment'];
+        case 'contest':
+            return ['대회/공모전', 'contest'];
+        case 'job':
+            return ['채용/취업 정보', 'job'];
+        case 'free':
+            return ['자유게시판', 'free'];
+        default:
+            return ['자유게시판', 'free'];
+    }
+}
+
 
 export default CommunityWrite;

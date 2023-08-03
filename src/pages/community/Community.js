@@ -153,7 +153,7 @@ function Community() {
                             {
                                 (localStorage.userId || sessionStorage.userId) &&
                                 <Link className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 ml-2 mt-2 inline-block"
-                                    to='/community/write'>
+                                    to={`/community/write?type=${category[1]}`}>
                                     글쓰기
                                 </Link>
                             }

@@ -1,9 +1,10 @@
 /* eslint-disable*/
 
-import './App.css';
 import './components/markdown.scss';
 import './components/Pagination.scss';
 import './components/quill.snow.css';
+import './App.css';
+
 import React, { Component, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import NotFound from './NotFound';
