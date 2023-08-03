@@ -182,7 +182,6 @@ function CommunityWrite() {
                                     setMountBody={setMountBody}
                                 />
                             </div>
-                            {body}
                         </form>
                         {
                             post && post.files && post.files.map(f => (
