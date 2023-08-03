@@ -8,7 +8,7 @@ function ReferenceRoomWrite() {
     const navigate = useNavigate();
 
     const [id, setId] = useState(); // 글 ID : 파일업로드를 통해 글이 임시 생성되었을 경우, ID를 가짐
-    const [post, setPost] = useState();
+    const [post, setPost] = useState(); // 첨부파일 리스트 표시용
     const [loadAgain, setLoadAgain] = useState(false);
 
     const [category, setCategory] = useState(['시험 정보', 'exam']);

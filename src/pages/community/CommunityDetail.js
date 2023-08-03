@@ -126,9 +126,18 @@ function CommunityDetail() {
                                     <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>🧑🏻‍💻</span> {post.author}</span>
                                     <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👀</span> {post.view}</span>
                                 </div>
-                                <div className='md mt-4' dangerouslySetInnerHTML={{ __html: post.body }}>
+                                <div className='md mt-4 ql-editor' style={{ padding: '0' }}
+                                    dangerouslySetInnerHTML={{ __html: post.body }}>
                                 </div>
                             </div>
+                            {
+                                post.files.map(f => (
+                                <div key={f.path} className='block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow'>
+                                    <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">첨부파일</span>
+                                    <a className='text-sm hover:underline' href={f.path} target='_blank'>{f.filename}</a>
+                                </div>
+                                ))
+                            }
                             <div className='flex justify-between mt-4'>
                                 <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 mr-2 inline-block"
                                     onClick={() => { navigate(-1) }}>

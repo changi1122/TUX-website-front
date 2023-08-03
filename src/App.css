@@ -86,11 +86,8 @@
 	border-radius: 0 0 0.5em 0.5em;
 	font-size: 15.4px;
 }
-.quill-container>div {
+.quill-container>div:not(:nth-last-child(-n+2)) {
   display: none;
-}
-.quill-container>div:first-child {
-  display: block;
 }
 .quill-container>div:last-child {
   display: block;

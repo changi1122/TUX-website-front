@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react';
 export default function QuillEditor({ body, handleQuillChange, mountBody, setMountBody }) {
     const quillElement = useRef();
     const quillInstance = useRef();
-    let quillTest;
 
     const [isError, setIsError] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);

@@ -1,11 +1,14 @@
-import { useState } from 'react';
-import { useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import QuillEditor from '../../components/QuillEditor';
 import CommunityRule from '../../components/rule/CommunityRule';
 
 function CommunityWrite() {
     const navigate = useNavigate();
+
+    const [id, setId] = useState(); // 글 ID : 파일업로드를 통해 글이 임시 생성되었을 경우, ID를 가짐
+    const [post, setPost] = useState(); // 첨부파일 리스트 표시용
+    const [loadAgain, setLoadAgain] = useState(false);
 
     const [category, setCategory] = useState(['자유게시판', 'free']);
     const [isCategoryOpened, setIsUserMenuOpened] = useState(false);
@@ -17,6 +20,59 @@ function CommunityWrite() {
         setMountBody(mb => !mb);
     }
 
+    useEffect(() => {
+        if (id) {
+            getCommunity(id);
+        }
+    }, [id, loadAgain]);
+
+    async function getCommunity(id) {
+        const res = await fetch(`/api/community/${id}`, {
+            credentials: 'include'
+        });
+        setPost(await res.json());
+    }
+
+    async function handleFileUpload(e) {
+        if (!id) { // 첫 업로드
+            let data = new FormData();
+            data.append('type', category[1]);
+            data.append('file', e.target.files[0]);
+
+            const res = await fetch(`/api/community/file`, {
+                method: 'POST',
+                credentials: 'include',
+                body: data
+            })
+
+            if (res.ok) {
+                setId(await res.json());
+                e.target.value = '';
+            }
+            else {
+                alert('파일 업로드 중 오류가 발생하였습니다.');
+            }
+        }
+        else {
+            let data = new FormData();
+            data.append('file', e.target.files[0]);
+
+            const res = await fetch(`/api/community/${id}/file`, {
+                method: 'POST',
+                credentials: 'include',
+                body: data
+            });
+
+            if (res.ok) {
+                setLoadAgain(!loadAgain);
+                e.target.value = '';
+            }
+            else {
+                alert('파일 업로드 중 오류가 발생하였습니다.');
+            }
+        }
+    }
+
     async function submit(e) {
         e.preventDefault();
         if (!title || !body) {
@@ -24,11 +80,11 @@ function CommunityWrite() {
             return;
         }
 
-        const res = await postCommunity(
-            category[1],
-            title,
-            body
-        );
+        let res;
+        if (id)
+            res = await postCommunityAfterFileUpload(id);
+        else
+            res = await postCommunityWithoutFileUpload(category[1]);
 
         if (res.ok) {
             navigate("/community");
@@ -37,9 +93,24 @@ function CommunityWrite() {
         }
     }
 
-    async function postCommunity(type, title, body) {
+    async function postCommunityWithoutFileUpload(type) {
         const res = await fetch(`/api/community?type=${type}`, {
             method: "POST",
+            body: JSON.stringify({
+                title, body
+            }),
+            headers: {
+                "content-type": "application/json",
+            },
+        });
+        
+        return res;
+    }
+
+    async function postCommunityAfterFileUpload(id) {
+        const res = await fetch(`/api/community/${id}`, {
+            method: "POST",
+            credentials: 'include',
             body: JSON.stringify({
                 title, body
             }),
@@ -111,7 +182,18 @@ function CommunityWrite() {
                                     setMountBody={setMountBody}
                                 />
                             </div>
+                            {body}
                         </form>
+                        {
+                            post && post.files && post.files.map(f => (
+                            <div key={f.path} className='block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow'>
+                                <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">첨부파일</span>
+                                <a className='text-sm hover:underline' href={f.path} target='_blank'>{f.filename}</a>
+                            </div>
+                            ))
+                        }
+                        <input className="mt-1 text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 mr-2 inline-block"
+                            type='file' onChange={handleFileUpload}/>
                         <div className='flex justify-between mt-4'>
                             <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 mr-2 inline-block"
                                 onClick={() => { navigate(-1) }}>
