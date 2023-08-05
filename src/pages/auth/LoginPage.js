@@ -90,7 +90,7 @@ function LoginPage(props) {
                     <input type="password"
                         name="userpw"
                         className="border border-x-gray-300 rounded px-4 py-2 w-full mt-3
-                        focus:outline-none focus:ring focus:ring-[#E95420]"
+                        focus:outline-none focus:ring focus:ring-[#E95420] text-black"
                         onChange={(e) => { onChangeUserpw(e); }}
                         placeholder="비밀번호" />
                     <button className="bg-gray-100 hover:bg-gray-200 rounded py-2 w-full mt-6">

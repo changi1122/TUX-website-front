@@ -224,7 +224,7 @@ function RegisterPage() {
                         <input type="password"
                             name="userpw"
                             className="border border-x-gray-300 rounded px-4 py-2 w-[92%] mt-9
-                        focus:outline-none focus:ring focus:ring-[#E95420]"
+                        focus:outline-none focus:ring focus:ring-[#E95420] text-black"
                             onChange={(e) => { onChangeUserpw(e); }}
                             placeholder="비밀번호 (영문 숫자 포함 8자 이상)" />
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>
@@ -235,7 +235,7 @@ function RegisterPage() {
                         <input type="password"
                             name="checkpw"
                             className="border border-x-gray-300 rounded px-4 py-2 w-[92%] mt-3
-                        focus:outline-none focus:ring focus:ring-[#E95420]"
+                        focus:outline-none focus:ring focus:ring-[#E95420] text-black"
                             onChange={(e) => { onChangeCheckpw(e); }}
                             placeholder="비밀번호 확인" />
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>
