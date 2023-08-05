@@ -261,15 +261,15 @@ function Header(props) {
                 {
                     props.isLogin
                         ?
-                        <div className='px-10 py-5 border-b-2 flex'>
+                        <div className='px-10 py-5 border-b-2 flex items-center'>
+                            <button className='inline-flex w-[50vw] justify-end text-base'
+                                onClick={() => { navigate('/mypage'); toggleMenu(); }}>
+                                <div className='ml-2'>{nickname} 님</div>
+                            </button>
                             <button className='inline-flex w-[50vw] justify-end'
                                 onClick={() => { toggleMenu(); onClickLogout(); }}>
                                 < IoIosLogOut style={{ transform: 'translate(0, 4px)' }} />
                                 <div className='ml-2'>로그아웃</div>
-                            </button>
-                            <button className='inline-flex w-[50vw] justify-end'
-                                onClick={() => { navigate('/mypage'); toggleMenu(); }}>
-                                <div className='ml-2'>{nickname} 님</div>
                             </button>
                         </div>
                         :
