@@ -54,7 +54,7 @@ const App = () => {
     if (sessionStorage.role)
       setRole(sessionStorage.role);
 
-    if (role === 'ADMIN' || role === 'ADMIN') {
+    if (role === 'ADMIN') {
       setIsAdmin(true);
     }
     else {

@@ -24,17 +24,27 @@ function Header(props) {
 
     useEffect(() => {
         // 로그인 체크
-        let token;
         if (localStorage.cbnu_tux_userid !== undefined) {
             // 로그인 할 때, '로그인 정보 유지' 체크했어요
-            token = localStorage.getItem('cbnu_tux_userid');
+            const expireTime = new Date(Date.parse(localStorage.getItem('expire')));
+            if (new Date() > expireTime) {
+                localStorage.removeItem('cbnu_tux_userid');
+                localStorage.removeItem('userId');
+                localStorage.removeItem('username');
+                localStorage.removeItem('role');
+                localStorage.removeItem('nickname');
+                localStorage.removeItem('expire');
+                setNickname('');
+                props.setIsLogin(false);
+                return;
+            }
+
             setNickname(localStorage.getItem('nickname'));
             props.setIsLogin(true);
         }
         else {
             if (sessionStorage.cbnu_tux_userid !== undefined) {
                 // 로그인 할 때, '로그인 정보 유지' 체크 안 했어요
-                token = sessionStorage.getItem('cbnu_tux_userid');
                 setNickname(sessionStorage.getItem('nickname'));
                 props.setIsLogin(true);
             }
@@ -72,6 +82,7 @@ function Header(props) {
         sessionStorage.removeItem('role');
         localStorage.removeItem('nickname');
         sessionStorage.removeItem('nickname');
+        localStorage.removeItem('expire');
         setNickname('');
         props.setIsLogin(false);
         navigate('/');

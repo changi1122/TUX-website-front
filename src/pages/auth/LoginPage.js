@@ -28,6 +28,7 @@ function LoginPage(props) {
                     localStorage.setItem('username', res.data.username);
                     localStorage.setItem('role', res.data.role);
                     localStorage.setItem('nickname', res.data.nickname);
+                    localStorage.setItem('expire', new Date(new Date().setDate(new Date().getDate() + 7)));
                 }
                 else {
                     // console.log('로그인 정보 버려주세요 -> sessionStorage');
@@ -102,7 +103,7 @@ function LoginPage(props) {
                                 className="mr-1 translate-y-[1.8px]
                                 checked:accent-black"
                                 checked={keepAuth}
-                                onClick={onClickKeepAuth} />
+                                onClick={onClickKeepAuth}/>
                             로그인 상태 유지
                         </label>
                         <div className="flex gap-4">
