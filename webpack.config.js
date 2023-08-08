@@ -1,4 +1,5 @@
-module: {
+module.exports ={
+  module: {
     rules: [
       {
         test: /\.css$/,
@@ -10,3 +11,4 @@ module: {
       },
     ],
   },
+}

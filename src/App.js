@@ -5,7 +5,7 @@ import './components/Pagination.scss';
 import './components/quill.snow.css';
 import './App.css';
 
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import NotFound from './NotFound';
 
@@ -17,12 +17,6 @@ import Sitemap from './pages/Sitemap'
 import { LoginPage, RegisterPage, SuccessfulSignup, MyPage } from "./pages/auth";
 import { Tuxinfo01, Tuxinfo02, Tuxinfo03 } from "./pages/tuxinfo";
 import Community from './pages/community/Community';
-
-import PostView from './pages/post/Postview';
-
-import PreviousExamination from "./pages/exam/PreviousExamination";
-import ExamPage from './pages/exam/ExamPage';
-import WritePage_exam from './pages/exam/WritePage_exam';
 
 
 /* Dayjs */
@@ -138,17 +132,6 @@ const App = () => {
             <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<GalleryWrite />} isFalse={<Navigate to='/login' />} />
           } />
 
-          {/* 족보(private) : 사용안함 */}
-          {/*<Route path="/exam" element={
-            <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<PreviousExamination />} isFalse={<Navigate to='/login' />} />
-          } />
-          <Route path="/write_page" element={
-            <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<WritePage_exam />} isFalse={<Navigate to='/login' />} />
-          } />
-          <Route path="/exam/*" element={
-            <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ExamPage />} isFalse={<Navigate to='/login' />} />
-          } />*/
-        }
           {/* 지원하기 */}
           <Route path="/join" element={<JoinPage />}></Route>
           <Route path="/contact" element={<ContactPage />}></Route>

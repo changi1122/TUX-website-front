@@ -1,17 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react"; // basic
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import { Link } from 'react-router-dom';
-import Calendar from 'react-calendar';
-import PostMain from './post/Postmain';
 
-import 'react-calendar/dist/Calendar.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import './Sw.css'
-import { useEffect } from 'react';
 
 import * as dayjs from 'dayjs';
 import 'dayjs/locale/ko';

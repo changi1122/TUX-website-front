@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import PasswordStrengthBar from 'react-password-strength-bar';
 
 function RegisterPage() {
     const navigate = new useNavigate();
@@ -228,7 +227,6 @@ function RegisterPage() {
                             onChange={(e) => { onChangeUserpw(e); }}
                             placeholder="비밀번호 (영문 숫자 포함 8자 이상)" />
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>
-                        <PasswordStrengthBar password={userpw} className="my-2" />
                         <div className={`text-sm text-justify text-[#E95420]`}>{userpwMessage}</div>
                     </lebel>
                     <lebel>

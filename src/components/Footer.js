@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { FaGithub } from 'react-icons/fa';
 import { FiLink } from 'react-icons/fi';
 import './style.css';
@@ -11,7 +11,7 @@ function Footer(props) {
     const RelatedSites = ({ sites }) => {
         return (
             <li>
-                <a href={sites.siteHref} target="_blank">
+                <a href={sites.siteHref} target="_blank" rel="noreferrer">
                     <table>
                         <tbody>
                             <tr>
@@ -69,7 +69,7 @@ function Footer(props) {
                         </div>
                     </div>
 
-                    <a href="https://github.com/CBNU-TUX" target="_blank">
+                    <a href="https://github.com/CBNU-TUX" target="_blank" rel="noreferrer">
                         <FaGithub size={30} />
                     </a>
                 </div>
