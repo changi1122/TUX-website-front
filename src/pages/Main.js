@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+
 import { Swiper, SwiperSlide } from "swiper/react"; // basic
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
-import { Link } from 'react-router-dom';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -12,7 +13,7 @@ import './Sw.css'
 import * as dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 
-const Main = (props) => {
+const Main = () => {
 
   const [notices, setNotices] = useState(); // 최근 공지사항
   const [contests, setContests] = useState(); // 최근 대회/공모전 정보
@@ -36,22 +37,29 @@ const Main = (props) => {
 
 	return (
 		<>	
-			<div>
-        <Swiper className='Banner'
-          // install Swiper modules
-          modules={[Navigation, Pagination, Scrollbar, A11y]}
-          spaceBetween={10}
-          centeredSlides={true}
-          centerInsufficientSlides={true}
-          slidesPerView={1}
-          pagination={{ clickable: true }}
-          onSwiper={() => {}}  
-          onSlideChange={() => {}
-	      }>
-        <SwiperSlide className='swiper-slide'><img className="max-w-full w-[936px] max-h-80 max-md:px-1 max-md:max-h-40 rounded-lg" src={process.env.PUBLIC_URL + '/images/intro01.png'} /></SwiperSlide>
-        <SwiperSlide className='swiper-slide'><img className="max-w-[936px] max-h-80 max-md:px-1 max-md:max-h-40 rounded-lg" src={process.env.PUBLIC_URL + '/Slide_dummy.jpg'} /></SwiperSlide>
-        <SwiperSlide className='swiper-slide'><img className="max-w-[936px] max-h-80 max-md:px-1 max-md:max-h-40 rounded-lg" src={process.env.PUBLIC_URL + '/Slide_dummy.jpg'} /></SwiperSlide>
-        <SwiperSlide className='swiper-slide'><img className="max-w-[936px] max-h-80 max-md:px-1 max-md:max-h-40 rounded-lg" src={process.env.PUBLIC_URL + '/Slide_dummy.jpg'} />	</SwiperSlide>
+		<div>
+      <Swiper className='Banner'
+        // install Swiper modules
+        modules={[Navigation, Pagination, Scrollbar, A11y]}
+        spaceBetween={10}
+        centeredSlides={true}
+        centerInsufficientSlides={true}
+        slidesPerView={1}
+        pagination={{ clickable: true }}
+        onSwiper={() => {}}  
+        onSlideChange={() => {}}>
+        <SwiperSlide className='swiper-slide'>
+          <img className="max-w-full w-[936px] max-h-80 max-md:px-1 max-md:max-h-40 rounded-lg" src={process.env.PUBLIC_URL + '/images/intro01.png'} alt=''/>
+        </SwiperSlide>
+        <SwiperSlide className='swiper-slide'>
+          <img className="max-w-[936px] max-h-80 max-md:px-1 max-md:max-h-40 rounded-lg" src={process.env.PUBLIC_URL + '/Slide_dummy.jpg'} alt=''/>
+        </SwiperSlide>
+        <SwiperSlide className='swiper-slide'>
+          <img className="max-w-[936px] max-h-80 max-md:px-1 max-md:max-h-40 rounded-lg" src={process.env.PUBLIC_URL + '/Slide_dummy.jpg'} alt=''/>
+        </SwiperSlide>
+        <SwiperSlide className='swiper-slide'>
+          <img className="max-w-[936px] max-h-80 max-md:px-1 max-md:max-h-40 rounded-lg" src={process.env.PUBLIC_URL + '/Slide_dummy.jpg'} alt=''/>
+        </SwiperSlide>
       </Swiper>
     </div>
     <div className='px-3 pt-10 pb-20'>
@@ -121,7 +129,7 @@ const Main = (props) => {
               </Link>
             ))}
             {
-              notices && notices.content.length == 0 &&
+              notices && notices.content.length === 0 &&
               <div className='text-center py-20'>
                   <p className='text-lg text-gray-500'>조건에 해당하는 게시물이 없습니다.</p>
               </div>
@@ -146,7 +154,7 @@ const Main = (props) => {
                 </Link>
               ))}
             {
-              contests && contests.content.length == 0 &&
+              contests && contests.content.length === 0 &&
               <div className='text-center py-20'>
                   <p className='text-lg text-gray-500'>조건에 해당하는 게시물이 없습니다.</p>
               </div>
@@ -177,7 +185,7 @@ const Main = (props) => {
                   </Link>
                 ))}
               {
-                frees && frees.content.length == 0 &&
+                frees && frees.content.length === 0 &&
                 <div className='text-center py-20'>
                     <p className='text-lg text-gray-500'>조건에 해당하는 게시물이 없습니다.</p>
                 </div>
@@ -202,7 +210,7 @@ const Main = (props) => {
               </Link>
             ))}
           {
-            teams && teams.content.length == 0 &&
+            teams && teams.content.length === 0 &&
             <div className='text-center py-20'>
                 <p className='text-lg text-gray-500'>조건에 해당하는 게시물이 없습니다.</p>
             </div>

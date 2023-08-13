@@ -5,35 +5,44 @@ import './components/Pagination.scss';
 import './components/quill.snow.css';
 import './App.css';
 
-import React, { useEffect, useState } from 'react';
+import React, { lazy, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import NotFound from './NotFound';
 
 import { Header, Footer, PrivateRoute } from './components';
-import Main from './pages/Main';
-import AdministratorPage from './pages/AdministratorPage'
-import Sitemap from './pages/Sitemap'
 
-import { LoginPage, RegisterPage, SuccessfulSignup, MyPage } from "./pages/auth";
-import { Tuxinfo01, Tuxinfo02, Tuxinfo03 } from "./pages/tuxinfo";
-import Community from './pages/community/Community';
+/* Lazy loading for code splitting */
+const Main = lazy(() => import('./pages/Main'));
+const LoginPage = lazy(() => import('./pages/auth/LoginPage'));
+const RegisterPage = lazy(() => import('./pages/auth/RegisterPage'));
+const SuccessfulSignup = lazy(() => import('./pages/auth/SuccessfulSignup'));
+const MyPage = lazy(() => import('./pages/auth/MyPage'));
+const AdministratorPage = lazy(() => import('./pages/AdministratorPage'));
 
+const Tuxinfo01 = lazy(() => import('./pages/tuxinfo/Tuxinfo01'));
+const Tuxinfo02 = lazy(() => import('./pages/tuxinfo/Tuxinfo02'));
+const Tuxinfo03 = lazy(() => import('./pages/tuxinfo/Tuxinfo03'));
+
+const Community = lazy(() => import('./pages/community/Community'));
+const CommunityWrite = lazy(() => import('./pages/community/CommunityWrite'));
+const CommunityDetail = lazy(() => import('./pages/community/CommunityDetail'));
+
+const ReferenceRoom = lazy(() => import('./pages/referenceroom/ReferenceRoom'));
+const ReferenceRoomDetail = lazy(() => import('./pages/referenceroom/ReferenceRoomDetail'));
+const ReferenceRoomWrite = lazy(() => import('./pages/referenceroom/ReferenceRoomWrite'));
+const Gallery = lazy(() => import('./pages/gallery/Gallery'));
+const GalleryDetail = lazy(() => import('./pages/gallery/GalleryDetail'));
+const GalleryWrite = lazy(() => import('./pages/gallery/GalleryWrite'));
+
+const JoinPage = lazy(() => import('./pages/join/JoinPage'));
+const ContactPage = lazy(() => import('./pages/join/ContactPage'));
+
+const Sitemap = lazy(() => import('./pages/Sitemap'));
 
 /* Dayjs */
 import * as dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-import CommunityWrite from './pages/community/CommunityWrite';
-import CommunityDetail from './pages/community/CommunityDetail';
-import JoinPage from './pages/join/JoinPage';
-import ContactPage from './pages/join/ContactPage';
-import ReferenceRoom from './pages/referenceroom/ReferenceRoom';
-import ReferenceRoomDetail from './pages/referenceroom/ReferenceRoomDetail';
-import ReferenceRoomWrite from './pages/referenceroom/ReferenceRoomWrite';
-import Gallery from './pages/gallery/Gallery';
-import GalleryDetail from './pages/gallery/GalleryDetail';
-import GalleryWrite from './pages/gallery/GalleryWrite';
 var relativeTime = require('dayjs/plugin/relativeTime');
-
 dayjs.extend(relativeTime);
 dayjs().locale('ko');
 

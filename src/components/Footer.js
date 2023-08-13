@@ -16,7 +16,7 @@ function Footer(props) {
                         <tbody>
                             <tr>
                                 <td className="pr-2 w-[25px]">
-                                    <img src={sites.siteIcon} />
+                                    <img src={sites.siteIcon} alt='' />
                                 </td>
                                 <td>
                                     <div>{sites.siteTitle}</div>
