@@ -119,22 +119,22 @@ function GalleryDetail() {
                             post &&
                             <>
                             <div className='block max-w px-6 py-6 my-3 bg-white border border-gray-200 rounded-lg shadow'>
-                                <span className={badge(post.category)[0] + " text-xs font-medium rounded mr-2 mb-2 px-2.5 py-0.5 inline-block"}>{badge(post.category)[1]}</span>
+                                <span className={badge(post.category)[0] + " text-xs font-medium rounded mr-2 mb-2 px-2.5 py-1 inline-block"}>{badge(post.category)[1]}</span>
                                 {
                                     post.lecture && 
-                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
                                         {post.lecture}
                                     </span>
                                 }
                                 {
                                     post.semester && 
-                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
                                         {post.semester}
                                     </span>
                                 }
                                 {
                                     post.professor && 
-                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
                                         {post.professor}
                                     </span>
                                 }
@@ -154,7 +154,7 @@ function GalleryDetail() {
                             {
                                 post.files.map(f => (
                                 <div key={f.path} className='block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow'>
-                                    <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">첨부파일</span>
+                                    <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">첨부파일</span>
                                     <a className='text-sm hover:underline' href={f.path} target='_blank'>{f.filename}</a>
                                 </div>
                                 ))

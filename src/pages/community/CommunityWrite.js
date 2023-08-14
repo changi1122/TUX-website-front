@@ -17,10 +17,6 @@ function CommunityWrite() {
     const [body, setBody] = useState('');
     const [mountBody, setMountBody] = useState(false); // 리렌더링 용도 state
 
-    function rerenderBody() {
-        setMountBody(mb => !mb);
-    }
-
     useEffect(() => {
         if (id) {
             getCommunity(id);
@@ -187,7 +183,9 @@ function CommunityWrite() {
                         {
                             post && post.files && post.files.map(f => (
                             <div key={f.path} className='block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow'>
-                                <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">첨부파일</span>
+                                <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
+                                    {(f.isImage) ? '이미지' : '첨부파일'}
+                                </span>
                                 <a className='text-sm hover:underline' href={f.path} target='_blank' rel="noreferrer">{f.filename}</a>
                             </div>
                             ))

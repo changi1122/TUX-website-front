@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { useEffect } from "react";
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import QuillEditor from '../../components/QuillEditor';
 import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
 
-function ReferenceRoomWrite() {
+function ReferenceRoomEdit() {
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const [id, setId] = useState(); // 글 ID : 파일업로드를 통해 글이 임시 생성되었을 경우, ID를 가짐
+    let { id } = useParams();
+
     const [post, setPost] = useState(); // 첨부파일 리스트 표시용
     const [loadAgain, setLoadAgain] = useState(false);
 
@@ -22,56 +23,57 @@ function ReferenceRoomWrite() {
     const [isAnonymized, setIsAnonymized] = useState(false);
     const [mountBody, setMountBody] = useState(false); // 리렌더링 용도 state
 
+    // 수정시 이전 내용 로드
     useEffect(() => {
-        if (id) {
-            getReferenceRoom(id);
-        }
-    }, [id, loadAgain]);
+        getReferenceRoom(id);
+    }, [])
+
+    useEffect(() => {
+        updateFiles(id);
+    }, [loadAgain]);
 
     async function getReferenceRoom(id) {
+        const res = await fetch(`/api/referenceroom/${id}`, {
+            credentials: 'include'
+        });
+        const prev = await res.json();
+        setCategory(toCategory(prev.category));
+        setTitle(prev.title);
+        setBody(prev.body);
+        setLecture(prev.lecture);
+        setSemester(prev.semester);
+        setProfessor(prev.professor);
+        setIsAnonymized(prev.isAnonymized);
+        rerenderBody();
+    }
+
+    async function updateFiles(id) {
         const res = await fetch(`/api/referenceroom/${id}`, {
             credentials: 'include'
         });
         setPost(await res.json());
     }
 
+    function rerenderBody() {
+        setMountBody(mountBody => !mountBody);
+    }
+
     async function handleFileUpload(e) {
-        if (!id) { // 첫 업로드
-            let data = new FormData();
-            data.append('type', category[1]);
-            data.append('file', e.target.files[0]);
+        let data = new FormData();
+        data.append('file', e.target.files[0]);
 
-            const res = await fetch(`/api/referenceroom/file`, {
-                method: 'POST',
-                credentials: 'include',
-                body: data
-            })
+        const res = await fetch(`/api/referenceroom/${id}/file`, {
+            method: 'POST',
+            credentials: 'include',
+            body: data
+        });
 
-            if (res.ok) {
-                setId(await res.json());
-                e.target.value = '';
-            }
-            else {
-                alert('파일 업로드 중 오류가 발생하였습니다.');
-            }
+        if (res.ok) {
+            setLoadAgain(!loadAgain);
+            e.target.value = '';
         }
         else {
-            let data = new FormData();
-            data.append('file', e.target.files[0]);
-
-            const res = await fetch(`/api/referenceroom/${id}/file`, {
-                method: 'POST',
-                credentials: 'include',
-                body: data
-            });
-
-            if (res.ok) {
-                setLoadAgain(!loadAgain);
-                e.target.value = '';
-            }
-            else {
-                alert('파일 업로드 중 오류가 발생하였습니다.');
-            }
+            alert('파일 업로드 중 오류가 발생하였습니다.');
         }
     }
 
@@ -82,37 +84,18 @@ function ReferenceRoomWrite() {
             return;
         }
 
-        let res;
-        if (id)
-            res = await postReferenceRoomAfterFileUpload(id);
-        else
-            res = await postReferenceRoomWithoutFileUpload(category[1]);
+        const res = await putReferenceRoom(id);
 
         if (res.ok) {
-            navigate("/referenceroom");
+            navigate(`/referenceroom/${id}`);
         } else {
             alert('글쓰기 중 오류가 발생하였습니다.');
         }
     }
-
-    async function postReferenceRoomWithoutFileUpload(type) {
-        const res = await fetch(`/api/referenceroom?type=${type}`, {
-            method: "POST",
-            credentials: 'include',
-            body: JSON.stringify({
-                title, body, lecture, semester, professor, isAnonymized
-            }),
-            headers: {
-                "content-type": "application/json",
-            },
-        });
-        
-        return res;
-    }
     
-    async function postReferenceRoomAfterFileUpload(id) {
-        const res = await fetch(`/api/referenceroom/${id}`, {
-            method: "POST",
+    async function putReferenceRoom(id) {
+        const res = await fetch(`/api/referenceroom/${id}?type=${category[1]}`, {
+            method: "PUT",
             credentials: 'include',
             body: JSON.stringify({
                 title, body, lecture, semester, professor, isAnonymized
@@ -207,27 +190,27 @@ function ReferenceRoomWrite() {
                         </form>
                         {
                             post && post.files && post.files.map(f => (
-                                <>
-                                <div key={f.path} className='block max-w px-6 py-3 mt-3 mb-2 bg-white border border-gray-200 rounded-lg shadow'>
-                                    <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
-                                        {(f.isImage) ? '이미지' : '첨부파일'}
-                                    </span>
-                                    <a className='text-sm hover:underline' href={f.path} target='_blank' rel="noreferrer">{f.filename}</a>
-                                </div>
-                                <div className='flex justify-end mb-4'>
-                                    {
-                                        (f.isImage) &&
-                                        <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
-                                            onClick={() => window.navigator.clipboard.writeText(f.path)}>
-                                            이미지 링크 복사
-                                        </button>
-                                    }
+                            <>
+                            <div key={f.path} className='block max-w px-6 py-3 mt-3 mb-2 bg-white border border-gray-200 rounded-lg shadow'>
+                                <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
+                                    {(f.isImage) ? '이미지' : '첨부파일'}
+                                </span>
+                                <a className='text-sm hover:underline' href={f.path} target='_blank' rel="noreferrer">{f.filename}</a>
+                            </div>
+                            <div className='flex justify-end mb-4'>
+                                {
+                                    (f.isImage) &&
                                     <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
-                                        onClick={() => handleDeleteAttachment(f.filename)}>
-                                        삭제
+                                        onClick={() => window.navigator.clipboard.writeText(f.path)}>
+                                        이미지 링크 복사
                                     </button>
-                                </div>
-                                </>
+                                }
+                                <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
+                                    onClick={() => handleDeleteAttachment(f.filename)}>
+                                    삭제
+                                </button>
+                            </div>
+                            </>
                             ))
                         }
                         <input className="mt-1 text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 mr-2 inline-block"
@@ -247,7 +230,7 @@ function ReferenceRoomWrite() {
                         
                             <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
                                 onClick={submit}>
-                                글쓰기
+                                글수정
                             </button>
                         </div>
                     </div>
@@ -268,5 +251,16 @@ function defaultCategory(type) {
     }
 }
 
+function toCategory(type) {
+    switch(type) {
+        case 'STUDY':
+            return ['강의/스터디', 'study'];
+        case 'EXAM':
+            return ['시험정보', 'exam'];
+        default:
+            return ['시험정보', 'exam'];
+    }
+}
 
-export default ReferenceRoomWrite;
+
+export default ReferenceRoomEdit;

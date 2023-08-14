@@ -31,6 +31,7 @@ const CommunityDetail = lazy(() => import('./pages/community/CommunityDetail'));
 const ReferenceRoom = lazy(() => import('./pages/referenceroom/ReferenceRoom'));
 const ReferenceRoomDetail = lazy(() => import('./pages/referenceroom/ReferenceRoomDetail'));
 const ReferenceRoomWrite = lazy(() => import('./pages/referenceroom/ReferenceRoomWrite'));
+const ReferenceRoomEdit = lazy(() => import('./pages/referenceroom/ReferenceRoomEdit'));
 const Gallery = lazy(() => import('./pages/gallery/Gallery'));
 const GalleryDetail = lazy(() => import('./pages/gallery/GalleryDetail'));
 const GalleryWrite = lazy(() => import('./pages/gallery/GalleryWrite'));
@@ -130,6 +131,9 @@ const App = () => {
             } />
             <Route path="/referenceroom/write" element={
               <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoomWrite />} isFalse={<Navigate to='/login' />} />
+            } />
+            <Route path="/referenceroom/:id/edit" element={
+              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoomEdit />} isFalse={<Navigate to='/login' />} />
             } />
 
             {/* 갤러리 */}

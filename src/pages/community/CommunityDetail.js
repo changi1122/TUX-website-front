@@ -115,12 +115,15 @@ function CommunityDetail() {
                             post &&
                             <>
                             <div className='block max-w px-6 py-6 my-3 bg-white border border-gray-200 rounded-lg shadow'>
-                                <span className={badge(post.category)[0] + " text-xs font-medium rounded mr-2 mb-2 px-2.5 py-0.5 inline-block"}>{badge(post.category)[1]}</span>
+                                <span className={badge(post.category)[0] + " text-xs font-medium rounded mr-2 mb-2 px-2.5 py-1 inline-block"}>{badge(post.category)[1]}</span>
                                 <h3 className="mb-1 text-xl font-bold tracking-tight text-gray-900">
                                     {post.title}
                                 </h3>
                                 <div>
-                                    <span className='text-gray-500 text-sm font-medium mr-4' title={dayjs(post.createdDate).format("YYYY-MM-DD HH:mm:ss")}>
+                                    <span className='text-gray-500 text-sm font-medium mr-4' title={
+                                        `등록일: ${dayjs(post.createdDate).format("YYYY-MM-DD HH:mm:ss")}` + ((post.editedDate) ?
+                                        `\n수정일: ${dayjs(post.editedDate).format("YYYY-MM-DD HH:mm:ss")}` : '')
+                                    }>
                                         <span className='inline-block mr-1'>📅</span> {dayjs(post.createdDate).locale('ko').fromNow()}
                                     </span>
                                     <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>🧑🏻‍💻</span> {post.author}</span>
@@ -133,7 +136,9 @@ function CommunityDetail() {
                             {
                                 post.files.map(f => (
                                 <div key={f.path} className='block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow'>
-                                    <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">첨부파일</span>
+                                    <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
+                                        {(f.isImage) ? '이미지' : '첨부파일'}
+                                    </span>
                                     <a className='text-sm hover:underline' href={f.path} target='_blank' rel="noreferrer">{f.filename}</a>
                                 </div>
                                 ))

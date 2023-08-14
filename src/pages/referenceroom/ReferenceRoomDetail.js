@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from "react";
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import * as dayjs from 'dayjs';
 import 'dayjs/locale/ko';
@@ -117,22 +117,22 @@ function ReferenceRoomDetail() {
                             post &&
                             <>
                             <div className='block max-w px-6 py-6 my-3 bg-white border border-gray-200 rounded-lg shadow'>
-                                <span className={badge(post.category)[0] + " text-xs font-medium rounded mr-2 mb-2 px-2.5 py-0.5 inline-block"}>{badge(post.category)[1]}</span>
+                                <span className={badge(post.category)[0] + " text-xs font-medium rounded mr-2 mb-2 px-2.5 py-1 inline-block"}>{badge(post.category)[1]}</span>
                                 {
                                     post.lecture && 
-                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
                                         {post.lecture}
                                     </span>
                                 }
                                 {
                                     post.semester && 
-                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
                                         {post.semester}
                                     </span>
                                 }
                                 {
                                     post.professor && 
-                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
                                         {post.professor}
                                     </span>
                                 }
@@ -140,7 +140,10 @@ function ReferenceRoomDetail() {
                                     {post.title}
                                 </h3>
                                 <div>
-                                    <span className='text-gray-500 text-sm font-medium mr-4' title={dayjs(post.createdDate).format("YYYY-MM-DD HH:mm:ss")}>
+                                    <span className='text-gray-500 text-sm font-medium mr-4' title={
+                                        `등록일: ${dayjs(post.createdDate).format("YYYY-MM-DD HH:mm:ss")}` + ((post.editedDate) ?
+                                        `\n수정일: ${dayjs(post.editedDate).format("YYYY-MM-DD HH:mm:ss")}` : '')
+                                    }>
                                         <span className='inline-block mr-1'>📅</span> {dayjs(post.createdDate).locale('ko').fromNow()}
                                     </span>
                                     <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>🧑🏻‍💻</span> {post.author}</span>
@@ -152,7 +155,9 @@ function ReferenceRoomDetail() {
                             {
                                 post.files.map(f => (
                                 <div key={f.path} className='block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow'>
-                                    <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">첨부파일</span>
+                                    <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
+                                        {(f.isImage) ? '이미지' : '첨부파일'}
+                                    </span>
                                     <a className='text-sm hover:underline' href={f.path} target='_blank' rel="noreferrer">{f.filename}</a>
                                 </div>
                                 ))
@@ -167,6 +172,13 @@ function ReferenceRoomDetail() {
                                         onClick={() => { window.navigator.clipboard.writeText(window.location.href); setShareLabel("링크 복사됨!") }}>
                                         {shareLabel}
                                     </button>
+                                    {
+                                        (localUserId == post.authorId || sessionUserId == post.authorId) &&
+                                        <Link className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
+                                            to={`/referenceroom/${post.id}/edit`}>
+                                            수정
+                                        </Link>
+                                    }
                                     {
                                         (localUserId == post.authorId || sessionUserId == post.authorId ||
                                             ['MANAGER', 'ADMIN'].includes(localRole) || ['MANAGER', 'ADMIN'].includes(sessionRole)) &&

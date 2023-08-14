@@ -111,22 +111,22 @@ function ReferenceRoom() {
                         {
                             posts && posts.content.map(p => (
                             <Link key={p.id} to={"/referenceroom/"+p.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
-                                <span className={badge(p.category)[0] + " text-xs font-medium rounded mr-2 mb-1 px-2.5 py-0.5 inline-block"}>{badge(p.category)[1]}</span>
+                                <span className={badge(p.category)[0] + " text-xs font-medium rounded mr-2 mb-1 px-2.5 py-1 inline-block"}>{badge(p.category)[1]}</span>
                                 {
                                     p.lecture && 
-                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
                                         {p.lecture}
                                     </span>
                                 }
                                 {
                                     p.semester && 
-                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
                                         {p.semester}
                                     </span>
                                 }
                                 {
                                     p.professor && 
-                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
                                         {p.professor}
                                     </span>
                                 }
