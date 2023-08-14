@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import QuillEditor from '../../components/QuillEditor';
 
-function GalleryWrite() {
+function GalleryEdit() {
     const navigate = useNavigate();
 
-    const [id, setId] = useState(); // 글 ID : 파일업로드를 통해 글이 임시 생성되었을 경우, ID를 가짐
+    let { id } = useParams();
+
     const [post, setPost] = useState();
     const [loadAgain, setLoadAgain] = useState(false);
 
@@ -18,56 +19,56 @@ function GalleryWrite() {
     const [isAnonymized, setIsAnonymized] = useState(false);
     const [mountBody, setMountBody] = useState(false); // 리렌더링 용도 state
 
+    // 수정시 이전 내용 로드
     useEffect(() => {
-        if (id) {
-            getReferenceRoom(id);
-        }
-    }, [id, loadAgain]);
+        getReferenceRoom(id);
+    }, [])
+
+    useEffect(() => {
+        updateFiles(id);
+    }, [loadAgain]);
 
     async function getReferenceRoom(id) {
+        const res = await fetch(`/api/referenceroom/${id}`, {
+            credentials: 'include'
+        });
+        const prev = await res.json();
+        setTitle(prev.title);
+        setBody(prev.body);
+        setLecture(prev.lecture);
+        setSemester(prev.semester);
+        setProfessor(prev.professor);
+        setIsAnonymized(prev.isAnonymized);
+        rerenderBody();
+    }
+
+    async function updateFiles(id) {
         const res = await fetch(`/api/referenceroom/${id}`, {
             credentials: 'include'
         });
         setPost(await res.json());
     }
 
+    function rerenderBody() {
+        setMountBody(mountBody => !mountBody);
+    }
+
     async function handleFileUpload(e) {
-        if (!id) { // 첫 업로드
-            let data = new FormData();
-            data.append('type', 'gallery');
-            data.append('file', e.target.files[0]);
+        let data = new FormData();
+        data.append('file', e.target.files[0]);
 
-            const res = await fetch(`/api/referenceroom/file`, {
-                method: 'POST',
-                credentials: 'include',
-                body: data
-            })
+        const res = await fetch(`/api/referenceroom/${id}/file`, {
+            method: 'POST',
+            credentials: 'include',
+            body: data
+        });
 
-            if (res.ok) {
-                setId(await res.json());
-                e.target.value = '';
-            }
-            else {
-                alert('파일 업로드 중 오류가 발생하였습니다.');
-            }
+        if (res.ok) {
+            setLoadAgain(!loadAgain);
+            e.target.value = '';
         }
         else {
-            let data = new FormData();
-            data.append('file', e.target.files[0]);
-
-            const res = await fetch(`/api/referenceroom/${id}/file`, {
-                method: 'POST',
-                credentials: 'include',
-                body: data
-            });
-
-            if (res.ok) {
-                setLoadAgain(!loadAgain);
-                e.target.value = '';
-            }
-            else {
-                alert('파일 업로드 중 오류가 발생하였습니다.');
-            }
+            alert('파일 업로드 중 오류가 발생하였습니다.');
         }
     }
 
@@ -78,37 +79,18 @@ function GalleryWrite() {
             return;
         }
 
-        let res;
-        if (id)
-            res = await postReferenceRoomAfterFileUpload(id);
-        else
-            res = await postReferenceRoomWithoutFileUpload();
+        const res = await putReferenceRoom(id);
 
         if (res.ok) {
-            navigate("/gallery");
+            navigate(`/referenceroom/${id}`);
         } else {
             alert('글쓰기 중 오류가 발생하였습니다.');
         }
     }
 
-    async function postReferenceRoomWithoutFileUpload() {
-        const res = await fetch(`/api/referenceroom?type=gallery`, {
-            method: "POST",
-            credentials: 'include',
-            body: JSON.stringify({
-                title, body, lecture, semester, professor, isAnonymized
-            }),
-            headers: {
-                "content-type": "application/json",
-            },
-        });
-        
-        return res;
-    }
-    
-    async function postReferenceRoomAfterFileUpload(id) {
-        const res = await fetch(`/api/referenceroom/${id}`, {
-            method: "POST",
+    async function putReferenceRoom(id) {
+        const res = await fetch(`/api/referenceroom/${id}?type=gallery`, {
+            method: "PUT",
             credentials: 'include',
             body: JSON.stringify({
                 title, body, lecture, semester, professor, isAnonymized
@@ -217,7 +199,7 @@ function GalleryWrite() {
                         
                             <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
                                 onClick={submit}>
-                                글쓰기
+                                글 수정
                             </button>
                         </div>
                     </div>
@@ -227,4 +209,4 @@ function GalleryWrite() {
     );
 }
 
-export default GalleryWrite;
+export default GalleryEdit;

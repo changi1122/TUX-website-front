@@ -119,6 +119,25 @@ function CommunityWrite() {
         return res;
     }
 
+    async function handleDeleteAttachment(filename) {
+        if (window.confirm("정말로 첨부파일을 삭제하시겠습니까?")) {
+            const res =  await deleteAttachment(id, filename);
+
+            if (res.ok) {
+                setLoadAgain(la => !la);
+            } else {
+                alert('첨부파일 삭제 중 오류가 발생하였습니다.');
+            }
+        }
+    }
+
+    async function deleteAttachment(id, filename) {
+        return await fetch(`/api/community/${id}/file/${filename}`, {
+            method: "DELETE",
+            credentials: 'include'
+        });
+    }
+
 
     return (
         <div className='min-h-screen px-3 md:pt-10 md:pb-20 pt-5 pb-10'>
@@ -129,7 +148,7 @@ function CommunityWrite() {
 
             <div className="mt-20 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
-                    <div className='w-60 max-md:hidden'>
+                    <div className='w-60 min-w-[15rem] max-md:hidden'>
                         <CommunityRule />
                     </div>
                     <div className='flex-1 ml-4 max-md:ml-0'>
@@ -182,12 +201,27 @@ function CommunityWrite() {
                         </form>
                         {
                             post && post.files && post.files.map(f => (
-                            <div key={f.path} className='block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow'>
-                                <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
-                                    {(f.isImage) ? '이미지' : '첨부파일'}
-                                </span>
-                                <a className='text-sm hover:underline' href={f.path} target='_blank' rel="noreferrer">{f.filename}</a>
-                            </div>
+                                <>
+                                <div key={f.path} className='block max-w px-6 py-3 mt-3 mb-2 bg-white border border-gray-200 rounded-lg shadow'>
+                                    <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
+                                        {(f.isImage) ? '이미지' : '첨부파일'}
+                                    </span>
+                                    <a className='text-sm hover:underline' href={f.path} target='_blank' rel="noreferrer">{f.filename}</a>
+                                </div>
+                                <div className='flex justify-end mb-4'>
+                                    {
+                                        (f.isImage) &&
+                                        <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
+                                            onClick={() => window.navigator.clipboard.writeText(f.path)}>
+                                            이미지 링크 복사
+                                        </button>
+                                    }
+                                    <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
+                                        onClick={() => handleDeleteAttachment(f.filename)}>
+                                        삭제
+                                    </button>
+                                </div>
+                                </>
                             ))
                         }
                         <input className="mt-1 text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 mr-2 inline-block"

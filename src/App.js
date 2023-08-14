@@ -25,8 +25,9 @@ const Tuxinfo02 = lazy(() => import('./pages/tuxinfo/Tuxinfo02'));
 const Tuxinfo03 = lazy(() => import('./pages/tuxinfo/Tuxinfo03'));
 
 const Community = lazy(() => import('./pages/community/Community'));
-const CommunityWrite = lazy(() => import('./pages/community/CommunityWrite'));
 const CommunityDetail = lazy(() => import('./pages/community/CommunityDetail'));
+const CommunityWrite = lazy(() => import('./pages/community/CommunityWrite'));
+const CommunityEdit = lazy(() => import('./pages/community/CommunityEdit'));
 
 const ReferenceRoom = lazy(() => import('./pages/referenceroom/ReferenceRoom'));
 const ReferenceRoomDetail = lazy(() => import('./pages/referenceroom/ReferenceRoomDetail'));
@@ -35,6 +36,7 @@ const ReferenceRoomEdit = lazy(() => import('./pages/referenceroom/ReferenceRoom
 const Gallery = lazy(() => import('./pages/gallery/Gallery'));
 const GalleryDetail = lazy(() => import('./pages/gallery/GalleryDetail'));
 const GalleryWrite = lazy(() => import('./pages/gallery/GalleryWrite'));
+const GalleryEdit = lazy(() => import('./pages/gallery/GalleryEdit'));
 
 const JoinPage = lazy(() => import('./pages/join/JoinPage'));
 const ContactPage = lazy(() => import('./pages/join/ContactPage'));
@@ -84,7 +86,7 @@ const App = () => {
       <BrowserRouter>
         <Header isLogin={isLogin} setIsLogin={setIsLogin} />
 
-        <React.Suspense fallback={Loading}>
+        <React.Suspense fallback={<Loading />}>
           <Routes>
             <Route path="/" element={
               // 로그인 한 사용자의 id가 'admin'일 경우, 관리자 페이지로 route
@@ -120,6 +122,7 @@ const App = () => {
             <Route path="/community" element={<Community />}></Route>
             <Route path="/community/:id" element={<CommunityDetail />}></Route>
             <Route path="/community/write" element={<CommunityWrite />}></Route>
+            <Route path="/community/:id/edit" element={<CommunityEdit />}></Route>
 
 
             {/* 자료실 */}
@@ -145,6 +148,9 @@ const App = () => {
             } />
             <Route path="/gallery/write" element={
               <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<GalleryWrite />} isFalse={<Navigate to='/login' />} />
+            } />
+            <Route path="/gallery/:id/edit" element={
+              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<GalleryEdit />} isFalse={<Navigate to='/login' />} />
             } />
 
             {/* 지원하기 */}

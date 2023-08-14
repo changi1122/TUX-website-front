@@ -57,7 +57,7 @@ function Community() {
 
             <div className="mt-20 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
-                    <div className='w-60 max-md:hidden'>
+                    <div className='w-60 min-w-[15rem] max-md:hidden'>
                         {/*사이드바*/}
                         <CommunityRule />
                     </div>

@@ -154,7 +154,7 @@ function ReferenceRoomWrite() {
 
             <div className="mt-20 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
-                    <div className='w-60 max-md:hidden'>
+                    <div className='w-60 min-w-[15rem] max-md:hidden'>
                         <ReferenceRoomRule />
                     </div>
                     <div className='flex-1 ml-4 max-md:ml-0'>

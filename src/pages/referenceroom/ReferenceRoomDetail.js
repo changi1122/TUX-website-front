@@ -109,7 +109,7 @@ function ReferenceRoomDetail() {
 
             <div className="mt-20 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
-                    <div className='w-60 max-md:hidden'>
+                    <div className='w-60 min-w-[15rem] max-md:hidden'>
                         <ReferenceRoomRule />
                     </div>
                     <div className='flex-1 ml-4 max-md:ml-0'>
@@ -249,6 +249,8 @@ function badge(category) {
     switch(category) {
         case 'STUDY':
             return ['bg-red-100 text-red-800', '강의/스터디'];
+        case 'GALLERY':
+            return ['bg-yellow-100 text-yellow-800', '갤러리'];
         default:
             return ['bg-purple-100 text-purple-800', '시험정보'];
     }

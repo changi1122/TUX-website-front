@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from "react";
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import * as dayjs from 'dayjs';
 import 'dayjs/locale/ko';
@@ -111,7 +111,7 @@ function GalleryDetail() {
 
             <div className="mt-20 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
-                    <div className='w-60 max-md:hidden'>
+                    <div className='w-60 min-w-[15rem] max-md:hidden'>
                         <ReferenceRoomRule />
                     </div>
                     <div className='flex-1 ml-4 max-md:ml-0'>
@@ -142,7 +142,10 @@ function GalleryDetail() {
                                     {post.title}
                                 </h3>
                                 <div>
-                                    <span className='text-gray-500 text-sm font-medium mr-4' title={dayjs(post.createdDate).format("YYYY-MM-DD HH:mm:ss")}>
+                                    <span className='text-gray-500 text-sm font-medium mr-4' title={
+                                        `등록일: ${dayjs(post.createdDate).format("YYYY-MM-DD HH:mm:ss")}` + ((post.editedDate) ?
+                                        `\n수정일: ${dayjs(post.editedDate).format("YYYY-MM-DD HH:mm:ss")}` : '')
+                                    }>
                                         <span className='inline-block mr-1'>📅</span> {dayjs(post.createdDate).locale('ko').fromNow()}
                                     </span>
                                     <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>🧑🏻‍💻</span> {post.author}</span>
@@ -169,6 +172,13 @@ function GalleryDetail() {
                                         onClick={() => { window.navigator.clipboard.writeText(window.location.href); setShareLabel("링크 복사됨!") }}>
                                         {shareLabel}
                                     </button>
+                                    {
+                                        (localUserId == post.authorId || sessionUserId == post.authorId) &&
+                                        <Link className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
+                                            to={`/gallery/${post.id}/edit`}>
+                                            수정
+                                        </Link>
+                                    }
                                     {
                                         (localUserId == post.authorId || sessionUserId == post.authorId ||
                                             ['MANAGER', 'ADMIN'].includes(localRole) || ['MANAGER', 'ADMIN'].includes(sessionRole)) &&
@@ -235,13 +245,8 @@ function GalleryDetail() {
     );
 }
 
-function badge(category) {
-    switch(category) {
-        case 'STUDY':
-            return ['bg-red-100 text-red-800', '강의/스터디'];
-        default:
-            return ['bg-purple-100 text-purple-800', '시험정보'];
-    }
+function badge() {
+    return ['bg-yellow-100 text-yellow-800', '갤러리'];
 }
 
 export default GalleryDetail;
