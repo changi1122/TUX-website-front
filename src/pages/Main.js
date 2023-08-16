@@ -49,7 +49,7 @@ const Main = () => {
         onSwiper={() => {}}  
         onSlideChange={() => {}}>
         <SwiperSlide className='swiper-slide'>
-          <img className="max-w-full w-[936px] max-h-80 max-md:px-1 max-md:max-h-40 rounded-lg" src={process.env.PUBLIC_URL + '/images/intro01.png'} alt=''/>
+          <img className="max-w-full w-[936px] max-h-80 max-md:px-1 max-md:max-h-40 rounded-lg" src={process.env.PUBLIC_URL + '/images/intro01.jpg'} alt=''/>
         </SwiperSlide>
         <SwiperSlide className='swiper-slide'>
           <img className="max-w-[936px] max-h-80 max-md:px-1 max-md:max-h-40 rounded-lg" src={process.env.PUBLIC_URL + '/Slide_dummy.jpg'} alt=''/>

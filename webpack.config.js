@@ -1,3 +1,5 @@
+// 사용 안되는 파일 - 2023-08-17
+
 module.exports ={
   module: {
     rules: [
@@ -15,7 +17,14 @@ module.exports ={
     splitChunks: {
       chunks: 'all',
       minSize: 10000,
-      maxSize: 50000,
+      maxSize: 200000,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          name: 'vendor',
+          chunks: 'all',
+        }
+      },
     },
   }
 }
