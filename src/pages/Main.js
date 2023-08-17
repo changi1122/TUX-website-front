@@ -12,6 +12,7 @@ import './Sw.css'
 
 import * as dayjs from 'dayjs';
 import 'dayjs/locale/ko';
+import LoadingIndicator from '../components/LoadingIndicator';
 
 const Main = () => {
 
@@ -134,6 +135,7 @@ const Main = () => {
                   <p className='text-lg text-gray-500'>조건에 해당하는 게시물이 없습니다.</p>
               </div>
             }
+            { !notices && <LoadingIndicator /> }
           </div>
           <div>
             <div className='flex items-center justify-between'>
@@ -159,6 +161,7 @@ const Main = () => {
                   <p className='text-lg text-gray-500'>조건에 해당하는 게시물이 없습니다.</p>
               </div>
             }
+            { !contests && <LoadingIndicator /> }
           </div>
         </div>
       </div>
@@ -190,6 +193,7 @@ const Main = () => {
                     <p className='text-lg text-gray-500'>조건에 해당하는 게시물이 없습니다.</p>
                 </div>
               }
+              { !frees && <LoadingIndicator /> }
           </div>
           <div>
             <div className='flex items-center justify-between'>
@@ -215,6 +219,7 @@ const Main = () => {
                 <p className='text-lg text-gray-500'>조건에 해당하는 게시물이 없습니다.</p>
             </div>
           }
+          { !teams && <LoadingIndicator /> }
           </div>
         </div>
       </div>

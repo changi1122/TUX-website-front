@@ -6,6 +6,7 @@ import Pagination from '../../components/Pagination';
 import * as dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
+import LoadingIndicator from '../../components/LoadingIndicator';
 
 function ReferenceRoom() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -146,6 +147,7 @@ function ReferenceRoom() {
                                 <p className='text-lg text-gray-500'>조건에 해당하는 게시물이 없습니다.</p>
                             </div>
                         }
+                        { !posts && <LoadingIndicator /> }
 
                         {/* Pagination/글쓰기 버튼 */}
                         <div className='flex flex-wrap justify-center mt-6 mb-4'>

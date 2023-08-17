@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useEffect } from "react";
 import { Link, useSearchParams } from 'react-router-dom';
 import Pagination from '../../components/Pagination';
+import LoadingIndicator from '../../components/LoadingIndicator';
 
 function Gallery() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -77,6 +78,7 @@ function Gallery() {
                                 <p className='text-lg text-gray-500'>조건에 해당하는 게시물이 없습니다.</p>
                             </div>
                         }
+                        { !posts && <LoadingIndicator /> }
 
                         {/* Pagination/글쓰기 버튼 */}
                         <div className='flex flex-wrap justify-center mt-6 mb-4'>
