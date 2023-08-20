@@ -107,16 +107,16 @@ function CommunityDetail() {
 
             <div className="mt-20 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
-                    <div className='w-60 min-w-[15rem] max-md:hidden'>
+                    <div className='w-60 min-w-[15rem] max-lg:hidden'>
                         <CommunityRule />
                     </div>
-                    <div className='flex-1 ml-4 max-md:ml-0'>
+                    <div className='flex-1 ml-4 max-lg:ml-0'>
                         {
                             post &&
                             <>
                             <div className='block max-w px-6 py-6 my-3 bg-white border border-gray-200 rounded-lg shadow'>
                                 <span className={badge(post.category)[0] + " text-xs font-medium rounded mr-2 mb-2 px-2.5 py-1 inline-block"}>{badge(post.category)[1]}</span>
-                                <h3 className="mb-1 text-xl font-bold tracking-tight text-gray-900">
+                                <h3 className="my-1 text-xl font-bold tracking-tight text-gray-900">
                                     {post.title}
                                 </h3>
                                 <div>

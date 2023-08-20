@@ -60,11 +60,11 @@ function ReferenceRoom() {
 
             <div className="mt-20 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
-                    <div className='w-60 min-w-[15rem] max-md:hidden'>
+                    <div className='w-60 min-w-[15rem] max-lg:hidden'>
                         {/*사이드바*/}
                         <ReferenceRoomRule />
                     </div>
-                    <div className='flex-1 ml-4 max-md:ml-0'>
+                    <div className='flex-1 ml-4 max-lg:ml-0'>
                         {/* 카테고리/검색 바 */}
                         <form>
                             <div className="flex" style={{ position: 'relative' }}>
@@ -115,23 +115,23 @@ function ReferenceRoom() {
                                 <span className={badge(p.category)[0] + " text-xs font-medium rounded mr-2 mb-1 px-2.5 py-1 inline-block"}>{badge(p.category)[1]}</span>
                                 {
                                     p.lecture && 
-                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded whitespace-nowrap">
                                         {p.lecture}
                                     </span>
                                 }
                                 {
                                     p.semester && 
-                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded whitespace-nowrap">
                                         {p.semester}
                                     </span>
                                 }
                                 {
                                     p.professor && 
-                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded whitespace-nowrap">
                                         {p.professor}
                                     </span>
                                 }
-                                <h3 className="mb-1 text-md font-bold tracking-tight text-gray-900" style={{ textWrap: 'nowrap', overflowX: 'hidden', textOverflow: 'ellipsis' }}>
+                                <h3 className="my-1 text-md font-bold tracking-tight text-gray-900" style={{ textWrap: 'nowrap', overflowX: 'hidden', textOverflow: 'ellipsis' }}>
                                     {p.title}
                                 </h3>
                                 <div>

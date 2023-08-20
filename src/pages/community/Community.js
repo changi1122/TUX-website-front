@@ -58,11 +58,11 @@ function Community() {
 
             <div className="mt-20 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
-                    <div className='w-60 min-w-[15rem] max-md:hidden'>
+                    <div className='w-60 min-w-[15rem] max-lg:hidden'>
                         {/*사이드바*/}
                         <CommunityRule />
                     </div>
-                    <div className='flex-1 ml-4 max-md:ml-0'>
+                    <div className='flex-1 ml-4 max-lg:ml-0'>
                         {/* 카테고리/검색 바 */}
                         <form>
                             <div className="flex" style={{ position: 'relative' }}>
@@ -119,7 +119,7 @@ function Community() {
                             posts && posts.content.map(p => (
                             <Link key={p.id} to={"/community/"+p.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
                                 <span className={badge(p.category)[0] + " text-xs font-medium rounded mr-2 mb-1 px-2.5 py-1 inline-block"}>{badge(p.category)[1]}</span>
-                                <h3 className="mb-1 text-md font-bold tracking-tight text-gray-900" style={{ textWrap: 'nowrap', overflowX: 'hidden', textOverflow: 'ellipsis' }}>
+                                <h3 className="my-1 text-md font-bold tracking-tight text-gray-900" style={{ textWrap: 'nowrap', overflowX: 'hidden', textOverflow: 'ellipsis' }}>
                                     {p.title}
                                 </h3>
                                 <div>

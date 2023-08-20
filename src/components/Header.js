@@ -213,7 +213,7 @@ function Header(props) {
             onMouseLeave={() => setHover(-1)}>
             {logoutPopup.open && <ConfirmPopup onOpenAlert={onClickLogout} onConfirm={handleConfirm} title={logoutPopup.title} message={logoutPopup.message} />}
 
-            <div className={`w-full flex justify-center border-b-2 bg-white md:p-0 py-2`}>
+            <div className={`w-full flex justify-center border-b-2 bg-white lg:p-0 py-2`}>
                 <div className="w-[90%] flex justify-between items-center nav">
                     <div className="flex">
                         <a href={process.env.PUBLIC_URL + "/"}
@@ -268,7 +268,7 @@ function Header(props) {
             </nav>
 
             {/* 세부 메뉴 - ver.mobile*/}
-            <nav className={`${isOpen ? "show-moblie-menu" : "hide-mobile-menu"} absolute top-0 drop-shadow-2xl bg-white w-[85vw] h-screen z-50 text-lg overflow-auto`}>
+            <nav className={`${isOpen ? "show-moblie-menu" : "hide-mobile-menu"} absolute top-0 shadow-[rgba(0,0,0,0.2)_0px_25px_25px_25px] bg-white w-[85vw] h-screen z-50 text-lg overflow-auto`}>
                 {
                     props.isLogin
                         ?

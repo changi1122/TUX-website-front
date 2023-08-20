@@ -150,8 +150,8 @@ function GalleryWrite() {
 
             <div className="mt-20 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
-                    <div className='w-60 min-w-[15rem] max-md:hidden'></div>
-                    <div className='flex-1 ml-4 max-md:ml-0'>
+                    <div className='w-60 min-w-[15rem] max-lg:hidden'></div>
+                    <div className='flex-1 ml-4 max-lg:ml-0'>
                         {/* 에디터 영역 */}
                         <form>
                             <div className="my-4">

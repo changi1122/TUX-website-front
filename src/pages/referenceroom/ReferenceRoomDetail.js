@@ -109,10 +109,10 @@ function ReferenceRoomDetail() {
 
             <div className="mt-20 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
-                    <div className='w-60 min-w-[15rem] max-md:hidden'>
+                    <div className='w-60 min-w-[15rem] max-lg:hidden'>
                         <ReferenceRoomRule />
                     </div>
-                    <div className='flex-1 ml-4 max-md:ml-0'>
+                    <div className='flex-1 ml-4 max-lg:ml-0'>
                         {
                             post &&
                             <>
@@ -120,23 +120,23 @@ function ReferenceRoomDetail() {
                                 <span className={badge(post.category)[0] + " text-xs font-medium rounded mr-2 mb-2 px-2.5 py-1 inline-block"}>{badge(post.category)[1]}</span>
                                 {
                                     post.lecture && 
-                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded whitespace-nowrap">
                                         {post.lecture}
                                     </span>
                                 }
                                 {
                                     post.semester && 
-                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded whitespace-nowrap">
                                         {post.semester}
                                     </span>
                                 }
                                 {
                                     post.professor && 
-                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded whitespace-nowrap">
                                         {post.professor}
                                     </span>
                                 }
-                                <h3 className="mb-1 text-xl font-bold tracking-tight text-gray-900">
+                                <h3 className="my-1 text-xl font-bold tracking-tight text-gray-900">
                                     {post.title}
                                 </h3>
                                 <div>
