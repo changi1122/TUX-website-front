@@ -9,6 +9,9 @@ import axios from 'axios';
 function Header(props) {
     const navigate = useNavigate();
 
+    let keyForSomeElement = -1;
+
+
     /*
         사용자 로그인이 된 상태라면, Header 상단에 '로그인' 대신, '사용자 이름'과 '로그아웃' 표시
         또한, private page인 [커뮤니티]>[잡담방], [자료실]>[족보]가 노출됨
@@ -135,7 +138,7 @@ function Header(props) {
         for (let i = 0; i < gnbIsLogin.length; i++) {
             if (hover === i) {
                 result.push(
-                    <ul className='flex px-20 py-5 border-b-2 items-center nav'>
+                    <ul key={keyForSomeElement--} className='flex px-20 py-5 border-b-2 items-center nav'>
                         {
                             props.isLogin ? (
                                 <>
@@ -172,7 +175,7 @@ function Header(props) {
 
         for (const gnb of (props.isLogin ? gnbIsLogin : gnbIsNotLogin)) {
             result.push(
-                <ul className='flex-col flex px-10 border-b-2'>
+                <ul key={keyForSomeElement--} className='flex-col flex px-10 border-b-2'>
                     <a className='text-xl font-black w-full justify-end flex py-3'
                         href={process.env.PUBLIC_URL + gnb.subInfo[0].subHref}>
                         {gnb.gnbName}

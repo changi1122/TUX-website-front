@@ -12,7 +12,7 @@ const PeopleBox = ({ props }) => {
                 </div>
                 <div className="text-lg px-6 py-3">
                     {
-                        props.people.map((ele) => <div className="py-1">{ele}</div>)
+                        props.people.map((ele, index) => <div key={index} className="py-1">{ele}</div>)
                     }
                 </div>
             </div>

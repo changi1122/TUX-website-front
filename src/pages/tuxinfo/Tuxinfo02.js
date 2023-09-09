@@ -9,8 +9,8 @@ const HistoryBox = ({ props }) => {
             <h1 className="lg:text-6xl text-4xl font-thin bg-[#efefef] text-slate-400 relative leading-none lg:pl-36 pl-10">{props.year}</h1>
             <ol className="text-lg pb-20">
                 {
-                    props.contents.map((ele) =>
-                        <li className="leading-8">{"- " + ele}</li>
+                    props.contents.map((ele, index) =>
+                        <li key={index} className="leading-8">{"- " + ele}</li>
                     )
                 }
             </ol>
