@@ -3,6 +3,8 @@ import classnames from 'classnames';
 import { usePagination, DOTS } from './usePagination';
 
 const Pagination = props => {
+  let uniqueKeyforDOTS = -1;
+
   const {
     onPageChange,
     totalCount,
@@ -46,7 +48,7 @@ const Pagination = props => {
       </li>
       {paginationRange.map(pageNumber => {
         if (pageNumber === DOTS) {
-          return <li key={pageNumber} className="pagination-item dots">&#8230;</li>;
+          return <li key={uniqueKeyforDOTS--} className="pagination-item dots">&#8230;</li>;
         }
 
         return (
