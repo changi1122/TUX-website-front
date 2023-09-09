@@ -174,23 +174,6 @@ function CommunityDetail() {
                             <p className='mt-8 ml-2'>
                                 댓글 {post.comments.length}개
                             </p>
-                            <form className='mt-3'>
-                                <div className="w-full mb-4 border border-gray-200 border-solid rounded-lg bg-gary-50 shadow">
-                                    <div className="px-4 py-2 bg-white rounded-t-lg">
-                                        <label htmlFor="comment" className="sr-only">댓글 </label>
-                                        <textarea id="comment" rows="3" className="w-full px-0 text-sm text-gray-900 bg-white border-0 focus:ring-0"
-                                            value={comment} onChange={(e) => { setComment(e.target.value) }} placeholder="댓글을 입력하세요" required></textarea>
-                                    </div>
-                                    <div className="flex items-center justify-end px-3 py-2 border-t border-gray-200 border-solid">
-                                        <button className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 hover:bg-blue-800"
-                                            type="submit" onClick={handlePostComment}>
-                                            댓글 달기
-                                        </button>
-                                        <div className="flex pl-0 space-x-1 sm:pl-2">
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
                             {
                                 post.comments.map(c => (
                                     <>
@@ -217,6 +200,23 @@ function CommunityDetail() {
                                     }
                                     </>
                             ))}
+                            <form className='mt-3'>
+                                <div className="w-full mb-4 border border-gray-200 border-solid rounded-lg bg-gary-50 shadow">
+                                    <div className="px-4 py-2 bg-white rounded-t-lg">
+                                        <label htmlFor="comment" className="sr-only">댓글 </label>
+                                        <textarea id="comment" rows="3" className="w-full px-0 text-sm text-gray-900 bg-white border-0 focus:ring-0"
+                                            value={comment} onChange={(e) => { setComment(e.target.value) }} placeholder="댓글을 입력하세요" required></textarea>
+                                    </div>
+                                    <div className="flex items-center justify-end px-3 py-2 border-t border-gray-200 border-solid">
+                                        <button className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 hover:bg-blue-800"
+                                            type="submit" onClick={handlePostComment}>
+                                            댓글 달기
+                                        </button>
+                                        <div className="flex pl-0 space-x-1 sm:pl-2">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                             </>
                         }
                     </div>
