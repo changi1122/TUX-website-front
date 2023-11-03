@@ -127,10 +127,10 @@ function GalleryEdit() {
         <div className='min-h-screen px-3 md:pt-10 md:pb-20 pt-5 pb-10'>
             <div className="border-b border-black w-full md:pb-10 pb-5 ani-fadein-up">
                 <div className="text-lg"></div>
-                <div className="text-4xl font-bold">갤러리</div>
+                <div className="text-4xl font-bold max-sm:text-xl">갤러리</div>
             </div>
 
-            <div className="mt-20 mx-auto lg:w-[936px] w-full text-left">
+            <div className="mt-5 md:mt-20 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
                     <div className='w-60 min-w-[15rem] max-lg:hidden'></div>
                     <div className='flex-1 ml-4 max-lg:ml-0'>
