@@ -177,7 +177,7 @@ function Header(props) {
             result.push(
                 <ul key={keyForSomeElement--} className='flex-col flex px-10 border-b-2'>
                     <a className='text-xl font-black w-full justify-end flex py-3'
-                        href={process.env.PUBLIC_URL + gnb.subInfo[0].subHref}>
+                        href={process.env.PUBLIC_URL + gnb.gnbHref}>
                         {gnb.gnbName}
                     </a>
                     {
