@@ -11,6 +11,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Header, Footer, PrivateRoute } from './components';
 import Loading from './Loading';
 import NotFound from './NotFound';
+import NoPermission from './NoPermission';
 
 /* Lazy loading for code splitting */
 const Main = lazy(() => import('./pages/Main'));
@@ -97,8 +98,8 @@ const App = () => {
 
             {/* auth pages */}
             <Route path="/login" element={
-              // 이미 로그인 되어 있는 상태라면, login page에 접근 불가 -> NotFound page로 route
-              <PrivateRoute isThatTrue={isLogined()} isTrue={<NotFound />} isFalse={<LoginPage isLogin={isLogin} setIsLogin={setIsLogin} />} />
+              // 이미 로그인 되어 있는 상태라면, 권한 없음 페이지 표시(GUEST 권한으로 자료실/갤러리 접근하는 경우)
+              <PrivateRoute isThatTrue={isLogined()} isTrue={<NoPermission />} isFalse={<LoginPage isLogin={isLogin} setIsLogin={setIsLogin} />} />
             } />
             <Route path="/signup" element={
               <PrivateRoute isThatTrue={isLogined()} isTrue={<NotFound />} isFalse={<RegisterPage />} />
