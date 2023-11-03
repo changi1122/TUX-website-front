@@ -13,8 +13,12 @@ function Gallery() {
 
     useEffect(() => {
         getGalleryList(currentPage, 12, searchQuery);
-    }, [searchQuery, currentPage]);
+    }, [currentPage]);
 
+    useEffect(() => {
+        setCurrentPage(1);
+        getGalleryList(currentPage, 12, searchQuery);
+    }, [searchQuery]);
 
     async function getGalleryList(page, size, query) {
         const res = await fetch(`/api/gallery/list?&page=${page - 1}&size=${size}&${(query) ? "&query="+query : ''}`);

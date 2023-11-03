@@ -19,8 +19,12 @@ function ReferenceRoom() {
 
     useEffect(() => {
         getReferenceRoomList(category[1], currentPage, 6, searchQuery);
-    }, [category, searchQuery, currentPage]);
+    }, [category, currentPage]);
 
+    useEffect(() => {
+        setCurrentPage(1);
+        getReferenceRoomList(category[1], currentPage, 6, searchQuery);
+    }, [searchQuery]);
 
     async function getReferenceRoomList(category, page, size, query) {
         if (category) {

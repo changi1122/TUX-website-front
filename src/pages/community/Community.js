@@ -18,8 +18,12 @@ function Community() {
 
     useEffect(() => {
         getCommunityList(category[1], currentPage, 6, searchQuery);
-    }, [category, searchQuery, currentPage]);
+    }, [category, currentPage]);
 
+    useEffect(() => {
+        setCurrentPage(1);
+        getCommunityList(category[1], currentPage, 6, searchQuery);
+    }, [searchQuery]);
 
     async function getCommunityList(category, page, size, query) {
         if (category) {
