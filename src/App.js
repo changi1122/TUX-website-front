@@ -19,7 +19,7 @@ const LoginPage = lazy(() => import('./pages/auth/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/auth/RegisterPage'));
 const SuccessfulSignup = lazy(() => import('./pages/auth/SuccessfulSignup'));
 const MyPage = lazy(() => import('./pages/auth/MyPage'));
-const AdministratorPage = lazy(() => import('./pages/AdministratorPage'));
+const AdministratorPage = lazy(() => import('./pages/admin/AdministratorPage'));
 
 const Tuxinfo01 = lazy(() => import('./pages/tuxinfo/Tuxinfo01'));
 const Tuxinfo02 = lazy(() => import('./pages/tuxinfo/Tuxinfo02'));
@@ -85,13 +85,16 @@ const App = () => {
   return (
     <div className='App'>
       <BrowserRouter>
-        <Header isLogin={isLogin} setIsLogin={setIsLogin} />
+        <Header isLogin={isLogin} isAdmin={isAdmin} setIsLogin={setIsLogin} />
 
         <React.Suspense fallback={<Loading />}>
           <Routes>
-            <Route path="/" element={
-              // 로그인 한 사용자의 id가 'admin'일 경우, 관리자 페이지로 route
-              <PrivateRoute isThatTrue={isAdmin} isTrue={<AdministratorPage />} isFalse={<Main />} />
+            <Route path="/" element={<Main />} />
+            <Route path='/admin' element={
+              <PrivateRoute isThatTrue={isAdmin} isTrue={<AdministratorPage />} isFalse={<NoPermission />} />
+            } />
+            <Route path='/admin/staticpage' element={
+              <PrivateRoute isThatTrue={isAdmin} isTrue={<AdministratorPage />} isFalse={<NoPermission />} />
             } />
             <Route path="/sitemap" element={<Sitemap isLogin={isLogin} />}></Route>
 

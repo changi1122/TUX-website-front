@@ -60,5 +60,19 @@
                 "subHref": "/gallery"
             }
         ]
+    },
+    {
+        "gnbName": "🧑🏻‍🔧관리자페이지👈🏻",
+        "gnbHref": "/admin",
+        "subInfo": [
+            {
+                "subName": "회원 관리",
+                "subHref": "/admin"
+            },
+            {
+                "subName": "페이지 관리 (연혁, 연락처)",
+                "subHref": "/admin/staticpage"
+            }
+        ]
     }
 ]

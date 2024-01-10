@@ -174,6 +174,9 @@ function Header(props) {
         const result = [];
 
         for (const gnb of (props.isLogin ? gnbIsLogin : gnbIsNotLogin)) {
+            if (!props.isAdmin && gnb.gnbHref === '/admin')
+                continue;
+
             result.push(
                 <ul key={keyForSomeElement--} className='flex-col flex px-10 border-b-2'>
                     <a className='text-xl font-black w-full justify-end flex py-3'
@@ -230,11 +233,16 @@ function Header(props) {
                         <div className='lg:flex hidden items-center'>
                             {
                                 props.isLogin ? (
-                                    gnbIsLogin.map((ele, index) =>
-                                    <a href={process.env.PUBLIC_URL + ele.gnbHref}
-                                        onMouseOver={() => { setHover(index); }} key={ele.gnbName}>
-                                        {ele.gnbName}
-                                    </a>)
+                                    gnbIsLogin.map((ele, index) => {
+                                        if (!props.isAdmin && ele.gnbHref === '/admin')
+                                            return;
+
+                                        return <a href={process.env.PUBLIC_URL + ele.gnbHref}
+                                            onMouseOver={() => { setHover(index); }} key={ele.gnbName}>
+                                            {ele.gnbName}
+                                        </a>
+                                    }
+                                    )
                                 ) : (
                                     gnbIsNotLogin.map((ele, index) =>
                                     <a href={process.env.PUBLIC_URL + ele.gnbHref}

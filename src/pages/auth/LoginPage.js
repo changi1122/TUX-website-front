@@ -40,6 +40,7 @@ function LoginPage(props) {
                 }
                 props.setIsLogin(true);
                 navigate('/');
+                navigate(0);
             })
             .catch((err) => {
                 console.warn(err);
