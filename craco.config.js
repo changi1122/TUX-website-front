@@ -4,8 +4,8 @@ module.exports = {
       optimization: {
         splitChunks: {
           chunks: 'all',
-          minSize: 40000,
-          maxSize: 200000,
+          minSize: 80000,
+          maxSize: 800000,
           cacheGroups: {
             vendor: {
               test: /[\\/]node_modules[\\/]/,
