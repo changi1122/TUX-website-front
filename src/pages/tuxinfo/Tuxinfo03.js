@@ -1,10 +1,9 @@
-import { useEffect } from "react";
-import { people } from "../../static/jsons"
+import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 
 const PeopleBox = ({ props }) => {
     return (
-        <li className={`${props.year % 2 === 0 ? 'md:float-left' : 'md:float-right'} float-none my-5 md:w-[50%] w-full border-b border-slate-500 ani-effect`}>
+        <li className={`${props.year % 2 === 0 ? 'md:float-left' : 'md:float-right'} float-none my-5 md:w-[48%] w-full h-[100%] border-b border-slate-500 ani-effect`}>
             <div className="w-full">
                 <div className="px-6 pt-3 border-x border-slate-300">
                     <span className="text-4xl font-semibold">{props.generation}</span>
@@ -21,7 +20,24 @@ const PeopleBox = ({ props }) => {
 }
 
 function Tuxinfo03() {
+
+    const [people, setPeople] = useState([]);
+
     useEffect(() => {
+        loadPeople();
+    }, []);
+
+    async function loadPeople() {
+        const res = await fetch(`/api/staticpage/people`, { method: "GET" });
+        if (res.ok) {
+            const page = await res.json();
+            setPeople(JSON.parse(decodeURI(page.body)));
+        }
+        giveScrollEffect();
+    }
+
+
+    function giveScrollEffect() {
         const io = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 // entry의 target으로 DOM에 접근
@@ -39,7 +55,8 @@ function Tuxinfo03() {
         $items.forEach((item) => {
             io.observe(item);
         })
-    }, []);
+    }
+
 
     return (
         <div className='min-h-screen px-3 md:py-20 py-10'>
@@ -70,7 +87,7 @@ function Tuxinfo03() {
                     <p className="text-2xl">TUX의 기수별 임원진 소개</p>
                 </div>
 
-                <ul>
+                <ul className='flex flex-wrap justify-between'>
                     {
                         people.map((ele) => <PeopleBox key={ele.generation} props={ele} />)
                     }

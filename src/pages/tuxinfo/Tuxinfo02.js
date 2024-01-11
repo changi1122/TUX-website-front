@@ -1,6 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import './style.css'
-import { history } from "../../static/jsons"
 import { Link } from 'react-router-dom';
 
 const HistoryBox = ({ props }) => {
@@ -19,7 +18,23 @@ const HistoryBox = ({ props }) => {
 }
 
 function Tuxinfo02() {
+
+    const [history, setHistory] = useState([]);
+
     useEffect(() => {
+        loadHistory();
+    }, []);
+
+    async function loadHistory() {
+        const res = await fetch(`/api/staticpage/history`, { method: "GET" });
+        if (res.ok) {
+            const page = await res.json();
+            setHistory(JSON.parse(decodeURI(page.body)));
+        }
+        giveScrollEffect();
+    }
+
+    function giveScrollEffect() {
         const io = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 // entry의 target으로 DOM에 접근
@@ -37,7 +52,8 @@ function Tuxinfo02() {
         $items.forEach((item) => {
             io.observe(item);
         })
-    }, []);
+    }
+
 
     return (
         <div className='min-h-screen px-3 md:py-20 py-10'>
@@ -70,7 +86,7 @@ function Tuxinfo02() {
 
                 <ul className="history mt-10 mx-auto">
                     {
-                        history.map((ele) => <HistoryBox key={ele.year} props={ele} />)
+                        history && history.map((ele) => <HistoryBox key={ele.year} props={ele} />)
                     }
                 </ul>
             </div>
