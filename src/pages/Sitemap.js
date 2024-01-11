@@ -14,6 +14,9 @@ const GnbSub = ({ sub }) => {
 };
 
 const GnbBox = ({ gnb, isLogin }) => {
+    if (gnb.gnbHref === '/admin')
+        return;
+
     return (
         <div className="mx-2">
             <a href={process.env.PUBLIC_URL + gnb.subInfo[0].subHref}
