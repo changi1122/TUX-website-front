@@ -10,7 +10,7 @@ const HistoryBox = ({ props }) => {
             <ol className="text-lg pb-20">
                 {
                     props.contents.map((ele, index) =>
-                        <li key={index} className="leading-8">{"- " + ele}</li>
+                        <li key={index} className="leading-8">{ele}</li>
                     )
                 }
             </ol>
@@ -62,7 +62,7 @@ function Tuxinfo02() {
                 </div>
             </div>
 
-            <div className="mt-20 text-left lg:px-[25vw] px-0">
+            <div className="mt-20 mx-auto lg:w-[936px] w-full text-left">
                 <div>
                     <div className="text-4xl text-black">TUX HISTORY</div>
                     <p className="text-2xl">TUX의 주요 활동과 실적들</p>
