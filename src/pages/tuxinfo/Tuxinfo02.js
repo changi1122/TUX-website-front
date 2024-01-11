@@ -31,27 +31,6 @@ function Tuxinfo02() {
             const page = await res.json();
             setHistory(JSON.parse(decodeURI(page.body)));
         }
-        giveScrollEffect();
-    }
-
-    function giveScrollEffect() {
-        const io = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                // entry의 target으로 DOM에 접근
-                const $target = entry.target;
-
-                // 화면에 노출 상태에 따라.. -> 해당 엘리먼트의 class를 컨트롤
-                if (entry.isIntersecting) {
-                    $target.classList.add("on");
-                }
-            });
-        });
-
-        // 옵저버할 대상 DOM을 선택하여 관찰
-        const $items = document.querySelectorAll("li");
-        $items.forEach((item) => {
-            io.observe(item);
-        })
     }
 
 
