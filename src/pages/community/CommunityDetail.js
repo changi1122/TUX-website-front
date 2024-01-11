@@ -135,11 +135,17 @@ function CommunityDetail() {
                             </div>
                             {
                                 post.files.map(f => (
-                                <div key={f.path} className='block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow'>
+                                <div key={f.path} className='flex items-center max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow'>
                                     <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
                                         {(f.isImage) ? '이미지' : '첨부파일'}
                                     </span>
-                                    <a className='text-sm hover:underline' href={f.path} target='_blank' rel="noreferrer">{f.filename}</a>
+                                    <a className='flex-1 text-sm hover:underline' href={f.path + "?aid=" + f.id} target='_blank' rel="noreferrer">{f.filename}</a>
+                                    <span className='ml-2 text-sm text-gray-500'>
+                                        <svg className="inline w-[14px] h-[14px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
+                                            <path stroke='#727272' strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>
+                                        </svg>
+                                        <span className='ml-1'>{f.downloadCount+"회"}</span>
+                                    </span>
                                 </div>
                                 ))
                             }
