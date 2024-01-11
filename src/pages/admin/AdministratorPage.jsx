@@ -109,8 +109,8 @@ function AdministratorPage() {
                     </div>
                 </div>
 
-                <form className="mt-5">
-                    <table className="w-full border-separate border-2 text-sm">
+                <form className="mt-5 overflow-y-scroll">
+                    <table className="w-full min-w-[900px] border-separate border-2 text-sm">
                         <thead>
                             <tr className="bg-gray-100">
                                 <th className="py-2">아이디</th>
@@ -187,8 +187,8 @@ function AdministratorPage() {
                     <p className="text-gray-500 text-sm mt-1">* 학번, 이름, 아이디, 이메일, 전화번호로 특정 회원을 검색할 수 있습니다.</p>
                 </div>
 
-                <form className="mt-5">
-                    <table className="w-full border-separate border-2 text-sm">
+                <form className="mt-5 overflow-y-scroll">
+                    <table className="w-full min-w-[900px] border-separate border-2 text-sm">
                         <thead>
                             <tr className="bg-gray-100">
                                 <th className="py-2">아이디</th>
