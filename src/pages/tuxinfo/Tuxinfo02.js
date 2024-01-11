@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const HistoryBox = ({ props }) => {
     return (
-        <li className="flex lg:gap-24 gap-10 relative ani-effect">
+        <li className="flex lg:gap-24 gap-10 relative">
             <h1 className="lg:text-6xl text-4xl font-thin bg-[#efefef] text-slate-400 relative leading-none lg:pl-36 pl-10">{props.year}</h1>
             <ol className="text-lg pb-20">
                 {

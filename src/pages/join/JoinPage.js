@@ -15,7 +15,7 @@ function JoinPage() {
 
     return (
         <div className='min-h-screen px-3 md:py-20 py-10'>
-            <div className="border-b border-black w-full pb-20 relative">
+            <div className="border-b border-black w-full pb-20 ani-fadein-up relative">
                 <div className="text-lg">지원하기</div>
                 <div className="text-4xl font-bold">부원 모집</div>
                 <div className='absolute bottom-0 w-full m-[-1px]'>

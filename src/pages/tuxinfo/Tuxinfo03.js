@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const PeopleBox = ({ props }) => {
     return (
-        <li className={`${props.year % 2 === 0 ? 'md:float-left' : 'md:float-right'} float-none my-5 md:w-[48%] w-full h-[100%] border-b border-slate-500 ani-effect`}>
+        <li className={`${props.year % 2 === 0 ? 'md:float-left' : 'md:float-right'} float-none my-5 md:w-[48%] w-full h-[100%] border-b border-slate-500`}>
             <div className="w-full">
                 <div className="px-6 pt-3 border-x border-slate-300">
                     <span className="text-4xl font-semibold">{props.generation}</span>
