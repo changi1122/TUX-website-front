@@ -202,7 +202,7 @@ function GalleryDetail() {
                             {
                                 post.comments.map(c => (
                                     <>
-                                    <div key={c.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow">
+                                    <div key={c.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow break-words">
                                         <p className="mb-1 text-sm tracking-tight text-gray-900">
                                             {c.body}
                                         </p>
