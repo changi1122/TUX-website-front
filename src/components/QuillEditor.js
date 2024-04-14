@@ -34,7 +34,7 @@ export default function QuillEditor({ body, handleQuillChange, mountBody, setMou
                     [{ 'indent': '-1'}, { 'indent': '+1' }],            // outdent/indent
                     //[{ 'direction': 'rtl' }],                           // text direction
                     ['clean'],                                          // remove formatting button
-                    [/*'blockquote',*/ 'link', /*'code-block', 'formula',*/ 'image', /*'video'*/] // media
+                    ['blockquote', 'link', 'code-block', /*'formula',*/ 'image', /*'video'*/] // media
                 ],
                 handlers: {
                     image: imageHandler

@@ -110,7 +110,7 @@ function CommunityDetail() {
                     <div className='w-60 min-w-[15rem] max-lg:hidden'>
                         <CommunityRule />
                     </div>
-                    <div className='flex-1 ml-4 max-lg:ml-0'>
+                    <div className='flex-1 ml-4 max-lg:ml-0 lg:max-w-[680px] max-w-full'>
                         {
                             post &&
                             <>
@@ -129,7 +129,7 @@ function CommunityDetail() {
                                     <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>🧑🏻‍💻</span> {post.author}</span>
                                     <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👀</span> {post.view}</span>
                                 </div>
-                                <div className='md mt-4 ql-editor' style={{ padding: '0' }}
+                                <div className='md mt-4 ql-editor break-words' style={{ padding: '0' }}
                                     dangerouslySetInnerHTML={{ __html: post.body }}>
                                 </div>
                             </div>

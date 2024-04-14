@@ -58,8 +58,8 @@
     }
 
     blockquote {
-        padding: 10px 20px;
-        margin: 0 0 20px;
+        padding: 10px 20px !important;
+        margin: 0 0 20px !important;
         font-size: 17.5px;
         border-left: 5px solid #eee;
     }
@@ -154,17 +154,17 @@
     pre {
         display: block;
         margin: 0 0 10px;
+        padding: 10px !important;
         font-size: 13px;
         line-height: 1.42857143;
-        color: #333;
+        color: #f8f8f2;
         word-break: break-all;
         word-wrap: break-word;
-        background-color: #f5f5f5;
-        border: 1px solid #ccc;
+        background-color: #23241f;
         border-radius: 4px;
 
         code {
-            font-family: Menlo,Consolas,Monaco,monospace;
+            font-family: D2Coding,'D2 coding',Menlo,Consolas,Monaco,monospace;
         }
     }
 

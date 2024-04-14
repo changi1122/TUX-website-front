@@ -157,7 +157,7 @@ function ReferenceRoomWrite() {
                     <div className='w-60 min-w-[15rem] max-lg:hidden'>
                         <ReferenceRoomRule />
                     </div>
-                    <div className='flex-1 ml-4 max-lg:ml-0'>
+                    <div className='flex-1 ml-4 max-lg:ml-0 lg:max-w-[680px] max-w-full'>
                         {/* 에디터 영역 */}
                         <div style={{ position: 'relative' }}>
                             <button className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200"
