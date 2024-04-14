@@ -40,7 +40,7 @@ function Footer(props) {
                         <div>전자정보대학 3관(S4-1) 108호 TUX</div>
                     </div>
                     <div>
-                        <a href={process.env.PUBLIC_URL + '/sitemap'} className="text-sm hover:bg-gray-200 px-[28px] py-[10px] rounded-lg">사이트 맵</a>
+                        <a href={process.env.PUBLIC_URL + '/sitemap'} className="text-sm hover:text-[#E95420] px-[28px] py-[10px] rounded-lg">사이트 맵</a>
                     </div>
                 </div>
 
