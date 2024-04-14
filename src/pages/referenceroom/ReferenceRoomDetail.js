@@ -179,7 +179,8 @@ function ReferenceRoomDetail() {
                                         {shareLabel}
                                     </button>
                                     {
-                                        (localUserId == post.authorId || sessionUserId == post.authorId) &&
+                                        (localUserId == post.authorId || sessionUserId == post.authorId ||
+                                            ['ADMIN'].includes(localRole) || ['ADMIN'].includes(sessionRole)) &&
                                         <Link className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
                                             to={`/referenceroom/${post.id}/edit`}>
                                             수정
