@@ -36,8 +36,8 @@ function Footer(props) {
                 <div className="flex md:justify-start justify-between gap-2 items-center text-start text-xs md:w-auto w-full">
                     <div>
                         <div className="text-sm">&copy; CBNU TUX</div>
-                        <div>충청북도 청주시 서원구 충대로 1</div>
-                        <div>전자정보대학 3관(S4-1) 108호 TUX</div>
+                        <div>충북 청주시 서원구 충대로 1</div>
+                        <div>전자정보 3관(S4-1동) 108호</div>
                     </div>
                     <div>
                         <a href={process.env.PUBLIC_URL + '/sitemap'} className="text-sm hover:text-[#E95420] px-[28px] py-[10px] rounded-lg">사이트 맵</a>

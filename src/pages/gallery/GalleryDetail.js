@@ -32,7 +32,11 @@ function GalleryDetail() {
         const res = await fetch(`/api/referenceroom/${id}`, {
             credentials: 'include'
         });
-        setPost(await res.json());
+        const post = await res.json();
+        for (const file of post.files) {
+            file.path = file.path.replace('[', '%5B').replace(']', '%5D');
+        }
+        setPost(post);
     }
 
     async function handleDelete()

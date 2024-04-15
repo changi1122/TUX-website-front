@@ -28,7 +28,11 @@ function CommunityDetail() {
 
     async function getCommunity(id) {
         const res = await fetch(`/api/community/${id}`);
-        setPost(await res.json());
+        const post = await res.json();
+        for (const file of post.files) {
+            file.path = file.path.replace('[', '%5B').replace(']', '%5D');
+        }
+        setPost(post);
     }
 
     async function handleDelete()
