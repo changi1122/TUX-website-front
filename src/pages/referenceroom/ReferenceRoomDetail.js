@@ -104,6 +104,29 @@ function ReferenceRoomDetail() {
     }
 
 
+    /* 추천 비추천 */
+    async function handleLikeDislike(dislike) {
+        if (!(localStorage.getItem('userId') || sessionStorage.getItem('userId'))) {
+            alert('추천/비추천하려면 먼저 로그인하세요.');
+            return;
+        }
+
+        const res = await postLike(post.id, dislike);
+        if (res.ok) {
+            navigate(0);
+        } else {
+            alert(`이미 ${(dislike) ? '비추천' : '추천'}하였습니다.`);
+        }
+    }
+
+    async function postLike(id, dislike) {
+        return await fetch(`/api/referenceroom/${id}/likes?dislike=${dislike}`, {
+            method: "POST",
+            credentials: 'include'
+        });
+    }
+
+
     return (
         <div className='min-h-screen px-3 md:pt-10 md:pb-20 pt-5 pb-10'>
             <div className="border-b border-black w-full md:pb-10 pb-5 ani-fadein-up">
@@ -152,9 +175,30 @@ function ReferenceRoomDetail() {
                                     </span>
                                     <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>🧑🏻‍💻</span> {post.author}</span>
                                     <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👀</span> {post.view}</span>
+                                    <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👍</span> {post.likes}</span>
                                 </div>
                                 <div className='md mt-4 break-words' dangerouslySetInnerHTML={{ __html: post.body }}>
                                 </div>
+                                <div class="flex rounded-md justify-center mt-12 mb-4" role="group">
+                                    <button type="button" class="w-24 px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100
+                                                                hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 focus:text-blue-600 text-blue-600"
+                                            onClick={() => handleLikeDislike(false)}>
+                                        <p>{post.likes}</p>
+                                        <p className='text-xs'>👍추천</p>
+                                    </button>
+                                    <button type="button" class="w-24 px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100
+                                                                hover:text-red-700 focus:z-10 focus:ring-4 focus:ring-gray-200 focus:text-red-600 text-red-600"
+                                            onClick={() => handleLikeDislike(true)}>
+                                        <p>{post.dislikes * -1}</p>
+                                        <p className='text-xs'>👎비추천</p>
+                                    </button>
+                                </div>
+                                {
+                                    post.likedPeople && post.likedPeople.length > 0 &&
+                                    <div className='text-xs mb-2 text-gray-400'>
+                                        추천 : {post.likedPeople.join(', ')}
+                                    </div>
+                                }
                             </div>
                             {
                                 post.files.map(f => (

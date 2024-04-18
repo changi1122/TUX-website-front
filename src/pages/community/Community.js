@@ -129,7 +129,10 @@ function Community() {
                                 <div>
                                     <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>📅</span> {dayjs(p.createdDate).locale('ko').fromNow()}</span>
                                     <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>🧑🏻‍💻</span> {p.author}</span>
-                                    <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👀</span> {p.view}</span>
+                                    <span className='text-gray-500 text-sm font-medium mr-4 hidden md:inline'><span className='inline-block mr-1'>👀</span> {p.view}</span>
+                                    { p.likes != 0 &&
+                                        <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👍</span> {p.likes}</span>
+                                    }
                                     { p.comment != 0 &&
                                         <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>💬</span>{p.comment}</span>
                                     }

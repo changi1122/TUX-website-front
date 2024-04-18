@@ -126,6 +126,9 @@ const Main = () => {
                 <div>
                     <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>📅</span>{dayjs(p.createdDate).format('YYYY-MM-DD')}</span>
                     <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👀</span>{p.view}</span>
+                    { p.likes != 0 &&
+                      <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👍</span>{p.likes}</span>
+                    }
                     { p.comment != 0 &&
                       <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>💬</span>{p.comment}</span>
                     }
@@ -155,6 +158,9 @@ const Main = () => {
                   <div>
                       <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>📅</span> {dayjs(p.createdDate).format('YYYY-MM-DD')}</span>
                       <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👀</span> {p.view}</span>
+                      { p.likes != 0 &&
+                        <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👍</span>{p.likes}</span>
+                      }
                       { p.comment != 0 &&
                         <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>💬</span>{p.comment}</span>
                       }
@@ -190,6 +196,9 @@ const Main = () => {
                     <div>
                         <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>📅</span> {dayjs(p.createdDate).format('YYYY-MM-DD')}</span>
                         <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👀</span> {p.view}</span>
+                        { p.likes != 0 &&
+                          <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👍</span>{p.likes}</span>
+                        }
                         { p.comment != 0 &&
                           <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>💬</span>{p.comment}</span>
                         }
@@ -219,6 +228,9 @@ const Main = () => {
                 <div>
                     <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>📅</span> {dayjs(p.createdDate).format('YYYY-MM-DD')}</span>
                     <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👀</span> {p.view}</span>
+                    { p.likes != 0 &&
+                      <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👍</span>{p.likes}</span>
+                    }
                     { p.comment != 0 &&
                       <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>💬</span>{p.comment}</span>
                     }
@@ -238,8 +250,8 @@ const Main = () => {
 
 
       <div className="mx-auto lg:w-[936px] w-full text-left mt-12 text-center">
-          <h2 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl">TUX ❤️ Linux</h2>
-          <p className="mb-8 text-lg font-normal text-gray-500 lg:text-xl">
+          <h2 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-4xl lg:text-5xl">TUX ❤️ Linux</h2>
+          <p className="mb-8 text-base font-normal text-gray-500 lg:text-lg break-keep">
             TUX는 Linux 및 Open Source Software를 중점적으로 연구하는 충북대학교 소프트웨어학부 소속 학술 동아리입니다.
             Linux의 응용과 실습을 바탕으로 OSS를 이해하고, 활용할 능력을 갖추는 걸 목표로 하고 있습니다.  
           </p>

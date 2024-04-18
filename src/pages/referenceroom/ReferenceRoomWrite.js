@@ -238,7 +238,7 @@ function ReferenceRoomWrite() {
                         }
                         <input className="mt-1 text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 mr-2 inline-block"
                             type='file' onChange={handleFileUpload}/>
-                        <div className="flex items-start mb-6 justify-end">
+                        <div className="flex items-start mt-4 mb-6 justify-end">
                             <div className="flex items-center h-5">
                             <input id="isAnonymized" type="checkbox" checked={isAnonymized} className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300" required
                                 onChange={(e) => { setIsAnonymized(e.target.checked) }}/>
@@ -255,6 +255,9 @@ function ReferenceRoomWrite() {
                                 onClick={submit}>
                                 글쓰기
                             </button>
+                        </div>
+                        <div className='mt-8 text-center text-xs text-gray-400'>
+                            <p>도움말 : {'</>'} 버튼을 누르면 코드 블럭을 만들 수 있어요! </p>
                         </div>
                     </div>
                 </div>
