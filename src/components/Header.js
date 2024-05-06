@@ -274,21 +274,28 @@ function Header(props) {
             </div>
 
             {/* 세부 메뉴 - ver.Laptop*/}
-            <nav className={`menu ${hover !== -1 ? 'active' : 'inactive'} absolute bg-gray-50 w-full z-40 text-left`}>
+            <nav className={`menu ${hover !== -1 ? 'active' : 'inactive'} absolute bg-gray-50 w-full z-30 text-left`}>
                 {handleLoptopMenu()}
             </nav>
 
             {/* 세부 메뉴 - ver.mobile*/}
+            {
+                isOpen && 
+                <div className='fixed z-40'
+                    style={{ background: 'rgba(0,0,0,0.01)', height: '100vh', width: '100%' }}
+                    onClick={() => toggleMenu()}>
+                </div>
+            }
             <nav className={`${isOpen ? "show-moblie-menu" : "hide-mobile-menu"} absolute top-0 shadow-[rgba(0,0,0,0.2)_0px_25px_25px_25px] bg-white w-[85vw] h-screen z-50 text-lg overflow-auto`}>
                 {
                     props.isLogin
                         ?
-                        <div className='px-10 py-5 border-b-2 flex items-center'>
-                            <button className='inline-flex w-[50vw] justify-end text-base'
+                        <div className='px-10 py-3 border-b-2 flex items-center gap-x-2'>
+                            <button className='inline-flex w-[50vw] py-3 justify-start text-base'
                                 onClick={() => { navigate('/mypage'); toggleMenu(); }}>
                                 <div className='ml-2'>{nickname} 님</div>
                             </button>
-                            <button className='inline-flex w-[50vw] justify-end'
+                            <button className='inline-flex w-[120px] py-3 justify-end text-base'
                                 onClick={() => { toggleMenu(); onClickLogout(); }}>
                                 < IoIosLogOut style={{ transform: 'translate(0, 4px)' }} />
                                 <div className='ml-2'>로그아웃</div>
