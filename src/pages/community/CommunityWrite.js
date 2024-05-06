@@ -146,7 +146,7 @@ function CommunityWrite() {
                 <div className="text-4xl font-bold max-sm:text-xl">커뮤니티</div>
             </div>
 
-            <div className="mt-5 md:mt-20 mx-auto lg:w-[936px] w-full text-left">
+            <div className="mt-5 md:mt-10 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
                     <div className='w-60 min-w-[15rem] max-lg:hidden'>
                         <CommunityRule />
@@ -217,10 +217,16 @@ function CommunityWrite() {
                                 <div className='flex justify-end mb-4'>
                                     {
                                         (f.isImage) &&
+                                        <>
+                                        <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
+                                            onClick={() => Window.insertImage(f.path)}>
+                                            이미지 본문 삽입
+                                        </button>
                                         <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
                                             onClick={() => window.navigator.clipboard.writeText(f.path)}>
-                                            이미지 링크 복사
+                                            링크 복사
                                         </button>
+                                        </>
                                     }
                                     <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
                                         onClick={() => handleDeleteAttachment(f.filename)}>

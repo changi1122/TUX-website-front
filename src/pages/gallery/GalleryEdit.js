@@ -130,23 +130,25 @@ function GalleryEdit() {
                 <div className="text-4xl font-bold max-sm:text-xl">갤러리</div>
             </div>
 
-            <div className="mt-5 md:mt-20 mx-auto lg:w-[936px] w-full text-left">
+            <div className="mt-5 md:mt-10 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
                     <div className='w-60 min-w-[15rem] max-lg:hidden'></div>
                     <div className='flex-1 ml-4 max-lg:ml-0 lg:max-w-[680px] max-w-full'>
                         {/* 에디터 영역 */}
                         <form>
-                            <div className="my-4">
+                            <div className="mt-4">
                                 <input className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500"
                                     type="text" placeholder='제목을 입력하세요' value={title} onChange={(e) => { setTitle(e.target.value) }}/>
                             </div>
-                            <div className="my-4">
-                                <input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    type="text" placeholder='촬영 장소' value={lecture} onChange={(e) => { setLecture(e.target.value) }}/>
-                            </div>
-                            <div className="my-4">
-                                <input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    type="text" placeholder='촬영 일시' value={semester} onChange={(e) => { setSemester(e.target.value) }}/>
+                            <div className='md:flex md:gap-x-2'>
+                                <div className="my-4 flex-1">
+                                    <input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        type="text" placeholder='촬영 장소' value={lecture} onChange={(e) => { setLecture(e.target.value) }}/>
+                                </div>
+                                <div className="my-4 flex-1">
+                                    <input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        type="text" placeholder='촬영 일시' value={semester} onChange={(e) => { setSemester(e.target.value) }}/>
+                                </div>
                             </div>
                             <div className='quill-container bg-white'>
                                 <QuillEditor
@@ -175,10 +177,16 @@ function GalleryEdit() {
                                 <div className='flex justify-end mb-4'>
                                     {
                                         (f.isImage) &&
+                                        <>
+                                        <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
+                                            onClick={() => Window.insertImage(f.path)}>
+                                            이미지 본문 삽입
+                                        </button>
                                         <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
                                             onClick={() => window.navigator.clipboard.writeText(f.path)}>
-                                            이미지 링크 복사
+                                            링크 복사
                                         </button>
+                                        </>
                                     }
                                     <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
                                         onClick={() => handleDeleteAttachment(f.filename)}>

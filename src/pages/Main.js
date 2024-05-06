@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 import { Swiper, SwiperSlide } from "swiper/react"; // basic
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
@@ -10,9 +9,9 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import './Sw.css'
 
-import * as dayjs from 'dayjs';
-import 'dayjs/locale/ko';
 import LoadingIndicator from '../components/LoadingIndicator';
+
+import MainListItem from '../components/listitem/MainListItem';
 
 const Main = () => {
 
@@ -118,22 +117,7 @@ const Main = () => {
             </div>
             {
               notices && notices.content.map(p => (
-              <Link key={p.id} to={"/community/"+p.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
-                <span className={badge(p.category)[0] + " text-xs font-medium rounded mr-2 mb-1 px-2.5 py-1 inline-block"}>{badge(p.category)[1]}</span>
-                <h3 className="my-1 text-md font-bold tracking-tight text-gray-900" style={{ textWrap: 'nowrap', overflowX: 'hidden', textOverflow: 'ellipsis' }}>
-                    {p.title}
-                </h3>
-                <div>
-                    <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>📅</span>{dayjs(p.createdDate).format('YYYY-MM-DD')}</span>
-                    <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👀</span>{p.view}</span>
-                    { p.likes != 0 &&
-                      <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👍</span>{p.likes}</span>
-                    }
-                    { p.comment != 0 &&
-                      <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>💬</span>{p.comment}</span>
-                    }
-                </div>
-              </Link>
+                <MainListItem key={p.id} post={p} />
             ))}
             {
               notices && notices.content.length === 0 &&
@@ -150,22 +134,7 @@ const Main = () => {
             </div>
             {
               contests && contests.content.map(p => (
-                <Link key={p.id} to={"/community/"+p.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
-                  <span className={badge(p.category)[0] + " text-xs font-medium rounded mr-2 mb-1 px-2.5 py-1 inline-block"}>{badge(p.category)[1]}</span>
-                  <h3 className="my-1 text-md font-bold tracking-tight text-gray-900" style={{ textWrap: 'nowrap', overflowX: 'hidden', textOverflow: 'ellipsis' }}>
-                      {p.title}
-                  </h3>
-                  <div>
-                      <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>📅</span> {dayjs(p.createdDate).format('YYYY-MM-DD')}</span>
-                      <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👀</span> {p.view}</span>
-                      { p.likes != 0 &&
-                        <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👍</span>{p.likes}</span>
-                      }
-                      { p.comment != 0 &&
-                        <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>💬</span>{p.comment}</span>
-                      }
-                  </div>
-                </Link>
+                <MainListItem key={p.id} post={p} />
               ))}
             {
               contests && contests.content.length === 0 &&
@@ -188,22 +157,7 @@ const Main = () => {
             </div>
               {
                 frees && frees.content.map(p => (
-                  <Link key={p.id} to={"/community/"+p.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
-                    <span className={badge(p.category)[0] + " text-xs font-medium rounded mr-2 mb-1 px-2.5 py-1 inline-block"}>{badge(p.category)[1]}</span>
-                    <h3 className="my-1 text-md font-bold tracking-tight text-gray-900" style={{ textWrap: 'nowrap', overflowX: 'hidden', textOverflow: 'ellipsis' }}>
-                        {p.title}
-                    </h3>
-                    <div>
-                        <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>📅</span> {dayjs(p.createdDate).format('YYYY-MM-DD')}</span>
-                        <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👀</span> {p.view}</span>
-                        { p.likes != 0 &&
-                          <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👍</span>{p.likes}</span>
-                        }
-                        { p.comment != 0 &&
-                          <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>💬</span>{p.comment}</span>
-                        }
-                    </div>
-                  </Link>
+                  <MainListItem key={p.id} post={p} />
                 ))}
               {
                 frees && frees.content.length === 0 &&
@@ -220,22 +174,7 @@ const Main = () => {
             </div>
           {
             teams && teams.content.map(p => (
-              <Link key={p.id} to={"/community/"+p.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
-                <span className={badge(p.category)[0] + " text-xs font-medium rounded mr-2 mb-1 px-2.5 py-1 inline-block"}>{badge(p.category)[1]}</span>
-                <h3 className="my-1 text-md font-bold tracking-tight text-gray-900" style={{ textWrap: 'nowrap', overflowX: 'hidden', textOverflow: 'ellipsis' }}>
-                    {p.title}
-                </h3>
-                <div>
-                    <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>📅</span> {dayjs(p.createdDate).format('YYYY-MM-DD')}</span>
-                    <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👀</span> {p.view}</span>
-                    { p.likes != 0 &&
-                      <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👍</span>{p.likes}</span>
-                    }
-                    { p.comment != 0 &&
-                      <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>💬</span>{p.comment}</span>
-                    }
-                </div>
-              </Link>
+              <MainListItem key={p.id} post={p} />
             ))}
           {
             teams && teams.content.length === 0 &&
@@ -272,20 +211,5 @@ const Main = () => {
 		</>
 	);
 };
-
-function badge(category) {
-  switch(category) {
-      case 'NOTICE':
-          return ['bg-green-100 text-green-800', '공지사항'];
-      case 'TEAMRECRUITMENT':
-          return ['bg-pink-100 text-pink-800', '팀원 모집'];
-      case 'CONTEST':
-          return ['bg-yellow-100 text-yellow-800', '대회/공모전'];
-      case 'JOB':
-          return ['bg-red-100 text-red-800', '채용/취업 정보'];
-      default:
-          return ['bg-purple-100 text-purple-800', '자유게시판'];
-  }
-}
 
 export default Main;

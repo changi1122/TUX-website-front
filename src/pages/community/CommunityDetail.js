@@ -132,7 +132,7 @@ function CommunityDetail() {
                 <div className="text-4xl font-bold max-sm:text-xl">커뮤니티</div>
             </div>
 
-            <div className="mt-5 md:mt-20 mx-auto lg:w-[936px] w-full text-left">
+            <div className="mt-5 md:mt-10 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
                     <div className='w-60 min-w-[15rem] max-lg:hidden'>
                         <CommunityRule />
@@ -147,15 +147,15 @@ function CommunityDetail() {
                                     {post.title}
                                 </h3>
                                 <div>
-                                    <span className='text-gray-500 text-sm font-medium mr-4' title={
+                                    <span className='text-gray-500 text-xs font-medium mr-4' title={
                                         `등록일: ${dayjs(post.createdDate).format("YYYY-MM-DD HH:mm:ss")}` + ((post.editedDate) ?
                                         `\n수정일: ${dayjs(post.editedDate).format("YYYY-MM-DD HH:mm:ss")}` : '')
                                     }>
                                         <span className='inline-block mr-1'>📅</span> {dayjs(post.createdDate).locale('ko').fromNow()}
                                     </span>
-                                    <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>🧑🏻‍💻</span> {post.author}</span>
-                                    <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👀</span> {post.view}</span>
-                                    <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👍</span> {post.likes}</span>
+                                    <span className='text-gray-500 text-xs font-medium mr-4'><span className='inline-block mr-1'>🧑🏻‍💻</span> {post.author}</span>
+                                    <span className='text-gray-500 text-xs font-medium mr-4'><span className='inline-block mr-1'>👀</span> {post.view}</span>
+                                    <span className='text-gray-500 text-xs font-medium mr-4'><span className='inline-block mr-1'>👍</span> {post.likes}</span>
                                 </div>
                                 <div className='md mt-4 ql-editor break-words' style={{ padding: '0' }}
                                     dangerouslySetInnerHTML={{ __html: post.body }}>
@@ -187,7 +187,7 @@ function CommunityDetail() {
                                     <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
                                         {(f.isImage) ? '이미지' : '첨부파일'}
                                     </span>
-                                    <a className='flex-1 text-sm hover:underline' href={f.path + "?aid=" + f.id} target='_blank' rel="noreferrer">{f.filename}</a>
+                                    <a className='flex-1 text-sm hover:underline break-all' href={f.path + "?aid=" + f.id} target='_blank' rel="noreferrer">{f.filename}</a>
                                     <span className='ml-2 text-sm text-gray-500'>
                                         <svg className="inline w-[14px] h-[14px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
                                             <path stroke='#727272' strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>
@@ -237,11 +237,11 @@ function CommunityDetail() {
                                             {c.body}
                                         </p>
                                         <div>
-                                            <span className='text-gray-500 text-sm font-medium mr-4' title={dayjs(c.createdDate).format("YYYY-MM-DD HH:mm:ss")}>
+                                            <span className='text-gray-500 text-xs font-medium mr-4' title={dayjs(c.createdDate).format("YYYY-MM-DD HH:mm:ss")}>
                                                 <span className='inline-block mr-1'>
                                                 📅</span> {dayjs(c.createdDate).locale('ko').fromNow()}
                                             </span>
-                                            <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>🧑🏻‍💻</span> {c.author}</span>
+                                            <span className='text-gray-500 text-xs font-medium mr-4'><span className='inline-block mr-1'>🧑🏻‍💻</span> {c.author}</span>
                                         </div>
                                     </div>
                                     {

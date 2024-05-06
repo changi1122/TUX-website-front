@@ -64,6 +64,14 @@ export default function QuillEditor({ body, handleQuillChange, mountBody, setMou
                 }
             }
 
+            // 첨부파일에서 이미지 삽입 시 호출할 함수
+            function insertImage(value) {
+                var range = quillInstance.current.getSelection();
+                quillInstance.current.insertEmbed((range) ? range.index : 0, 'image', value, window.Quill.sources.USER);
+                setMountBody(!mountBody);
+            }
+            Window.insertImage = insertImage;
+
             const quill = quillInstance.current;
 
             quill.root.setAttribute("spellcheck", "false");

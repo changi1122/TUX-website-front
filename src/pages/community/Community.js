@@ -60,7 +60,7 @@ function Community() {
                 <div className="text-4xl font-bold max-sm:text-xl">커뮤니티</div>
             </div>
 
-            <div className="mt-5 md:mt-20 mx-auto lg:w-[936px] w-full text-left">
+            <div className="mt-5 md:mt-10 mx-auto lg:w-[936px] w-full text-left">
                 <div className='flex'>
                     <div className='w-60 min-w-[15rem] max-lg:hidden'>
                         {/*사이드바*/}
@@ -111,7 +111,7 @@ function Community() {
                                         <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                         </svg>
-                                        <span className="sr-only">Search</span>
+                                        <span className="sr-only">검색</span>
                                     </button>
                                 </div>
                             </div>
@@ -127,14 +127,14 @@ function Community() {
                                     {p.title}
                                 </h3>
                                 <div>
-                                    <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>📅</span> {dayjs(p.createdDate).locale('ko').fromNow()}</span>
-                                    <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>🧑🏻‍💻</span> {p.author}</span>
-                                    <span className='text-gray-500 text-sm font-medium mr-4 hidden md:inline'><span className='inline-block mr-1'>👀</span> {p.view}</span>
+                                    <span className='inline-block text-gray-500 text-xs font-medium mr-4'><span className='inline-block mr-1'>📅</span> {dayjs(p.createdDate).locale('ko').fromNow()}</span>
+                                    <span className='inline-block text-gray-500 text-xs font-medium mr-4'><span className='inline-block mr-1'>🧑🏻‍💻</span> {p.author}</span>
+                                    <span className='inline-block text-gray-500 text-xs font-medium mr-4'><span className='inline-block mr-1'>👀</span> {p.view}</span>
                                     { p.likes != 0 &&
-                                        <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>👍</span> {p.likes}</span>
+                                        <span className='inline-block text-gray-500 text-xs font-medium mr-4'><span className='inline-block mr-1'>👍</span> {p.likes}</span>
                                     }
                                     { p.comment != 0 &&
-                                        <span className='text-gray-500 text-sm font-medium mr-4'><span className='inline-block mr-1'>💬</span>{p.comment}</span>
+                                        <span className='inline-block text-gray-500 text-xs font-medium mr-4'><span className='inline-block mr-1'>💬</span>{p.comment}</span>
                                     }
                                 </div>
                             </Link>
