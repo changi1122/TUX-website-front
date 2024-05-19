@@ -268,7 +268,7 @@ function RegisterPage() {
                         회원가입
                     </button>
                     <div className="text-xs mt-3 justify-center flex">
-                        <div className="mr-1">이미 게정이 있으신가요?</div>
+                        <div className="mr-1">이미 계정이 있으신가요?</div>
                         <a href={process.env.PUBLIC_URL + '/login'} className="text-[#E95420] hover:underline" >로그인</a>
                     </div>
                 </form>
