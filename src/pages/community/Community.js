@@ -121,7 +121,7 @@ function Community() {
                         {/* 게시판 리스트 */}
                         {
                             posts && posts.content.map(p => (
-                            <Link key={p.id} to={"/community/"+p.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
+                            <Link key={p.id} to={"/community/"+p.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 max-md:max-w-[100vw-24px]">
                                 <span className={badge(p.category)[0] + " text-xs font-medium rounded mr-2 mb-1 px-2.5 py-1 inline-block"}>{badge(p.category)[1]}</span>
                                 <h3 className="my-1 text-md font-bold tracking-tight text-gray-900" style={{ textWrap: 'nowrap', overflowX: 'hidden', textOverflow: 'ellipsis' }}>
                                     {p.title}

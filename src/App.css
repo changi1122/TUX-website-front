@@ -97,3 +97,11 @@
 .gallery-item .text-background {
   background-color: rgba(0, 0, 0, 0.6);
 }
+
+
+/* Main 페이지 게시글 width 제한 */
+@media not all and (min-width: 768px) {
+  .max-md\:max-w-\[100vw-24px\] {
+      max-width: calc(100vw - 24px);
+  }
+}
