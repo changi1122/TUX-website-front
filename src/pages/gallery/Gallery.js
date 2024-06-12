@@ -68,7 +68,8 @@ function Gallery() {
                                 posts && posts.content.length != 0 && posts.content.map(p => (
                                     <Link key={p.id} to={"/gallery/"+p.id}>
                                         <div className='gallery-item relative'>
-                                            <img className="h-[200px] w-full max-w-full rounded-lg object-cover" src={(p.mainImage) ? p.mainImage.path : ''} alt=""/>
+                                            
+                                            <img className="h-[200px] w-full max-w-full rounded-lg object-cover" src={(p.mainImage) ? p.mainImage.path : '/images/noimage.jpg'} alt=""/>
                                             <div className='text-background w-full text-sm text-white absolute bottom-0 px-1 py-2 rounded-lg overflow-hidden text-ellipsis'>
                                                 {p.title}
                                             </div>
