@@ -68,7 +68,7 @@ function ReferenceRoom() {
                         {/*사이드바*/}
                         <ReferenceRoomRule />
                     </div>
-                    <div className='flex-1 ml-4 max-lg:ml-0'>
+                    <div className='flex-1 ml-4 max-lg:ml-0 min-w-0'>
                         {/* 카테고리/검색 바 */}
                         <form>
                             <div className="flex" style={{ position: 'relative' }}>
@@ -115,7 +115,7 @@ function ReferenceRoom() {
                         {/* 게시판 리스트 */}
                         {
                             posts && posts.content.map(p => (
-                            <Link key={p.id} to={"/referenceroom/"+p.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 max-md:max-w-[100vw-24px]">
+                            <Link key={p.id} to={"/referenceroom/"+p.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
                                 <span className={badge(p.category)[0] + " text-xs font-medium rounded mr-2 mb-2 px-2.5 py-1 inline-block align-text-top"}>{badge(p.category)[1]}</span>
                                 {
                                     p.lecture && 

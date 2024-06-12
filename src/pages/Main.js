@@ -110,7 +110,7 @@ const Main = () => {
       {/* 공지사항, 대회/공모전 */}
       <div className='flex justify-between mx-auto lg:w-[936px] w-full text-left mt-6'>
         <div className="grid gap-12 mb-6 md:grid-cols-2 w-full">
-          <div className='max-md:max-w-[100vw-24px]'>
+          <div className='min-w-0'>
             <div className='flex items-center justify-between'>
               <h3 className='text-xl font-bold mt-6 mb-4'>공지사항</h3>
               <a href="/community?type=notice" className="font-medium text-gray-600 hover:underline mt-6 mb-4">더보기</a>
@@ -127,7 +127,7 @@ const Main = () => {
             }
             { !notices && <LoadingIndicator /> }
           </div>
-          <div className='max-md:max-w-[100vw-24px]'>
+          <div className='min-w-0'>
             <div className='flex items-center justify-between'>
               <h3 className='text-xl font-bold mt-6 mb-4'>대회/공모전</h3>
               <a href="/community?type=contest" className="font-medium text-gray-600 hover:underline mt-6 mb-4">더보기</a>
@@ -150,7 +150,7 @@ const Main = () => {
       {/* 자유게시판, 팀원 모집 */}
       <div className='flex justify-between mx-auto lg:w-[936px] w-full text-left mt-6'>
         <div className="grid gap-12 mb-6 md:grid-cols-2 w-full">
-          <div className='max-md:max-w-[100vw-24px]'>
+          <div className='min-w-0'>
             <div className='flex items-center justify-between'>
               <h3 className='text-xl font-bold mt-6 mb-4'>자유게시판</h3>
               <a href="/community?type=free" className="font-medium text-gray-600 hover:underline mt-6 mb-4">더보기</a>
@@ -167,7 +167,7 @@ const Main = () => {
               }
               { !frees && <LoadingIndicator /> }
           </div>
-          <div className='max-md:max-w-[100vw-24px]'>
+          <div className='min-w-0'>
             <div className='flex items-center justify-between'>
               <h3 className='text-xl font-bold mt-6 mb-4'>팀원 모집</h3>
               <a href="/community?type=teamrecruitment" className="font-medium text-gray-600 hover:underline mt-6 mb-4">더보기</a>
