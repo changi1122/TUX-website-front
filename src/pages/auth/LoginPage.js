@@ -13,22 +13,34 @@ function LoginPage(props) {
     const onSubmit = async (e) => {
         e.preventDefault();
 
-        await axios.post('/user/login', {
-            id: userid,
+        await axios.post('/api/auth', {
+            username: userid,
             password: userpw,
         })
-            .then(response => {
+            .then(async response => {
                 // 로그인 성공
+                const res = await axios.get('/api/auth', {}, { withCredentials: true });
+
                 if (keepAuth === true) {
-                    // console.log('로그인 정보 유지할게요 -> localStorage');
-                    localStorage.setItem('cbnu_tux_userid', response.data.data);
+                    // console.log('로그인 정보 유지할게요 -> localStorage')
+                    localStorage.setItem('cbnu_tux_userid', res.data.id);
+                    localStorage.setItem('userId', res.data.id);
+                    localStorage.setItem('username', res.data.username);
+                    localStorage.setItem('role', res.data.role);
+                    localStorage.setItem('nickname', res.data.nickname);
+                    localStorage.setItem('expire', new Date(new Date().setDate(new Date().getDate() + 7)));
                 }
                 else {
                     // console.log('로그인 정보 버려주세요 -> sessionStorage');
-                    sessionStorage.setItem('cbnu_tux_userid', response.data.data);
+                    sessionStorage.setItem('cbnu_tux_userid', response.data.id);
+                    sessionStorage.setItem('userId', res.data.id);
+                    sessionStorage.setItem('username', res.data.username);
+                    sessionStorage.setItem('role', res.data.role);
+                    sessionStorage.setItem('nickname', res.data.nickname);
                 }
                 props.setIsLogin(true);
                 navigate('/');
+                navigate(0);
             })
             .catch((err) => {
                 console.warn(err);
@@ -57,7 +69,7 @@ function LoginPage(props) {
         <div className='min-h-screen md:p-20 px-3 py-10'>
             <div>
                 <div className='text-5xl font-black'>CBNU TUX</div>
-                <div className="text-lg">Linux study club, since 2020</div>
+                <div className="text-lg">Linux & OSS Club, since 2020</div>
             </div>
 
             <div className="mt-10 mx-auto md:w-[300px] w-full">
@@ -80,7 +92,11 @@ function LoginPage(props) {
                     <input type="password"
                         name="userpw"
                         className="border border-x-gray-300 rounded px-4 py-2 w-full mt-3
-                        focus:outline-none focus:ring focus:ring-[#E95420]"
+                        focus:outline-none focus:ring focus:ring-[#E95420] text-black"
+                        style={{
+                            // 일부 환경에서 비밀번호 입력시 입력된 내용이 안 보이는 문제 해결
+                            fontFamily: '"Apple SD Gothic Neo", Apple SD Gothic Neo, -apple-system, BlinkMacSystemFont, Malgun Gothic, "돋움", dotum, arial, sans-serif'
+                        }}
                         onChange={(e) => { onChangeUserpw(e); }}
                         placeholder="비밀번호" />
                     <button className="bg-gray-100 hover:bg-gray-200 rounded py-2 w-full mt-6">
@@ -92,11 +108,11 @@ function LoginPage(props) {
                                 className="mr-1 translate-y-[1.8px]
                                 checked:accent-black"
                                 checked={keepAuth}
-                                onClick={onClickKeepAuth} />
+                                onClick={onClickKeepAuth}/>
                             로그인 상태 유지
                         </label>
                         <div className="flex gap-4">
-                            <a href={process.env.PUBLIC_URL + '/findAccount'} className="hover:text-[#E95420]" >ID/PW 찾기</a>
+                            <a href={process.env.PUBLIC_URL + '/contact'} className="hover:text-[#E95420]" >ID/PW 찾기</a>
                             <a href={process.env.PUBLIC_URL + '/signup'} className="hover:text-[#E95420]" >회원가입</a>
                         </div>
                     </div>

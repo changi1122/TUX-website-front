@@ -1,6 +1,7 @@
 [
     {
-        "gnbName": "TUX개요",
+        "gnbName": "TUX 소개",
+        "gnbHref": "/tuxinfo01",
         "subInfo": [
             {
                 "subName": "개요",
@@ -18,43 +19,59 @@
     },
     {
         "gnbName": "커뮤니티",
+        "gnbHref": "/community",
         "subInfo": [
             {
                 "subName": "공지사항",
-                "subHref": "/community01"
+                "subHref": "/community?type=notice"
             },
             {
                 "subName": "팀원 모집",
-                "subHref": "/community02"
+                "subHref": "/community?type=teamrecruitment"
             },
             {
-                "subName": "건의 게시판",
-                "subHref": "/community03"
+                "subName": "대회/공모전",
+                "subHref": "/community?type=contest"
             },
             {
-                "subName": "잡담방",
-                "subHref": "/community04"
+                "subName": "채용/취업",
+                "subHref": "/community?type=job"
+            },
+            {
+                "subName": "자유게시판",
+                "subHref": "/community?type=free"
             }
         ]
     },
     {
         "gnbName": "자료실",
+        "gnbHref": "/referenceroom",
         "subInfo": [
             {
-                "subName": "채용 · 취업 정보",
-                "subHref": "/data01"
+                "subName": "강의/스터디",
+                "subHref": "/referenceroom?type=study"
             },
             {
-                "subName": "공모전 정보",
-                "subHref": "/data02"
+                "subName": "시험 정보",
+                "subHref": "/referenceroom?type=exam"
             },
             {
                 "subName": "갤러리",
                 "subHref": "/gallery"
+            }
+        ]
+    },
+    {
+        "gnbName": "🧑🏻‍🔧관리자페이지🧑🏻‍💻",
+        "gnbHref": "/admin",
+        "subInfo": [
+            {
+                "subName": "회원 관리",
+                "subHref": "/admin"
             },
             {
-                "subName": "족보",
-                "subHref": "/exam"
+                "subName": "페이지 관리",
+                "subHref": "/admin/staticpage"
             }
         ]
     }

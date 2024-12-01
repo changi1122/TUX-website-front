@@ -20,7 +20,6 @@
     /* Center slide text vertically */
     display: flex;
     justify-content: center;
-    height: 400px!important;
     align-items: center;
   }
   

@@ -1,34 +1,69 @@
 /* eslint-disable*/
 
-import './App.css'
-import React, { Component, useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import NotFound from './NotFound';
+import './components/markdown.scss';
+import './components/Pagination.scss';
+import './components/quill.snow.css';
+import './App.css';
+
+import React, { lazy, useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import { Header, Footer, PrivateRoute } from './components';
-import Main from './pages/Main';
-import AdministratorPage from './pages/AdministratorPage'
-import Sitemap from './pages/Sitemap'
+import Loading from './Loading';
+import NotFound from './NotFound';
+import NoPermission from './NoPermission';
 
-import { LoginPage, RegisterPage, SuccessfulSignup, MyPage } from "./pages/auth";
-import { Tuxinfo01, Tuxinfo02, Tuxinfo03 } from "./pages/tuxinfo";
+/* Lazy loading for code splitting */
+const Main = lazy(() => import('./pages/Main'));
+const LoginPage = lazy(() => import('./pages/auth/LoginPage'));
+const RegisterPage = lazy(() => import('./pages/auth/RegisterPage'));
+const SuccessfulSignup = lazy(() => import('./pages/auth/SuccessfulSignup'));
+const MyPage = lazy(() => import('./pages/auth/MyPage'));
+const AdministratorPage = lazy(() => import('./pages/admin/AdministratorPage'));
+const StaticPage = lazy(() => import('./pages/admin/StaticPage'));
 
-import PostView from './pages/post/Postview';
+const Tuxinfo01 = lazy(() => import('./pages/tuxinfo/Tuxinfo01'));
+const Tuxinfo02 = lazy(() => import('./pages/tuxinfo/Tuxinfo02'));
+const Tuxinfo03 = lazy(() => import('./pages/tuxinfo/Tuxinfo03'));
 
-import PreviousExamination from "./pages/exam/PreviousExamination";
-import ExamPage from './pages/exam/ExamPage';
-import WritePage_exam from './pages/exam/WritePage_exam';
+const Community = lazy(() => import('./pages/community/Community'));
+const CommunityDetail = lazy(() => import('./pages/community/CommunityDetail'));
+const CommunityWrite = lazy(() => import('./pages/community/CommunityWrite'));
+const CommunityEdit = lazy(() => import('./pages/community/CommunityEdit'));
 
-import PreviousGallery from "./pages/gallery/PreviousGallery";
-import GalleryPage from "./pages/gallery/GalleryPage";
-import WritePage_gall from './pages/gallery/WritePage_gall';
+const ReferenceRoom = lazy(() => import('./pages/referenceroom/ReferenceRoom'));
+const ReferenceRoomDetail = lazy(() => import('./pages/referenceroom/ReferenceRoomDetail'));
+const ReferenceRoomWrite = lazy(() => import('./pages/referenceroom/ReferenceRoomWrite'));
+const ReferenceRoomEdit = lazy(() => import('./pages/referenceroom/ReferenceRoomEdit'));
+const Gallery = lazy(() => import('./pages/gallery/Gallery'));
+const GalleryDetail = lazy(() => import('./pages/gallery/GalleryDetail'));
+const GalleryWrite = lazy(() => import('./pages/gallery/GalleryWrite'));
+const GalleryEdit = lazy(() => import('./pages/gallery/GalleryEdit'));
+
+const JoinPage = lazy(() => import('./pages/join/JoinPage'));
+const ContactPage = lazy(() => import('./pages/join/ContactPage'));
+
+const Sitemap = lazy(() => import('./pages/Sitemap'));
+
+/* Dayjs */
+import * as dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+var relativeTime = require('dayjs/plugin/relativeTime');
+dayjs.extend(relativeTime);
+dayjs().locale('ko');
 
 const App = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [role, setRole] = useState('');
 
   useEffect(() => {
-    if (localStorage.cbnu_tux_userid === 'admin' || sessionStorage.cbnu_tux_userid === 'admin') {
+    if (localStorage.role)
+      setRole(localStorage.role);
+    if (sessionStorage.role)
+      setRole(sessionStorage.role);
+
+    if (role === 'ADMIN') {
       setIsAdmin(true);
     }
     else {
@@ -36,86 +71,109 @@ const App = () => {
     }
   }, [isLogin]);
 
+  function isLogined() {
+    return (localStorage.cbnu_tux_userid || sessionStorage.cbnu_tux_userid);
+  }
+
+  function isNotGuest() {
+    if (localStorage.role)
+      return localStorage.role !== "GUEST";
+    if (sessionStorage.role)
+      return sessionStorage.role !== "GUEST";
+    return false;
+  }
+
   return (
     <div className='App'>
       <BrowserRouter>
-        <Header isLogin={isLogin} setIsLogin={setIsLogin} />
+        <Header isLogin={isLogin} isAdmin={isAdmin} setIsLogin={setIsLogin} />
+
+        <React.Suspense fallback={<Loading />}>
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path='/admin' element={
+              <PrivateRoute isThatTrue={isAdmin} isTrue={<AdministratorPage />} isFalse={<NoPermission />} />
+            } />
+            <Route path='/admin/staticpage' element={
+              <PrivateRoute isThatTrue={isAdmin} isTrue={<StaticPage />} isFalse={<NoPermission />} />
+            } />
+            <Route path="/sitemap" element={<Sitemap isLogin={isLogin} />}></Route>
 
 
-        <Routes>
-          <Route path="/" element={
-            // 로그인 한 사용자의 id가 'admin'일 경우, 관리자 페이지로 route
-            <PrivateRoute isThatTrue={isAdmin} isTrue={<AdministratorPage />} isFalse={<Main />} />
-          } />
-          <Route path="/sitemap" element={<Sitemap isLogin={isLogin} />}></Route>
+            {/* auth pages */}
+            <Route path="/login" element={
+              // 이미 로그인 되어 있는 상태라면, 권한 없음 페이지 표시(GUEST 권한으로 자료실/갤러리 접근하는 경우)
+              <PrivateRoute isThatTrue={isLogined()} isTrue={<NoPermission />} isFalse={<LoginPage isLogin={isLogin} setIsLogin={setIsLogin} />} />
+            } />
+            <Route path="/signup" element={
+              <PrivateRoute isThatTrue={isLogined()} isTrue={<NotFound />} isFalse={<RegisterPage />} />
+            } />
+            <Route path="/signup/successful" element={
+              <PrivateRoute isThatTrue={isLogined()} isTrue={<NotFound />} isFalse={<SuccessfulSignup />} />
+            } />
+            <Route path="/mypage" element={
+              // 로그인 하지 않은 사용자는, mypage에 접근할 수 없음
+              <PrivateRoute isThatTrue={isLogined()} isTrue={<MyPage />} isFalse={<NotFound />} />
+            } />
 
 
-          {/* auth pages */}
-          <Route path="/login" element={
-            // 이미 로그인 되어 있는 상태라면, login page에 접근 불가 -> NotFound page로 route
-            <PrivateRoute isThatTrue={isLogin} isTrue={<NotFound />} isFalse={<LoginPage isLogin={isLogin} setIsLogin={setIsLogin} />} />
-          } />
-          <Route path="/signup" element={
-            <PrivateRoute isThatTrue={isLogin} isTrue={<NotFound />} isFalse={<RegisterPage />} />
-          } />
-          <Route path="/signup/successful" element={
-            <PrivateRoute isThatTrue={isLogin} isTrue={<NotFound />} isFalse={<SuccessfulSignup />} />
-          } />
-          <Route path="/mypage" element={
-            // 로그인 하지 않은 사용자는, mypage에 접근할 수 없음
-            <PrivateRoute isThatTrue={isLogin} isTrue={<MyPage />} isFalse={<NotFound />} />
-          } />
+            {/* TUX 개요 */}
+            <Route path="/tuxinfo01" element={<Tuxinfo01 />}></Route>
+            <Route path="/tuxinfo02" element={<Tuxinfo02 />}></Route>
+            <Route path="/tuxinfo03" element={<Tuxinfo03 />}></Route>
 
 
-          {/* TUX 개요 */}
-          <Route path="/tuxinfo01" element={<Tuxinfo01 />}></Route>
-          <Route path="/tuxinfo02" element={<Tuxinfo02 />}></Route>
-          <Route path="/tuxinfo03" element={<Tuxinfo03 />}></Route>
+            {/* 커뮤니티 */}
+            <Route path="/community" element={<Community />}></Route>
+            <Route path="/community/:id" element={<CommunityDetail />}></Route>
+            <Route path="/community/write" element={<CommunityWrite />}></Route>
+            <Route path="/community/:id/edit" element={<CommunityEdit />}></Route>
 
 
-          {/* 커뮤니티 */}
-          {/* <Route path="/community01" element={<Community01 />}></Route>
-          <Route path="/community02" element={<Community02 />}></Route>
-          <Route path="/community03" element={<Community03 />}></Route>
-          <Route path="/community04" element={
-            // 잡담방(private)
-            <PrivateRoute isThatTrue={isLogin} isTrue={<Community04 />} isFalse={<NotFound />} />
-          } /> */}
+            {/* 자료실 */}
+            <Route path="/referenceroom" element={
+              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoom />} isFalse={<Navigate to='/login' />} />
+            } />
+            <Route path="/referenceroom/:id" element={
+              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoomDetail />} isFalse={<Navigate to='/login' />} />
+            } />
+            <Route path="/referenceroom/write" element={
+              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoomWrite />} isFalse={<Navigate to='/login' />} />
+            } />
+            <Route path="/referenceroom/:id/edit" element={
+              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoomEdit />} isFalse={<Navigate to='/login' />} />
+            } />
 
+            {/* 갤러리 */}
+            <Route path="/gallery" element={
+              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<Gallery />} isFalse={<Navigate to='/login' />} />
+            } />
+            <Route path="/gallery/:id" element={
+              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<GalleryDetail />} isFalse={<Navigate to='/login' />} />
+            } />
+            <Route path="/gallery/write" element={
+              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<GalleryWrite />} isFalse={<Navigate to='/login' />} />
+            } />
+            <Route path="/gallery/:id/edit" element={
+              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<GalleryEdit />} isFalse={<Navigate to='/login' />} />
+            } />
 
-          {/* 자료실 */}
-          <Route path="/gallery" element={<PreviousGallery />}></Route>
-          <Route path="/write_page_gall" element={<WritePage_gall />}></Route>
-          <Route path="/gallery/*" element={<GalleryPage />}></Route>
+            {/* 지원하기 */}
+            <Route path="/join" element={<JoinPage />}></Route>
+            <Route path="/contact" element={<ContactPage />}></Route>
 
-          {/* 족보(private) */}
-          <Route path="/exam" element={
-            <PrivateRoute isThatTrue={isLogin} isTrue={<PreviousExamination />} isFalse={<NotFound />} />
-          } />
-          <Route path="/write_page" element={
-            <PrivateRoute isThatTrue={isLogin} isTrue={<WritePage_exam />} isFalse={<NotFound />} />
-          } />
-          <Route path="/exam/*" element={
-            <PrivateRoute isThatTrue={isLogin} isTrue={<ExamPage />} isFalse={<NotFound />} />
-          } />
+            {/* 사용안함: <Route path='/postView/:no' component={<PostView />} />*/}
 
+            {/* 엘리먼트의 상단에 위치하는 라우트들의 규칙을 모두 확인하고, 일치하는 라우트가 없다면 이 라우트가 화면에 나타나게 됩니다. */}
+            <Route path="*" element={<NotFound />}></Route>
+          </Routes>
 
-          <Route path='/postView/:no' component={<PostView />} />
-
-          {/* 엘리먼트의 상단에 위치하는 라우트들의 규칙을 모두 확인하고, 일치하는 라우트가 없다면 이 라우트가 화면에 나타나게 됩니다. */}
-          <Route path="*" element={<NotFound />}></Route>
-        </Routes>
-
-
-
-        <Footer />
+          <Footer />
+        </React.Suspense>
       </BrowserRouter>
     </div>
   );
 };
-
-
-
 
 
 export default App;

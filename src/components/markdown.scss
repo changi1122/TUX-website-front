@@ -1,0 +1,323 @@
+.md {
+    h1, h2 {
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
+    h3, h4 {
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+    h5, h6 {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    h1 {
+        font-size: 28px;
+        font-weight: bold;
+    }
+    h2 {
+        font-size: 24px;
+        font-weight: bold;
+    }
+    h3 {
+        font-size: 20px;
+        font-weight: bold;
+    }
+    h4 {
+        font-size: 16px;
+    }
+    p {
+        font-size: 15.4px;
+    }
+    b {
+        font-weight: bold;
+    }
+
+    a {
+        color: rgb(9, 105, 218);
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    p code {
+        padding: 2px 4px;
+        font-family: Menlo,Consolas,Monaco,monospace;
+        font-size: 90%;
+        color: #c7254e;
+        background-color: #f9f2f4;
+        border-radius: 4px;
+    }
+    hr {
+        width: 100%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #eee;
+    }
+
+    blockquote {
+        padding: 10px 20px !important;
+        margin: 0 0 20px !important;
+        font-size: 17.5px;
+        border-left: 5px solid #eee;
+    }
+    blockquote p {
+        font-size: 17.5px;
+    }
+    blockquote p:last-child,
+    blockquote ul:last-child,
+    blockquote ol:last-child {
+      margin-bottom: 0;
+    }
+    blockquote footer,
+    blockquote small,
+    blockquote .small {
+      display: block;
+      font-size: 80%;
+      line-height: 1.42857143;
+      color: #777;
+    }
+    blockquote footer:before,
+    blockquote small:before,
+    blockquote .small:before {
+      content: '\2014 \00A0';
+    }
+    .blockquote-reverse,
+    blockquote.pull-right {
+      padding-right: 15px;
+      padding-left: 0;
+      text-align: right;
+      border-right: 5px solid #eee;
+      border-left: 0;
+    }
+    .blockquote-reverse footer:before,
+    blockquote.pull-right footer:before,
+    .blockquote-reverse small:before,
+    blockquote.pull-right small:before,
+    .blockquote-reverse .small:before,
+    blockquote.pull-right .small:before {
+      content: '';
+    }
+    .blockquote-reverse footer:after,
+    blockquote.pull-right footer:after,
+    .blockquote-reverse small:after,
+    blockquote.pull-right small:after,
+    .blockquote-reverse .small:after,
+    blockquote.pull-right .small:after {
+      content: '\00A0 \2014';
+    }
+    blockquote:before,
+    blockquote:after {
+      content: "";
+    }
+
+    sub, sup {
+        position: relative;
+        font-size: 75%;
+        line-height: 0;
+        vertical-align: baseline;
+    }
+    sup {
+        top: -.5em;
+    }
+    sub {
+        bottom: -.25em;
+    }
+    mark {
+        padding: .2em;
+        background-color: #fcf8e3;
+    }
+    
+    ul, ol {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding-inline-start: 36px;
+    }
+    li {
+        display: list-item;
+        margin-bottom: 10px;
+        font-size: 15px;
+    }
+    ul {
+        list-style-type: disc;
+
+        li::marker {
+            font-size: 0.8em;
+        }
+    }
+    ol {
+        list-style-type: decimal;
+    }
+
+    pre {
+        display: block;
+        margin: 0 0 10px;
+        padding: 10px !important;
+        font-size: 13px;
+        line-height: 1.42857143;
+        color: #f8f8f2;
+        word-break: break-all;
+        word-wrap: break-word;
+        background-color: #23241f;
+        border-radius: 4px;
+        overflow-x: auto;
+
+        code {
+            font-family: D2Coding,'D2 coding',Menlo,Consolas,Monaco,monospace;
+        }
+    }
+
+    table { 
+        width: 100%;
+        border-collapse: collapse; 
+        margin-bottom: 20px;
+        text-wrap: nowrap;
+        overflow-x: auto;
+        display: table;
+    }
+    /* Zebra striping */
+    tr:nth-of-type(odd) { 
+        background: #f9f9f9; 
+    }
+    th { 
+        background: #fff; 
+        font-weight: bold; 
+    }
+    td, th { 
+        padding: 10px; 
+        text-align: left; 
+        font-size: 15px;
+        border-bottom: 2px solid #ddd;
+    }
+    td {
+        border-bottom: none;
+        border-top: 1px solid #ddd;
+    }
+    
+    dt {
+        font-weight: bold;
+    }
+    dt, dd {
+        line-height: 1.428571;
+    }
+    dl {
+        font-size: 16px;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+    abbr[title], abbr[data-original-title] {
+        cursor: help;
+    }
+
+    img {
+        display: block;
+        max-width: 100%;
+        max-height: 800px;
+        margin: 0 auto;
+    }
+    img.round {
+        border-radius: 8px;
+    }
+}
+
+@media only screen and (max-width:1262px) {
+    .md img {
+        max-width: 100%;
+    }
+}
+@media only screen and (max-width:738px) {
+    .md img {
+        max-width: 100%;
+        max-height: unset;
+    }
+}
+
+
+
+.hljs {
+    background-color: transparent;
+}
+
+/* Loading icon */
+.gooey {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 142px;
+    height: 40px;
+    margin: -20px 0 0 -71px;
+    background: #fff;
+    filter: contrast(20);
+
+    .dot {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        top: 12px;
+        left: 15px;
+        filter: blur(4px);
+        background: #000;
+        border-radius: 50%;
+        transform: translateX(0);
+        animation: dot 2.8s infinite;
+    }
+    .dots {
+        transform: translateX(0);
+        margin-top: 12px;
+        margin-left: 31px;
+        animation: dots 2.8s infinite;
+
+        span {
+            display: block;
+            float: left;
+            width: 16px;
+            height: 16px;
+            margin-left: 16px;
+            filter: blur(4px);
+            background: #000;
+            border-radius: 50%;
+        }
+    }
+}
+@-moz-keyframes dot {
+    50% {
+        transform: translateX(96px);
+    }
+}
+@-webkit-keyframes dot {
+    50% {
+        transform: translateX(96px);
+    }
+}
+@-o-keyframes dot {
+    50% {
+        transform: translateX(96px);
+    }
+}
+@keyframes dot {
+    50% {
+        transform: translateX(96px);
+    }
+}
+@-moz-keyframes dots {
+    50% {
+        transform: translateX(-31px);
+    }
+}
+@-webkit-keyframes dots {
+    50% {
+        transform: translateX(-31px);
+    }
+}
+@-o-keyframes dots {
+    50% {
+        transform: translateX(-31px);
+    }
+}
+@keyframes dots {
+    50% {
+        transform: translateX(-31px);
+    }
+}

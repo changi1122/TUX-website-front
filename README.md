@@ -1,6 +1,24 @@
-# Getting Started with Create React App
+# TUX 홈페이지 프론트엔드
+
+
+
+## Built With
+
+![React](https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB)
+![TailwindCSS](https://img.shields.io/badge/Tailwind%20CSS-%2338B2AC.svg?logo=tailwind-css&logoColor=white)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+
+
+## Authors ✨
+
+* [yewon-saurus](https://github.com/yewon-saurus)
+* [Zino03](https://github.com/Zino03)
+* [hoihoi0101](https://github.com/hoihoi0101)
+* [changi1122](https://github.com/changi1122)
+
+
 
 ## Available Scripts
 
