@@ -148,16 +148,16 @@ const Main = () => {
       {/* 공지사항, 대회/공모전 */}
       <div className='flex justify-between mx-auto lg:w-[936px] w-full text-left mt-10'>
         <div className="grid gap-12 mb-6 md:grid-cols-2 w-full">
-          <PostListSection title='공지사항' link='/community?type=notice' data={notices} />
-          <PostListSection title='대회/공모전' link='/community?type=contest' data={contests} />
+          <PostListSection title='공지사항' moreLink='/community?type=notice' data={notices} />
+          <PostListSection title='대회/공모전' moreLink='/community?type=contest' data={contests} />
         </div>
       </div>
 
       {/* 자유게시판, 팀원 모집 */}
       <div className='flex justify-between mx-auto lg:w-[936px] w-full text-left mt-6'>
         <div className="grid gap-12 mb-6 md:grid-cols-2 w-full">
-          <PostListSection title='자유게시판' link='/community?type=free' data={frees} />
-          <PostListSection title='팀원 모집' link='/community?type=teamrecruitment' data={teams} />
+          <PostListSection title='자유게시판' moreLink='/community?type=free' data={frees} />
+          <PostListSection title='팀원 모집' moreLink='/community?type=teamrecruitment' data={teams} />
         </div>
       </div>
 
