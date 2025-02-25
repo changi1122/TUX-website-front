@@ -51,28 +51,28 @@ const Main = () => {
   const NavButtons = () => {
     const links = [
       { href: '/community', text: '커뮤니티', color: 'green', icon: (
-        <svg className='w-7 h-7' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'>
+        <svg className='w-7 h-7 text-green-700' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'>
           <path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M4.333 6.764a3 3 0 1 1 3.141-5.023M2.5 16H1v-2a4 4 0 0 1 4-4m7.379-8.121a3 3 0 1 1 2.976 5M15 10a4 4 0 0 1 4 4v2h-1.761M13 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-4 6h2a4 4 0 0 1 4 4v2H5v-2a4 4 0 0 1 4-4Z' />
         </svg>
       ) },
       { href: '/referenceroom', text: '자료실', color: 'purple', icon: (
-        <svg className='w-7 h-7' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'>
+        <svg className='w-7 h-7 text-purple-700' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'>
           <path stroke='currentColor' strokeLinejoin='round' strokeWidth='2' d='M8 8v1h4V8m4 7H4a1 1 0 0 1-1-1V5h14v9a1 1 0 0 1-1 1ZM2 1h16a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1Z' />
         </svg>
       ) },
       { href: '/gallery', text: '갤러리', color: 'red', icon: (
-        <svg className='w-7 h-7' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 18'>
+        <svg className='w-7 h-7 text-red-700' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 18'>
           <path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z' />
           <path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z' />
         </svg>
       ) },
       { href: '/tuxinfo01', text: 'TUX 소개', color: 'gray', icon: (
-        <svg className='w-7 h-7' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'>
+        <svg className='w-7 h-7 text-gray-700' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'>
           <path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M8 9h2v5m-2 0h4M9.408 5.5h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z' />
         </svg>
       ) },
       { href: '/join', text: '지원하기', color: 'blue', icon: (
-        <svg className='w-7 h-7' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'>
+        <svg className='w-7 h-7 text-blue-700' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'>
           <path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M15 17v1a.97.97 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2M6 1v4a1 1 0 0 1-1 1H1m13.14.772 2.745 2.746M18.1 5.612a2.086 2.086 0 0 1 0 2.953l-6.65 6.646-3.693.739.739-3.692 6.646-6.646a2.087 2.087 0 0 1 2.958 0Z' />
         </svg>
       ) }
