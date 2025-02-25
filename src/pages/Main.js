@@ -156,7 +156,7 @@ const Main = () => {
       {/* 자유게시판, 팀원 모집 */}
       <div className='flex justify-between mx-auto lg:w-[936px] w-full text-left mt-6'>
         <div className="grid gap-12 mb-6 md:grid-cols-2 w-full">
-          <PostListSection title='자유게시판항' link='/community?type=free' data={frees} />
+          <PostListSection title='자유게시판' link='/community?type=free' data={frees} />
           <PostListSection title='팀원 모집' link='/community?type=teamrecruitment' data={teams} />
         </div>
       </div>
