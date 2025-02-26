@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import * as dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 
-const MainListItem = ({ post, isReferenceRoom }) => {
+const MainListItem = ({ post, isGallery }) => {
     return (
-        <Link key={post.id} to={(isReferenceRoom ? "/referenceroom/" : "/community/") + post.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
+        <Link key={post.id} to={(isGallery ? "/gallery/" : "/community/") + post.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
         <span className={badge(post.category)[0] + " text-xs font-medium rounded mr-2 mb-1 px-2.5 py-1 inline-block"}>{badge(post.category)[1]}</span>
         <h3 className="my-1 text-md font-bold tracking-tight text-gray-900" style={{ textWrap: 'nowrap', overflowX: 'hidden', textOverflow: 'ellipsis' }}>
             {post.title}

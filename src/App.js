@@ -145,12 +145,8 @@ const App = () => {
             } />
 
             {/* 갤러리 */}
-            <Route path="/gallery" element={
-              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<Gallery />} isFalse={<Navigate to='/login' />} />
-            } />
-            <Route path="/gallery/:id" element={
-              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<GalleryDetail />} isFalse={<Navigate to='/login' />} />
-            } />
+            <Route path="/gallery" element={<Gallery />}></Route>
+            <Route path="/gallery/:id" element={<GalleryDetail />}></Route>
             <Route path="/gallery/write" element={
               <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<GalleryWrite />} isFalse={<Navigate to='/login' />} />
             } />

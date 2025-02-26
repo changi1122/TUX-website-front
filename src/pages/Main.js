@@ -97,7 +97,7 @@ const Main = () => {
   };
 
   /* 최근 게시글 리스트 */
-  const PostListSection = ({ title, moreLink, data, isReferenceRoom }) => {
+  const PostListSection = ({ title, moreLink, data, isGallery }) => {
     return (
       <div className='min-w-0'>
         <div className='flex items-center justify-between'>
@@ -106,7 +106,7 @@ const Main = () => {
         </div>
         {
           data && data.content.map(p => (
-            <MainListItem key={p.id} post={p} isReferenceRoom={isReferenceRoom} />
+            <MainListItem key={p.id} post={p} isGallery={isGallery} />
           ))
         }
         {
@@ -155,16 +155,16 @@ const Main = () => {
       {/* 공지사항, 대회/공모전 */}
       <div className='flex justify-between mx-auto lg:w-[936px] w-full text-left mt-10'>
         <div className="grid gap-12 mb-6 md:grid-cols-2 w-full">
-          <PostListSection title='공지사항' moreLink='/community?type=notice' data={notices} isReferenceRoom={false} />
-          <PostListSection title='대회/공모전' moreLink='/community?type=contest' data={contests} isReferenceRoom={false} />
+          <PostListSection title='공지사항' moreLink='/community?type=notice' data={notices} isGallery={false} />
+          <PostListSection title='대회/공모전' moreLink='/community?type=contest' data={contests} isGallery={false} />
         </div>
       </div>
 
       {/* 커뮤니티, 활동 사진 */}
       <div className='flex justify-between mx-auto lg:w-[936px] w-full text-left mt-6'>
         <div className="grid gap-12 mb-6 md:grid-cols-2 w-full">
-          <PostListSection title='커뮤니티' moreLink='/community' data={posts} isReferenceRoom={false} />
-          <PostListSection title='갤러리' moreLink='/gallery' data={photos} isReferenceRoom={true} />
+          <PostListSection title='커뮤니티' moreLink='/community' data={posts} isGallery={false} />
+          <PostListSection title='갤러리' moreLink='/gallery' data={photos} isGallery={true} />
         </div>
       </div>
 
