@@ -15,21 +15,28 @@ import MainListItem from '../components/listitem/MainListItem';
 
 const Main = () => {
 
-  const [notices, setNotices] = useState(); // 최근 공지사항
+  const [notices, setNotices] = useState();   // 최근 공지사항
   const [contests, setContests] = useState(); // 최근 대회/공모전 정보
-  const [frees, setFrees] = useState(); // 최근 자유게시판
-  const [teams, setTeams] = useState(); // 최근 팀원 모집
+  const [posts, setPosts] = useState();       // 최근 커뮤니티(자유게시판, 채용/취업, 팀원 모집)
+  const [photos, setPhotos] = useState();     // 최근 갤러리
 
   useEffect(() => {
     getPosts("notice", setNotices);
     getPosts("contest", setContests);
-    getPosts("free", setFrees);
-    getPosts("teamrecruitment", setTeams);
+    getPosts("free,job,teamrecruitment", setPosts);
+    getPostsFromReferenceRoom("gallery", setPhotos);
   }, []);
 
   async function getPosts(category, setCallback) {
     const res = await fetch(
         `/api/community/list/category?type=${category}&page=0&size=3`
+    );
+    setCallback(await res.json());
+  }
+
+  async function getPostsFromReferenceRoom(category, setCallback) {
+    const res = await fetch(
+        `/api/referenceroom/list/category?type=${category}&page=0&size=3`
     );
     setCallback(await res.json());
   }
@@ -90,7 +97,7 @@ const Main = () => {
   };
 
   /* 최근 게시글 리스트 */
-  const PostListSection = ({ title, moreLink, data }) => {
+  const PostListSection = ({ title, moreLink, data, isReferenceRoom }) => {
     return (
       <div className='min-w-0'>
         <div className='flex items-center justify-between'>
@@ -99,7 +106,7 @@ const Main = () => {
         </div>
         {
           data && data.content.map(p => (
-            <MainListItem key={p.id} post={p} />
+            <MainListItem key={p.id} post={p} isReferenceRoom={isReferenceRoom} />
           ))
         }
         {
@@ -148,16 +155,16 @@ const Main = () => {
       {/* 공지사항, 대회/공모전 */}
       <div className='flex justify-between mx-auto lg:w-[936px] w-full text-left mt-10'>
         <div className="grid gap-12 mb-6 md:grid-cols-2 w-full">
-          <PostListSection title='공지사항' moreLink='/community?type=notice' data={notices} />
-          <PostListSection title='대회/공모전' moreLink='/community?type=contest' data={contests} />
+          <PostListSection title='공지사항' moreLink='/community?type=notice' data={notices} isReferenceRoom={false} />
+          <PostListSection title='대회/공모전' moreLink='/community?type=contest' data={contests} isReferenceRoom={false} />
         </div>
       </div>
 
-      {/* 자유게시판, 팀원 모집 */}
+      {/* 커뮤니티, 활동 사진 */}
       <div className='flex justify-between mx-auto lg:w-[936px] w-full text-left mt-6'>
         <div className="grid gap-12 mb-6 md:grid-cols-2 w-full">
-          <PostListSection title='자유게시판' moreLink='/community?type=free' data={frees} />
-          <PostListSection title='팀원 모집' moreLink='/community?type=teamrecruitment' data={teams} />
+          <PostListSection title='커뮤니티' moreLink='/community' data={posts} isReferenceRoom={false} />
+          <PostListSection title='갤러리' moreLink='/gallery' data={photos} isReferenceRoom={true} />
         </div>
       </div>
 
