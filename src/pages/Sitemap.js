@@ -6,7 +6,7 @@ const GnbSub = ({ sub }) => {
     return (
         <li>
             <a href={process.env.PUBLIC_URL + sub.subHref}
-                className="md:w-[30vw] w-[90vw] block py-4 px-auto hover:bg-gray-100 border-2">
+                className="block py-4 px-auto hover:bg-gray-100 border-2">
                 {sub.subName}
             </a>
         </li>
@@ -18,9 +18,9 @@ const GnbBox = ({ gnb, isLogin }) => {
         return;
 
     return (
-        <div className="mx-2">
+        <div className="flex-1 gap-x-2 w-full">
             <a href={process.env.PUBLIC_URL + gnb.subInfo[0].subHref}
-                className="md:w-[30vw] w-[90vw] block py-4 px-auto text-xl font-bold bg-gray-100 hover:bg-gray-200">
+                className="block py-4 px-auto text-xl font-bold bg-gray-100 hover:bg-gray-200">
                 {gnb.gnbName}</a>
             <ul>
                 {
@@ -52,7 +52,7 @@ function Sitemap(props) {
             </div>
 
             <div className="mt-20 md:px-20 px-0">
-                <div className="flex md:flex-row flex-col gap-3 md:justify-center items-start">
+                <div className="flex lg:w-[936px] w-full mx-auto md:flex-row flex-col gap-3 md:justify-center items-start">
                     {
                         props.isLogin ? (
                             gnbIsLogin.map((ele) => <GnbBox key={ele.gnbName} gnb={ele} isLogin={props.isLogin} />)
