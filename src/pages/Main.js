@@ -15,17 +15,25 @@ import MainListItem from '../components/listitem/MainListItem';
 
 const Main = () => {
 
+  const [banners, setBanners] = useState(['01.jpg']) // 배너 이미지 목록 (동적으로 가져옴)
+
   const [notices, setNotices] = useState();   // 최근 공지사항
   const [contests, setContests] = useState(); // 최근 대회/공모전 정보
   const [posts, setPosts] = useState();       // 최근 커뮤니티(자유게시판, 채용/취업, 팀원 모집)
   const [photos, setPhotos] = useState();     // 최근 갤러리
 
   useEffect(() => {
+    getBanners(setBanners);
     getPosts("notice", setNotices);
     getPosts("contest", setContests);
     getPosts("free,job,teamrecruitment", setPosts);
     getPostsFromReferenceRoom("gallery", setPhotos);
   }, []);
+
+  async function getBanners(setCallback) {
+    const res = await fetch('/api/banner');
+    setCallback(await res.json());
+  }
 
   async function getPosts(category, setCallback) {
     const res = await fetch(
@@ -126,6 +134,7 @@ const Main = () => {
       <Swiper className='Banner'
         // install Swiper modules
         modules={[Navigation, Pagination, Scrollbar, A11y]}
+        navigation
         spaceBetween={10}
         centeredSlides={true}
         centerInsufficientSlides={true}
@@ -133,18 +142,13 @@ const Main = () => {
         pagination={{ clickable: true }}
         onSwiper={() => {}}  
         onSlideChange={() => {}}>
-        <SwiperSlide className='swiper-slide'>
-          <img className="max-w-full w-[936px] max-h-80 max-md:px-1 max-md:max-h-40 rounded-lg" src={process.env.PUBLIC_URL + '/images/intro01.jpg'} alt=''/>
-        </SwiperSlide>
-        <SwiperSlide className='swiper-slide'>
-          <img className="max-w-[936px] max-h-80 max-md:px-1 max-md:max-h-40 rounded-lg" src={process.env.PUBLIC_URL + '/Slide_dummy.jpg'} alt=''/>
-        </SwiperSlide>
-        <SwiperSlide className='swiper-slide'>
-          <img className="max-w-[936px] max-h-80 max-md:px-1 max-md:max-h-40 rounded-lg" src={process.env.PUBLIC_URL + '/Slide_dummy.jpg'} alt=''/>
-        </SwiperSlide>
-        <SwiperSlide className='swiper-slide'>
-          <img className="max-w-[936px] max-h-80 max-md:px-1 max-md:max-h-40 rounded-lg" src={process.env.PUBLIC_URL + '/Slide_dummy.jpg'} alt=''/>
-        </SwiperSlide>
+        {
+          banners && banners.map((banner, index) => (
+            <SwiperSlide key={index} className='swiper-slide'>
+              <img className="banner-no-select max-w-full w-[936px] max-h-80 max-md:px-1 max-md:max-h-48 rounded-lg" src={'/api/banner/' + banner} alt=''/>
+            </SwiperSlide>
+          ))
+        }
       </Swiper>
     </div>
     <div className='px-3 pt-10 pb-20'>

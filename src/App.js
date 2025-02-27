@@ -21,6 +21,7 @@ const SuccessfulSignup = lazy(() => import('./pages/auth/SuccessfulSignup'));
 const MyPage = lazy(() => import('./pages/auth/MyPage'));
 const AdministratorPage = lazy(() => import('./pages/admin/AdministratorPage'));
 const StaticPage = lazy(() => import('./pages/admin/StaticPage'));
+const BannerPage = lazy(() => import('./pages/admin/BannerPage'));
 
 const Tuxinfo01 = lazy(() => import('./pages/tuxinfo/Tuxinfo01'));
 const Tuxinfo02 = lazy(() => import('./pages/tuxinfo/Tuxinfo02'));
@@ -96,6 +97,9 @@ const App = () => {
             } />
             <Route path='/admin/staticpage' element={
               <PrivateRoute isThatTrue={isAdmin} isTrue={<StaticPage />} isFalse={<NoPermission />} />
+            } />
+            <Route path='/admin/bannerpage' element={
+              <PrivateRoute isThatTrue={isAdmin} isTrue={<BannerPage />} isFalse={<NoPermission />} />
             } />
             <Route path="/sitemap" element={<Sitemap isLogin={isLogin} />}></Route>
 
