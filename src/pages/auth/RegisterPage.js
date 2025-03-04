@@ -224,6 +224,10 @@ function RegisterPage() {
                             name="userpw"
                             className="border border-x-gray-300 rounded px-4 py-2 w-[92%] mt-9
                         focus:outline-none focus:ring focus:ring-[#E95420] text-black"
+                            style={{
+                                // 일부 환경에서 비밀번호 입력시 입력된 내용이 안 보이는 문제 해결
+                                fontFamily: '"Apple SD Gothic Neo", Apple SD Gothic Neo, -apple-system, BlinkMacSystemFont, Malgun Gothic, "돋움", dotum, arial, sans-serif'
+                            }}
                             onChange={(e) => { onChangeUserpw(e); }}
                             placeholder="비밀번호 (영문 숫자 포함 8자 이상)" />
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>
@@ -234,6 +238,10 @@ function RegisterPage() {
                             name="checkpw"
                             className="border border-x-gray-300 rounded px-4 py-2 w-[92%] mt-3
                         focus:outline-none focus:ring focus:ring-[#E95420] text-black"
+                            style={{
+                                // 일부 환경에서 비밀번호 입력시 입력된 내용이 안 보이는 문제 해결
+                                fontFamily: '"Apple SD Gothic Neo", Apple SD Gothic Neo, -apple-system, BlinkMacSystemFont, Malgun Gothic, "돋움", dotum, arial, sans-serif'
+                            }}
                             onChange={(e) => { onChangeCheckpw(e); }}
                             placeholder="비밀번호 확인" />
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>

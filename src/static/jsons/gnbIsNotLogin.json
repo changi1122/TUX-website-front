@@ -44,6 +44,24 @@
         ]
     },
     {
+        "gnbName": "자료실",
+        "gnbHref": "/referenceroom",
+        "subInfo": [
+            {
+                "subName": "강의/스터디",
+                "subHref": "/referenceroom?type=study"
+            },
+            {
+                "subName": "학습 자료",
+                "subHref": "/referenceroom?type=exam"
+            },
+            {
+                "subName": "갤러리",
+                "subHref": "/gallery"
+            }
+        ]
+    },
+    {
         "gnbName": "지원하기",
         "gnbHref": "/join",
         "subInfo": [

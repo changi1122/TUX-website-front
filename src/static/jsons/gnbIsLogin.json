@@ -72,6 +72,10 @@
             {
                 "subName": "페이지 관리",
                 "subHref": "/admin/staticpage"
+            },
+            {
+                "subName": "배너 관리",
+                "subHref": "/admin/bannerpage"
             }
         ]
     }
