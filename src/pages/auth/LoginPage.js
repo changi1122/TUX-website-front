@@ -112,8 +112,8 @@ function LoginPage(props) {
                             로그인 상태 유지
                         </label>
                         <div className="flex gap-4">
-                            <a href={process.env.PUBLIC_URL + '/contact'} className="hover:text-[#E95420]" >ID/PW 찾기</a>
-                            <a href={process.env.PUBLIC_URL + '/signup'} className="hover:text-[#E95420]" >회원가입</a>
+                            <a href="/contact" className="hover:text-[#E95420]" >ID/PW 찾기</a>
+                            <a href="/signup" className="hover:text-[#E95420]" >회원가입</a>
                         </div>
                     </div>
                 </form>

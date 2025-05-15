@@ -110,7 +110,7 @@ function Header(props) {
                 ele.subInfo.map((subEle) =>
                     hover === index ?
                         <li key={subEle.subHref}>
-                            <a href={process.env.PUBLIC_URL + subEle.subHref}>{subEle.subName}</a>
+                            <a href={subEle.subHref}>{subEle.subName}</a>
                         </li>
                         : ''
                 )
@@ -124,7 +124,7 @@ function Header(props) {
                 ele.subInfo.map((subEle) =>
                     hover === index ?
                         <li key={subEle.subHref}>
-                            <a href={process.env.PUBLIC_URL + subEle.subHref}>{subEle.subName}</a>
+                            <a href={subEle.subHref}>{subEle.subName}</a>
                         </li>
                         : ''
                 )
@@ -143,7 +143,7 @@ function Header(props) {
                             props.isLogin ? (
                                 <>
                                 <li className='text-xl font-black'>
-                                    <a href={process.env.PUBLIC_URL + gnbIsLogin[hover].gnbHref}>
+                                    <a href={gnbIsLogin[hover].gnbHref}>
                                         {gnbIsLogin[hover].gnbName}
                                     </a>
                                 </li>
@@ -152,7 +152,7 @@ function Header(props) {
                             ) : (
                                 <>
                                 <li className='text-xl font-black'>
-                                    <a href={process.env.PUBLIC_URL + gnbIsNotLogin[hover].gnbHref}>
+                                    <a href={gnbIsNotLogin[hover].gnbHref}>
                                         {gnbIsNotLogin[hover].gnbName}
                                     </a>
                                 </li>
@@ -180,7 +180,7 @@ function Header(props) {
             result.push(
                 <ul key={keyForSomeElement--} className='flex-col flex px-10 border-b-2'>
                     <a className='text-xl font-black w-full justify-end flex py-3'
-                        href={process.env.PUBLIC_URL + gnb.gnbHref}>
+                        href={gnb.gnbHref}>
                         {gnb.gnbName}
                     </a>
                     {
@@ -190,7 +190,7 @@ function Header(props) {
                                 ele.subInfo.map((subEle) =>
                                     ele.gnbName == gnb.gnbName ?
                                         <a key={subEle.subHref} className='w-full justify-end flex sm:py-3 py-2'
-                                            href={process.env.PUBLIC_URL + subEle.subHref}>
+                                            href={subEle.subHref}>
                                             {subEle.subName}
                                         </a>
                                         : ''
@@ -201,7 +201,7 @@ function Header(props) {
                                 ele.subInfo.map((subEle) =>
                                     ele.gnbName == gnb.gnbName ?
                                         <a key={subEle.subHref} className='w-full justify-end flex sm:py-3 py-2'
-                                            href={process.env.PUBLIC_URL + subEle.subHref}>
+                                            href={subEle.subHref}>
                                             {subEle.subName}
                                         </a>
                                         : ''
@@ -222,7 +222,7 @@ function Header(props) {
             <div className={`w-full flex justify-center border-b-2 bg-white lg:p-0 py-2`}>
                 <div className="w-[90%] flex justify-between items-center nav">
                     <div className="flex">
-                        <a href={process.env.PUBLIC_URL + "/"}
+                        <a href="/"
                             className="flex items-center gap-3 md:mr-5 text-left logo">
                             <IoLogoTux size={40} />
                             <div>
@@ -237,7 +237,7 @@ function Header(props) {
                                         if (!props.isAdmin && ele.gnbHref === '/admin')
                                             return;
 
-                                        return <a href={process.env.PUBLIC_URL + ele.gnbHref}
+                                        return <a href={ele.gnbHref}
                                             onMouseOver={() => { setHover(index); }} key={ele.gnbName}>
                                             {ele.gnbName}
                                         </a>
@@ -245,7 +245,7 @@ function Header(props) {
                                     )
                                 ) : (
                                     gnbIsNotLogin.map((ele, index) =>
-                                    <a href={process.env.PUBLIC_URL + ele.gnbHref}
+                                    <a href={ele.gnbHref}
                                         onMouseOver={() => { setHover(index); }} key={ele.gnbName}>
                                         {ele.gnbName}
                                     </a>)
@@ -258,11 +258,11 @@ function Header(props) {
                             props.isLogin
                                 ?
                                 <div>
-                                    <a href={process.env.PUBLIC_URL + '/mypage'} className="hover:text-[#E95420]" >{nickname} 님</a>
+                                    <a href="/mypage" className="hover:text-[#E95420]" >{nickname} 님</a>
                                     <a href="#" className="hover:text-[#E95420]" onClick={onClickLogout} >로그아웃</a>
                                 </div>
                                 :
-                                <a href={process.env.PUBLIC_URL + '/login'} className="hover:text-[#E95420]" >로그인</a>
+                                <a href="/login" className="hover:text-[#E95420]" >로그인</a>
                         }
                     </div>
                     {/* 모바일 기기 메뉴 */}

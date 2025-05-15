@@ -18,7 +18,7 @@ function Tuxinfo01() {
 
     async function getProjects() {
         const octokit = new Octokit({
-            auth: process.env.REACT_APP_OCTOKIT_TOKEN
+            auth: undefined /*process.env.REACT_APP_OCTOKIT_TOKEN (공개 정보로 인증 없이 조회 가능)*/
         });
 
         return await octokit.request('GET /orgs/{org}/repos?sort={sort}&per_page={perPage}', {

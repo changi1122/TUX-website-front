@@ -5,7 +5,7 @@ import { gnbIsLogin, gnbIsNotLogin } from "../static/jsons"
 const GnbSub = ({ sub }) => {
     return (
         <li>
-            <a href={process.env.PUBLIC_URL + sub.subHref}
+            <a href={sub.subHref}
                 className="block py-4 px-auto hover:bg-gray-100 border-2">
                 {sub.subName}
             </a>
@@ -19,7 +19,7 @@ const GnbBox = ({ gnb, isLogin }) => {
 
     return (
         <div className="flex-1 gap-x-2 w-full">
-            <a href={process.env.PUBLIC_URL + gnb.subInfo[0].subHref}
+            <a href={gnb.subInfo[0].subHref}
                 className="block py-4 px-auto text-xl font-bold bg-gray-100 hover:bg-gray-200">
                 {gnb.gnbName}</a>
             <ul>
