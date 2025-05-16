@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import { Swiper, SwiperSlide } from "swiper/react"; // basic
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
