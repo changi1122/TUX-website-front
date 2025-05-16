@@ -9,9 +9,9 @@ import React, { lazy, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import { Header, Footer, PrivateRoute } from './components';
-import Loading from './Loading';
-import NotFound from './NotFound';
-import NoPermission from './NoPermission';
+import Loading from './pages/common/Loading';
+import NotFound from './pages/common/NotFound';
+import NoPermission from './pages/common/NoPermission';
 
 /* Lazy loading for code splitting */
 const Main = lazy(() => import('./pages/Main'));
@@ -44,7 +44,7 @@ const GalleryEdit = lazy(() => import('./pages/gallery/GalleryEdit'));
 const JoinPage = lazy(() => import('./pages/join/JoinPage'));
 const ContactPage = lazy(() => import('./pages/join/ContactPage'));
 
-const Sitemap = lazy(() => import('./pages/Sitemap'));
+const Sitemap = lazy(() => import('./pages/common/Sitemap'));
 
 /* Dayjs */
 import dayjs from 'dayjs';

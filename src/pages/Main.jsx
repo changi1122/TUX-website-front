@@ -7,7 +7,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import './Sw.css'
+import './Main.css';
 
 import LoadingIndicator from '../components/LoadingIndicator';
 

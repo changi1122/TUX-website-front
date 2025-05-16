@@ -1,4 +1,3 @@
-import React from 'react';
 import { IoLogoTux } from 'react-icons/io';
 
 const Loading = () => {

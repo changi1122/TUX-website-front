@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router';
 
-import historyDefault from '../../static/default/history.json';
-import peopleDefault from '../../static/default/people.json';
-import joinFormDefault from '../../static/default/joinForm.md';
-import contactFormDefault from '../../static/default/contactForm.md';
+import historyDefault from '../../assets/default/history.json';
+import peopleDefault from '../../assets/default/people.json';
+import joinFormDefault from '../../assets/default/joinForm.md';
+import contactFormDefault from '../../assets/default/contactForm.md';
 
 
 function StaticPage() {

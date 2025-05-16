@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { IoLogoTux, IoMdMenu, IoIosLogIn, IoIosLogOut } from 'react-icons/io';
 import './style.css';
-import { gnbIsLogin, gnbIsNotLogin } from "../static/jsons";
+import { gnbIsLogin, gnbIsNotLogin } from "../assets/jsons";
 import ConfirmPopup from "../components/popup/ConfirmPopup";
 import axios from 'axios';
 

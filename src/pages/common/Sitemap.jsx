@@ -1,6 +1,6 @@
 import { BsQuestionCircleFill } from 'react-icons/bs';
 import { MdDeveloperMode } from 'react-icons/md';
-import { gnbIsLogin, gnbIsNotLogin } from "../static/jsons"
+import { gnbIsLogin, gnbIsNotLogin } from "../../assets/jsons"
 
 const GnbSub = ({ sub }) => {
     return (
