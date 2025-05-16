@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import QuillEditor from '../../components/QuillEditor';
+import QuillEditor from '../../components/editor/QuillEditor';
 import CommunityRule from '../../components/rule/CommunityRule';
 
 function CommunityWrite() {

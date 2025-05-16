@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useEffect } from "react";
 import { Link, useSearchParams } from 'react-router-dom';
-import Pagination from '../../components/Pagination';
+import Pagination from '../../components/pagination/Pagination';
 import LoadingIndicator from '../../components/LoadingIndicator';
 
 function Gallery() {

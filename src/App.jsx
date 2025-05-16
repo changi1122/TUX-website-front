@@ -1,9 +1,10 @@
 /* eslint-disable*/
 
-import './components/markdown.scss';
-import './components/Pagination.scss';
-import './components/quill.snow.css';
+import './components/pagination/Pagination.scss';
+import './components/markdown/markdown.scss';
+import './components/editor/quill.snow.css';
 import './App.css';
+import './style.css';
 
 import React, { lazy, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';

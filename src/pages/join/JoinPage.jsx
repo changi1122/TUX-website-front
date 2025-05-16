@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useEffect } from 'react';
-import Markable from '../../components/Markable';
+import Markable from '../../components/markdown/Markable';
 import { Link } from 'react-router-dom';
 
 function JoinPage() {

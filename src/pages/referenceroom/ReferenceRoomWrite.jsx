@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import QuillEditor from '../../components/QuillEditor';
+import QuillEditor from '../../components/editor/QuillEditor';
 import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
 
 function ReferenceRoomWrite() {

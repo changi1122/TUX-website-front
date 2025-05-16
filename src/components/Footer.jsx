@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { FaGithub } from 'react-icons/fa';
 import { FiLink } from 'react-icons/fi';
-import './style.css';
 import { relatedSites } from "../assets/jsons";
 
 function Footer(props) {
