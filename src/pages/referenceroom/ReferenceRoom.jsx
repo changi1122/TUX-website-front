@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Link, useSearchParams } from 'react-router-dom';
 import Pagination from '../../components/Pagination';
 
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
 import LoadingIndicator from '../../components/LoadingIndicator';

@@ -47,9 +47,9 @@ const ContactPage = lazy(() => import('./pages/join/ContactPage'));
 const Sitemap = lazy(() => import('./pages/Sitemap'));
 
 /* Dayjs */
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-var relativeTime = require('dayjs/plugin/relativeTime');
+import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 dayjs().locale('ko');
 

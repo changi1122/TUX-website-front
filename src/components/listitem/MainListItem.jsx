@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 
 const MainListItem = ({ post, isGallery }) => {

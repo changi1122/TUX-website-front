@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import Pagination from '../../components/Pagination';
 
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import CommunityRule from '../../components/rule/CommunityRule';
 import LoadingIndicator from '../../components/LoadingIndicator';

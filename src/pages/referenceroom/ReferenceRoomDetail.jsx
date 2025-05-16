@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useEffect } from "react";
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
 
