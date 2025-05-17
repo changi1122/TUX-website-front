@@ -2,6 +2,13 @@
   "name": "tuxpage",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "lint": "eslint .",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.3.1",
@@ -13,18 +20,16 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^4.10.1",
+    "react-redux": "^9.2.0",
     "react-router": "^6.30.0",
     "react-router-dom": "^6.30.0",
+    "redux": "^5.0.1",
+    "redux-actions": "^3.0.3",
+    "redux-thunk": "^3.1.0",
     "remarkable": "^2.0.1",
     "sass": "^1.89.0",
     "swiper": "^11.2.6",
     "web-vitals": "^5.0.1"
-  },
-  "scripts": {
-    "start": "vite",
-    "build": "vite build",
-    "serve": "vite preview",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "eslintConfig": {
     "extends": [
@@ -45,8 +50,13 @@
     ]
   },
   "devDependencies": {
+    "@eslint/js": "^9.27.0",
     "@vitejs/plugin-react": "^4.4.1",
     "autoprefixer": "^10.4.21",
+    "eslint": "^9.27.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.1.0",
     "postcss-loader": "^7.3.3",
     "source-map-explorer": "^2.5.3",
     "tailwindcss": "^3.3.3",
