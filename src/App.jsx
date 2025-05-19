@@ -7,7 +7,16 @@ import './App.css';
 import './style.css';
 
 import React, { lazy, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { SET_USER } from './modules/UserModule';
+
+/* Dayjs */
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
+dayjs().locale('ko');
 
 import { Header, Footer, PrivateRoute } from './components';
 import Loading from './pages/common/Loading';
@@ -47,17 +56,47 @@ const ContactPage = lazy(() => import('./pages/join/ContactPage'));
 
 const Sitemap = lazy(() => import('./pages/common/Sitemap'));
 
-/* Dayjs */
-import dayjs from 'dayjs';
-import 'dayjs/locale/ko';
-import relativeTime from 'dayjs/plugin/relativeTime';
-dayjs.extend(relativeTime);
-dayjs().locale('ko');
-
 const App = () => {
+  const dispatch = useDispatch();
+
   const [isLogin, setIsLogin] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [role, setRole] = useState('');
+
+  // TODO 아래 useEffect와 합치기
+  useEffect(() => {
+    // storage에 저장된 로그인 정보가 있다면, 로그인 상태로 설정
+    if (localStorage.userId || sessionStorage.userId) {
+      const storage = localStorage.userId ? localStorage : sessionStorage;
+
+      const token = storage.getItem('token');
+      const expiresIn = storage.getItem('expiresIn');
+      const userId = storage.getItem('userId');
+      const username = storage.getItem('username');
+      const nickname = storage.getItem('nickname');
+      const role = storage.getItem('role');
+
+      const isExpired = !expiresIn || Date.now() > Number(expiresIn);
+
+      if (!isExpired && token && userId && username) {
+        dispatch({
+          type: SET_USER,
+          payload: {
+            token,
+            expiresIn,
+            userId,
+            username,
+            nickname,
+            role
+          }
+        });
+      } else {
+        // 만료되었으면 양쪽 스토리지 모두 정리
+        localStorage.clear();
+        sessionStorage.clear();
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (localStorage.role)
@@ -74,7 +113,8 @@ const App = () => {
   }, [isLogin]);
 
   function isLogined() {
-    return (localStorage.cbnu_tux_userid || sessionStorage.cbnu_tux_userid);
+    // TODO 임시로 비활성화
+    return (localStorage.userId1 || sessionStorage.userId1);
   }
 
   function isNotGuest() {

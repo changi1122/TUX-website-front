@@ -10,6 +10,7 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.8.2",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.3.1",
     "@testing-library/user-event": "^14.6.1",
@@ -25,6 +26,7 @@
     "react-router-dom": "^6.30.0",
     "redux": "^5.0.1",
     "redux-actions": "^3.0.3",
+    "redux-logger": "^3.0.6",
     "redux-thunk": "^3.1.0",
     "remarkable": "^2.0.1",
     "sass": "^1.89.0",

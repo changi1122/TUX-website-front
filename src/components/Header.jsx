@@ -1,21 +1,25 @@
-import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { IoLogoTux, IoMdMenu, IoIosLogIn, IoIosLogOut } from 'react-icons/io';
 import { gnbIsLogin, gnbIsNotLogin } from "../assets/jsons";
 import ConfirmPopup from "../components/popup/ConfirmPopup";
-import axios from 'axios';
+
+import { callLogoutAPI } from "../apis/UserAPI";
 
 function Header(props) {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const loginUser = useSelector(state => state.userReducer);
 
     let keyForSomeElement = -1;
 
-
     /*
         사용자 로그인이 된 상태라면, Header 상단에 '로그인' 대신, '사용자 이름'과 '로그아웃' 표시
-        또한, private page인 [커뮤니티]>[잡담방], [자료실]>[족보]가 노출됨
     */
-    const [nickname, setNickname] = useState(''); // 로그인 한 사용자 이름, 클릭 시 마이페이지로 이동..
+    const isLogin = loginUser.isLoggedIn;
+    const isAdmin = loginUser.role === 'ADMIN';
+    const nickname = loginUser.nickname;
 
     const [isScroll, setIsScroll] = useState(0);
     const [hover, setHover] = useState(-1); // hover 1 - TUX소개, 2 - 커뮤니티, 3 - 자료실
@@ -23,39 +27,6 @@ function Header(props) {
 
     // 로그아웃 팝업
     const [logoutPopup, setLogoutPopup] = useState({ open: false, title: "", message: "" });
-
-    useEffect(() => {
-        // 로그인 체크
-        if (localStorage.cbnu_tux_userid !== undefined) {
-            // 로그인 할 때, '로그인 정보 유지' 체크했어요
-            const expireTime = new Date(Date.parse(localStorage.getItem('expire')));
-            if (new Date() > expireTime) {
-                localStorage.removeItem('cbnu_tux_userid');
-                localStorage.removeItem('userId');
-                localStorage.removeItem('username');
-                localStorage.removeItem('role');
-                localStorage.removeItem('nickname');
-                localStorage.removeItem('expire');
-                setNickname('');
-                props.setIsLogin(false);
-                return;
-            }
-
-            setNickname(localStorage.getItem('nickname'));
-            props.setIsLogin(true);
-        }
-        else {
-            if (sessionStorage.cbnu_tux_userid !== undefined) {
-                // 로그인 할 때, '로그인 정보 유지' 체크 안 했어요
-                setNickname(sessionStorage.getItem('nickname'));
-                props.setIsLogin(true);
-            }
-            else {
-                // 로그인 안 했어요
-                setNickname('');
-            }
-        }
-    }, [props.isLogin]);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -69,25 +40,15 @@ function Header(props) {
         setLogoutPopup({ open: !(logoutPopup.open), title: '로그아웃', message: '로그아웃 하시겠습니까?' });
     }
 
-    const handleConfirm = async () => {
-        await axios.delete('/api/auth', {
-            withCredentials: true,
-        });
+    const handleLogout = async () => {
+        const result = await dispatch(callLogoutAPI());
 
-        localStorage.removeItem('cbnu_tux_userid');
-        sessionStorage.removeItem('cbnu_tux_userid');
-        localStorage.removeItem('userId');
-        sessionStorage.removeItem('userId');
-        localStorage.removeItem('username');
-        sessionStorage.removeItem('username');
-        localStorage.removeItem('role');
-        sessionStorage.removeItem('role');
-        localStorage.removeItem('nickname');
-        sessionStorage.removeItem('nickname');
-        localStorage.removeItem('expire');
-        setNickname('');
-        props.setIsLogin(false);
-        navigate('/');
+        if (result.success) {
+            navigate('/', { replace: true });
+        }
+        else {
+            alert(result.message);
+        }
     }
 
     const handleScroll = () => {
@@ -172,8 +133,8 @@ function Header(props) {
     const handleMobileMenu = () => {
         const result = [];
 
-        for (const gnb of (props.isLogin ? gnbIsLogin : gnbIsNotLogin)) {
-            if (!props.isAdmin && gnb.gnbHref === '/admin')
+        for (const gnb of (isLogin ? gnbIsLogin : gnbIsNotLogin)) {
+            if (!isAdmin && gnb.gnbHref === '/admin')
                 continue;
 
             result.push(
@@ -183,7 +144,7 @@ function Header(props) {
                         {gnb.gnbName}
                     </a>
                     {
-                        props.isLogin
+                        isLogin
                             ?
                             gnbIsLogin.map((ele, index) =>
                                 ele.subInfo.map((subEle) =>
@@ -216,7 +177,7 @@ function Header(props) {
     return (
         <div className={`${isScroll === 1 ? 'top-0 z-40 sticky drop-shadow border-none' : ''} mb-2`}
             onMouseLeave={() => setHover(-1)}>
-            {logoutPopup.open && <ConfirmPopup onOpenAlert={onClickLogout} onConfirm={handleConfirm} title={logoutPopup.title} message={logoutPopup.message} />}
+            {logoutPopup.open && <ConfirmPopup onOpenAlert={onClickLogout} onConfirm={handleLogout} title={logoutPopup.title} message={logoutPopup.message} />}
 
             <div className={`w-full flex justify-center border-b-2 bg-white lg:p-0 py-2`}>
                 <div className="w-[90%] flex justify-between items-center nav">
@@ -231,9 +192,9 @@ function Header(props) {
                         </a>
                         <div className='lg:flex hidden items-center'>
                             {
-                                props.isLogin ? (
+                                isLogin ? (
                                     gnbIsLogin.map((ele, index) => {
-                                        if (!props.isAdmin && ele.gnbHref === '/admin')
+                                        if (!isAdmin && ele.gnbHref === '/admin')
                                             return;
 
                                         return <a href={ele.gnbHref}
@@ -254,7 +215,7 @@ function Header(props) {
                     </div>
                     <div className='lg:flex hidden'>
                         {
-                            props.isLogin
+                            isLogin
                                 ?
                                 <div>
                                     <a href="/mypage" className="hover:text-[#E95420]" >{nickname} 님</a>
@@ -287,7 +248,7 @@ function Header(props) {
             }
             <nav className={`${isOpen ? "show-moblie-menu" : "hide-mobile-menu"} absolute top-0 shadow-[rgba(0,0,0,0.2)_0px_25px_25px_25px] bg-white w-[85vw] h-screen z-50 text-lg overflow-auto`}>
                 {
-                    props.isLogin
+                    isLogin
                         ?
                         <div className='px-10 py-3 border-b-2 flex items-center gap-x-2'>
                             <button className='inline-flex w-[50vw] py-3 justify-start text-base'
