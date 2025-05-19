@@ -1,6 +1,7 @@
 import { BsQuestionCircleFill } from 'react-icons/bs';
 import { MdDeveloperMode } from 'react-icons/md';
 import { gnbIsLogin, gnbIsNotLogin } from "../../assets/jsons"
+import { useSelector } from 'react-redux';
 
 const GnbSub = ({ sub }) => {
     return (
@@ -43,7 +44,9 @@ const GnbBox = ({ gnb, isLogin }) => {
     )
 };
 
-function Sitemap(props) {
+function Sitemap() {
+    const loginUser = useSelector((state) => state.userReducer);
+
     return (
         <div className='min-h-screen px-3 md:py-20 py-10'>
             <div className="border-b border-black w-full md:pb-20 pb-10">
@@ -54,10 +57,10 @@ function Sitemap(props) {
             <div className="mt-20 md:px-20 px-0">
                 <div className="flex lg:w-[936px] w-full mx-auto md:flex-row flex-col gap-3 md:justify-center items-start">
                     {
-                        props.isLogin ? (
-                            gnbIsLogin.map((ele) => <GnbBox key={ele.gnbName} gnb={ele} isLogin={props.isLogin} />)
+                        loginUser.isLoggedIn ? (
+                            gnbIsLogin.map((ele) => <GnbBox key={ele.gnbName} gnb={ele} isLogin={loginUser.isLoggedIn} />)
                         ) : (
-                            gnbIsNotLogin.map((ele) => <GnbBox key={ele.gnbName} gnb={ele} isLogin={props.isLogin} />)
+                            gnbIsNotLogin.map((ele) => <GnbBox key={ele.gnbName} gnb={ele} isLogin={loginUser.isLoggedIn} />)
                         )
                     }
                 </div>

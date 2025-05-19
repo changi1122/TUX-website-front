@@ -2,6 +2,7 @@ import { createActions, handleActions } from 'redux-actions';
 
 /* 초기값 */
 const initialState = {
+    isInitialized: false,
     token: null,
     expiresIn: null,
     userId: null,
@@ -29,6 +30,7 @@ const userReducer = handleActions(
     {
         [LOGIN]: (state, { payload }) => (
             {
+                isInitialized: true,
                 token: payload.token.token,
                 expiresIn: payload.token.expiresIn,
                 userId: payload.id,
@@ -38,12 +40,14 @@ const userReducer = handleActions(
                 isLoggedIn: true
             }
         ),
-        [LOGOUT]: (state) => ({ ...initialState }),
+        [LOGOUT]: (state) => ({ ...initialState, isInitialized: true }),
         [GET_USER]: (state) => ({
             ...state,
+            isInitialized: true,
             isLoggedIn: true
         }),
         [SET_USER]: (state, { payload }) => ({
+            isInitialized: true,
             token: payload.token,
             expiresIn: payload.expiresIn,
             userId: payload.userId,

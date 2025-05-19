@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import axios from "axios";
 
 import { callLoginAPI } from "../../apis/UserAPI";
 
-function LoginPage(props) {
+function LoginPage() {
     const dispatch = useDispatch();
-    const navigate = new useNavigate();
+    const navigate = useNavigate();
 
     // 아이디, 비밀번호
     const [username, setUsername] = useState('');

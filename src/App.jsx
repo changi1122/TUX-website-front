@@ -7,7 +7,7 @@ import './App.css';
 import './style.css';
 
 import React, { lazy, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { SET_USER } from './modules/UserModule';
 
@@ -58,12 +58,8 @@ const Sitemap = lazy(() => import('./pages/common/Sitemap'));
 
 const App = () => {
   const dispatch = useDispatch();
+  const loginUser = useSelector(state => state.userReducer);
 
-  const [isLogin, setIsLogin] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [role, setRole] = useState('');
-
-  // TODO 아래 useEffect와 합치기
   useEffect(() => {
     // storage에 저장된 로그인 정보가 있다면, 로그인 상태로 설정
     if (localStorage.userId || sessionStorage.userId) {
@@ -98,57 +94,48 @@ const App = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (localStorage.role)
-      setRole(localStorage.role);
-    if (sessionStorage.role)
-      setRole(sessionStorage.role);
+  
+  function isLogined() { return loginUser.isLoggedIn; }
+  function isAdmin() { return loginUser.role === "ADMIN"; }
+  function isNotGuest() { return loginUser.role !== "GUEST"; }
 
-    if (role === 'ADMIN') {
-      setIsAdmin(true);
-    }
-    else {
-      setIsAdmin(false);
-    }
-  }, [isLogin]);
-
-  function isLogined() {
-    // TODO 임시로 비활성화
-    return (localStorage.userId1 || sessionStorage.userId1);
-  }
-
-  function isNotGuest() {
-    if (localStorage.role)
-      return localStorage.role !== "GUEST";
-    if (sessionStorage.role)
-      return sessionStorage.role !== "GUEST";
-    return false;
+  // loginUser.isInitialized가 false인 경우, 초기화 중이므로 로딩 화면을 표시
+  if (!loginUser.isInitialized) {
+    return (
+      <div className='App'>
+        <BrowserRouter>
+          <Header />
+          <Loading />
+          <Footer />
+        </BrowserRouter>
+      </div>
+    );
   }
 
   return (
     <div className='App'>
       <BrowserRouter>
-        <Header isLogin={isLogin} isAdmin={isAdmin} setIsLogin={setIsLogin} />
+        <Header />
 
         <React.Suspense fallback={<Loading />}>
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path='/admin' element={
-              <PrivateRoute isThatTrue={isAdmin} isTrue={<AdministratorPage />} isFalse={<NoPermission />} />
+              <PrivateRoute isThatTrue={isAdmin()} isTrue={<AdministratorPage />} isFalse={<NoPermission />} />
             } />
             <Route path='/admin/staticpage' element={
-              <PrivateRoute isThatTrue={isAdmin} isTrue={<StaticPage />} isFalse={<NoPermission />} />
+              <PrivateRoute isThatTrue={isAdmin()} isTrue={<StaticPage />} isFalse={<NoPermission />} />
             } />
             <Route path='/admin/bannerpage' element={
-              <PrivateRoute isThatTrue={isAdmin} isTrue={<BannerPage />} isFalse={<NoPermission />} />
+              <PrivateRoute isThatTrue={isAdmin()} isTrue={<BannerPage />} isFalse={<NoPermission />} />
             } />
-            <Route path="/sitemap" element={<Sitemap isLogin={isLogin} />}></Route>
+            <Route path="/sitemap" element={<Sitemap />}></Route>
 
 
             {/* auth pages */}
             <Route path="/login" element={
               // 이미 로그인 되어 있는 상태라면, 권한 없음 페이지 표시(GUEST 권한으로 자료실/갤러리 접근하는 경우)
-              <PrivateRoute isThatTrue={isLogined()} isTrue={<NoPermission />} isFalse={<LoginPage isLogin={isLogin} setIsLogin={setIsLogin} />} />
+              <PrivateRoute isThatTrue={isLogined()} isTrue={<NoPermission />} isFalse={<LoginPage />} />
             } />
             <Route path="/signup" element={
               <PrivateRoute isThatTrue={isLogined()} isTrue={<NotFound />} isFalse={<RegisterPage />} />
@@ -202,8 +189,6 @@ const App = () => {
             {/* 지원하기 */}
             <Route path="/join" element={<JoinPage />}></Route>
             <Route path="/contact" element={<ContactPage />}></Route>
-
-            {/* 사용안함: <Route path='/postView/:no' component={<PostView />} />*/}
 
             {/* 엘리먼트의 상단에 위치하는 라우트들의 규칙을 모두 확인하고, 일치하는 라우트가 없다면 이 라우트가 화면에 나타나게 됩니다. */}
             <Route path="*" element={<NotFound />}></Route>

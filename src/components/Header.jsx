@@ -7,7 +7,7 @@ import ConfirmPopup from "../components/popup/ConfirmPopup";
 
 import { callLogoutAPI } from "../apis/UserAPI";
 
-function Header(props) {
+function Header() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const loginUser = useSelector(state => state.userReducer);
@@ -100,7 +100,7 @@ function Header(props) {
                 result.push(
                     <ul key={keyForSomeElement--} className='flex px-20 py-5 border-b-2 items-center nav'>
                         {
-                            props.isLogin ? (
+                            isLogin ? (
                                 <>
                                 <li className='text-xl font-black'>
                                     <a href={gnbIsLogin[hover].gnbHref}>
