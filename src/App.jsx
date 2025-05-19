@@ -9,7 +9,8 @@ import './style.css';
 import React, { lazy, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { SET_USER } from './modules/UserModule';
+import { SET_USER, INIT_GUEST } from './modules/UserModule';
+import { callLogoutAPI } from './apis/UserAPI';
 
 /* Dayjs */
 import dayjs from 'dayjs';
@@ -90,7 +91,12 @@ const App = () => {
         // 만료되었으면 양쪽 스토리지 모두 정리
         localStorage.clear();
         sessionStorage.clear();
+        dispatch({ type: INIT_GUEST });
       }
+    }
+    else {
+      // 로그인 상태가 아니라면
+      dispatch({ type: INIT_GUEST });
     }
   }, []);
 
@@ -134,7 +140,7 @@ const App = () => {
 
             {/* auth pages */}
             <Route path="/login" element={
-              // 이미 로그인 되어 있는 상태라면, 권한 없음 페이지 표시(GUEST 권한으로 자료실/갤러리 접근하는 경우)
+              // 이미 로그인 되어 있는 상태라면, 권한 없음 페이지 표시(GUEST 권한으로 자료실 접근하는 경우)
               <PrivateRoute isThatTrue={isLogined()} isTrue={<NoPermission />} isFalse={<LoginPage />} />
             } />
             <Route path="/signup" element={

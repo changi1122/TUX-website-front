@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT } from '../modules/UserModule';
+import { LOGIN, LOGOUT, GET_USER, UPDATE_USER } from '../modules/UserModule';
 
 export const callLoginAPI = ({ username, password, keepAuth }) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/auth`;
@@ -72,6 +72,84 @@ export const callLogoutAPI = () => {
             return {
                 success: false,
                 message: '로그아웃에 실패하였습니다. 다시 시도해 주세요.'
+            };
+        }
+    }
+}
+
+export const callGetCurrentUserAPI = () => {
+    const requestURL = `${import.meta.env.VITE_API_URL}/api/auth`;
+
+    return async (dispatch, getState) => {
+        const response = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include'
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            await dispatch({ type: GET_USER, payload: result });
+            return { success: true };
+        }
+        else {
+            return {
+                success: false,
+                message: '회원 정보 조회 중 오류가 발생하였습니다.'
+            };
+        }
+    }
+}
+
+export const callUpdateUserAPI = ({ userId, key, value }) => {
+    const requestURL = `${import.meta.env.VITE_API_URL}/api/user/${userId}`;
+
+    return async (dispatch, getState) => {
+        const response = await fetch(requestURL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+                [key]: value
+            })
+        });
+
+        if (response.ok) {
+            await dispatch({ type: UPDATE_USER, payload: { key, value } });
+            return { success: true };
+        }
+        else {
+            return {
+                success: false,
+                message: '회원 정보 변경 중 오류가 발생하였습니다.'
+            };
+        }
+    }
+}
+
+export const callDeleteUserAPI = (userId) => {
+    const requestURL = `${import.meta.env.VITE_API_URL}/api/user/${userId}`;
+
+    return async (dispatch, getState) => {
+        const response = await fetch(requestURL, {
+            method: 'DELETE',
+            credentials: 'include'
+        });
+
+        if (response.ok) {
+            localStorage.clear();
+            sessionStorage.clear();
+            await dispatch({ type: LOGOUT, payload: null });
+            return { success: true };
+        }
+        else {
+            return {
+                success: false,
+                message: '회원 탈퇴 중 오류가 발생하였습니다.'
             };
         }
     }
