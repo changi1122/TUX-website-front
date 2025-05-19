@@ -25,11 +25,11 @@ export const SET_USER = 'user/SET_USER';
 export const INIT_GUEST = 'user/INIT_GUEST';
 export const UPDATE_USER = 'user/UPDATE_USER';
 
-const actions = createActions({
-    [LOGIN]: () => {},
+export const actions = createActions({
+    [LOGIN]: (payload) => payload,
     [LOGOUT]: () => {},
-    [GET_USER]: () => {},
-    [SET_USER]: (user) => user,
+    [GET_USER]: (payload) => payload,
+    [SET_USER]: (payload) => payload,
     [INIT_GUEST]: () => {},
     [UPDATE_USER]: (key, value) => ({ key, value })
 });

@@ -9,8 +9,7 @@ import './style.css';
 import React, { lazy, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { SET_USER, INIT_GUEST } from './modules/UserModule';
-import { callLogoutAPI } from './apis/UserAPI';
+import { actions } from './modules/UserModule';
 
 /* Dayjs */
 import dayjs from 'dayjs';
@@ -76,27 +75,24 @@ const App = () => {
       const isExpired = !expiresIn || Date.now() > Number(expiresIn);
 
       if (!isExpired && token && userId && username) {
-        dispatch({
-          type: SET_USER,
-          payload: {
+        dispatch(actions.user.setUser({
             token,
             expiresIn,
             userId,
             username,
             nickname,
             role
-          }
-        });
+        }));
       } else {
         // 만료되었으면 양쪽 스토리지 모두 정리
         localStorage.clear();
         sessionStorage.clear();
-        dispatch({ type: INIT_GUEST });
+        dispatch(actions.user.initGuest());
       }
     }
     else {
       // 로그인 상태가 아니라면
-      dispatch({ type: INIT_GUEST });
+      dispatch(actions.user.initGuest());
     }
   }, []);
 

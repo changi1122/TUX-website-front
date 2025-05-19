@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, GET_USER, UPDATE_USER } from '../modules/UserModule';
+import { actions } from '../modules/UserModule';
 
 export const callLoginAPI = ({ username, password, keepAuth }) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/auth`;
@@ -38,7 +38,7 @@ export const callLoginAPI = ({ username, password, keepAuth }) => {
                     sessionStorage.setItem('role', result.role);
                 }
 
-            await dispatch({ type: LOGIN, payload: result });
+            await dispatch(actions.user.login(result));
 
             return { success: true };
         }
@@ -65,7 +65,7 @@ export const callLogoutAPI = () => {
             localStorage.clear();
             sessionStorage.clear();
 
-            await dispatch({ type: LOGOUT, payload: null });
+            await dispatch(actions.user.logout());
             return { success: true };
         }
         else {
@@ -91,7 +91,7 @@ export const callGetCurrentUserAPI = () => {
 
         if (response.ok) {
             const result = await response.json();
-            await dispatch({ type: GET_USER, payload: result });
+            await dispatch(actions.user.getUser(result));
             return { success: true };
         }
         else {
@@ -119,7 +119,7 @@ export const callUpdateUserAPI = ({ userId, key, value }) => {
         });
 
         if (response.ok) {
-            await dispatch({ type: UPDATE_USER, payload: { key, value } });
+            await dispatch(actions.user.updateUser({ key, value }));
             return { success: true };
         }
         else {
@@ -143,7 +143,7 @@ export const callDeleteUserAPI = (userId) => {
         if (response.ok) {
             localStorage.clear();
             sessionStorage.clear();
-            await dispatch({ type: LOGOUT, payload: null });
+            await dispatch(actions.user.logout());
             return { success: true };
         }
         else {
