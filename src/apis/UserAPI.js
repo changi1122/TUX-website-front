@@ -154,3 +154,68 @@ export const callDeleteUserAPI = (userId) => {
         }
     }
 }
+
+export const callSignupAPI = async ({ username, password, nickname, email, phoneNumber,
+                                      department, studentNumber }) => {
+
+    const requestURL = `${import.meta.env.VITE_API_URL}/api/user`;
+
+    try {
+        const response = await fetch(requestURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username,
+                password,
+                nickname,
+                email,
+                phoneNumber,
+                department,
+                studentNumber
+            })
+        });
+
+        if (response.ok) {
+            return { success: true };
+        }
+        else {
+            return {
+                success: false,
+                message: '회원가입 중 오류가 발생하였습니다.'
+            };
+        }
+    }
+    catch (error) {
+        return {
+            success: false,
+            message: '서버와 통신 중 문제가 발생했습니다.'
+        };
+    }
+}
+
+export const checkUsernameDuplicationAPI = async (username) => {
+    const requestURL = `${import.meta.env.VITE_API_URL}/api/user/check/username?username=${username}`;
+
+    try {
+        const response = await fetch(requestURL, {
+            method: 'GET'
+        });
+
+        if (response.ok) {
+            const resultBool = await response.json();
+
+            return {
+                success: true,
+                isDuplicated: !resultBool
+            };
+        }
+        
+    } catch (error) {
+        return {
+            success: false,
+            message: '서버와 통신 중 문제가 발생했습니다.'
+        };
+    }
+}

@@ -2,86 +2,87 @@ import { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
 
+import { callSignupAPI, checkUsernameDuplicationAPI } from "../../apis/UserAPI";
+
+
 function RegisterPage() {
     const navigate = new useNavigate();
 
     // 아이디, 학번, 이름, 비밀번호, 이메일, 전화번호
-    const [userid, setUserid] = useState('');
+    const [username, setUsername] = useState('');
     const [studentId, setStudentId] = useState('');
     const [name, setName] = useState('');
-    const [userpw, setUserpw] = useState('');
-    const [userpwCheck, setUserpwCheck] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordCheck, setPasswordCheck] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
 
     // 오류메시지 상태 저장
-    const [useridMessage, setUseridMessage] = useState('');
+    const [usernameMessage, setUsernameMessage] = useState('');
     const [studentIdMessage, setStudentIdMessage] = useState('');
-    const [userpwMessage, setUserpwMessage] = useState('');
-    const [checkpwMessage, setCheckpwMessage] = useState('');
+    const [passwordMessage, setPasswordMessage] = useState('');
+    const [passwordCheckMessage, setPasswordCheckMessage] = useState('');
     const [emailMessage, setEmailMessage] = useState('');
 
     // 유효성 검사
-    const [isUserid, setIsUserid] = useState(false); // 정규식 확인
+    const [isUsername, setIsUsername] = useState(false); // 정규식 확인
     const [isUsableId, setIsUsableId] = useState(false); // 중복 확인
     const [isStudentId, setIsStudentId] = useState(false);
-    const [isUserpw, setIsUserpw] = useState(false);
-    const [isCheckpw, setIsCheckpw] = useState(false);
+    const [isPassword, setIsPassword] = useState(false);
+    const [isPasswordCheck, setIsPasswordCheck] = useState(false);
     const [isEmail, setIsEmail] = useState(false);
 
     const onSubmit = async (e) => {
         e.preventDefault();
 
-        await axios.post('/api/user', {
-            username: userid,
-            password: userpw,
-            email: email,
+        const result = await callSignupAPI({
+            username,
+            password,
             nickname: name,
-            department: '소프트웨어학부',
-            studentNumber: studentId,
+            email,
             phoneNumber: phone,
-        })
-            .then(response => {
-                // 회원가입 성공
-                navigate('/signup/successful');
-            })
-            .catch((err) => {
-                console.warn(err.message);
-                alert('회원가입에 실패하였습니다. 다시 시도해 주세요.\n\nError message:\n' + err.response.data.message);
-                navigate('/signup');
-            });
-    };
+            department: '소프트웨어학부',
+            studentNumber: studentId
+        });
 
-    // userid 중복 확인
-    const dupleIdCheck = async (userid) => {
-        try {
-            const res = await axios.get(`/api/user/check/username?username=${userid}`);
-        
-            if (res.data && isUserid === true) {
-                setIsUsableId(true);
-                setUseridMessage('✅ 사용 가능한 아이디 입니다.');
-            } else {
-                setIsUsableId(false);
-                setUseridMessage('이미 사용 중인 아이디 입니다.');
-            }
-        } catch (err) {
-            console.warn(err.message);
+        if (result.success) {
+            navigate('/signup/successful');
+        } else {
+            alert(result.message);
         }
     };
 
-    // userid
-    const onChangeUserid = useCallback((e) => {
-        const useridRegex = /^[A-Za-z0-9_]{4,}$/
-        const useridCurrent = e.target.value;
-        setUserid(useridCurrent);
+    // username 중복 확인
+    const checkUsername = async (username) => {
+        const result = await checkUsernameDuplicationAPI(username);
 
-        if (!useridRegex.test(useridCurrent)) {
-            setIsUserid(false);
-            setUseridMessage('아이디는 영문자와 숫자의 조합으로 4자 이상 작성해야 합니다.');
+        if (result.success) {
+            if (result.isDuplicated) {
+                setIsUsableId(false);
+                setUsernameMessage('이미 사용 중인 아이디 입니다.');
+            } else {
+                setIsUsableId(true);
+                setUsernameMessage('✅ 사용 가능한 아이디 입니다.');
+            }
         }
         else {
-            setIsUserid(true);
-            setUseridMessage('아이디 중복 확인을 부탁드립니다.');
+            console.error(result.message);
+        }
+    };
+
+    // username
+    const onChangeUsername = useCallback((e) => {
+        const usernameRegex = /^[A-Za-z0-9_]{4,}$/
+        const usernameCurrent = e.target.value;
+        setUsername(usernameCurrent);
+
+        if (!usernameRegex.test(usernameCurrent)) {
+            setIsUsername(false);
+            setUsernameMessage('아이디는 영문자와 숫자의 조합으로 4자 이상 작성해야 합니다.');
+        }
+        else {
+            setIsUsername(true);
+            setUsernameMessage('아이디 중복 확인을 부탁드립니다.');
         }
     }, [])
 
@@ -103,32 +104,32 @@ function RegisterPage() {
         }
     }, [])
 
-    const onChangeUserpw = useCallback((e) => {
-        const userpwRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9@$!%*#?&]{8,}$/
-        const userpwCurrent = e.target.value;
-        setUserpw(userpwCurrent);
+    const onChangePassword = useCallback((e) => {
+        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9@$!%*#?&]{8,}$/
+        const passwordCurrent = e.target.value;
+        setPassword(passwordCurrent);
 
-        if (!userpwRegex.test(userpwCurrent)) {
-            setUserpwMessage('비밀번호는 영문자와 숫자를 포함하여 8자 이상이어야 합니다.');
-            setIsUserpw(false);
+        if (!passwordRegex.test(passwordCurrent)) {
+            setPasswordMessage('비밀번호는 영문자와 숫자를 포함하여 8자 이상이어야 합니다.');
+            setIsPassword(false);
         } else {
-            setUserpwMessage('');
-            setIsUserpw(true);
+            setPasswordMessage('');
+            setIsPassword(true);
         }
     }, [])
 
-    const onChangeCheckpw = useCallback((e) => {
-        const checkpwCurrent = e.target.value;
-        setUserpwCheck(checkpwCurrent);
+    const onChangePasswordCheck = useCallback((e) => {
+        const passwordCheckCurrent = e.target.value;
+        setPasswordCheck(passwordCheckCurrent);
 
-        if (userpw === checkpwCurrent) {
-            setCheckpwMessage('');
-            setIsCheckpw(true);
+        if (password === passwordCheckCurrent) {
+            setPasswordCheckMessage('');
+            setIsPasswordCheck(true);
         } else {
-            setCheckpwMessage('입력하신 비밀번호와 일치하지 않습니다.');
-            setIsCheckpw(false);
+            setPasswordCheckMessage('입력하신 비밀번호와 일치하지 않습니다.');
+            setIsPasswordCheck(false);
         }
-    }, [userpw])
+    }, [password])
 
     // 이메일
     const onChangeEmail = useCallback((e) => {
@@ -140,10 +141,6 @@ function RegisterPage() {
         if (!emailRegex.test(emailCurrent)) {
             setEmailMessage('올바른 이메일 형식이 아닙니다.');
             setIsEmail(false);
-            // if (emailCurrent === '') { // 필수 입력란이 아니므로.. -> 23. 3. 14. 필수 입력란으로 변경
-            //     setEmailMessage('');
-            //     setIsEmail(true);
-            // }
         } else {
             setEmailMessage('');
             setIsEmail(true);
@@ -182,24 +179,24 @@ function RegisterPage() {
                         <button type="button"
                             className="absolute top-[0.25em] right-[1.9em] bg-gray-100 hover:bg-gray-200 rounded border-2 px-3 py-1
                             disabled:opacity-50 disabled:hover:bg-gray-100"
-                            onClick={(e) => { dupleIdCheck(userid) }}
-                            disabled={!isUserid} >
+                            onClick={(e) => { checkUsername(username) }}
+                            disabled={!isUsername} >
                             확인
                         </button>
                     </div>
-                    <lebel>
+                    <label>
                         <input type="text"
-                            name="userid"
+                            name="username"
                             className="border border-x-gray-300 rounded px-4 py-2 w-[92%]
                                 focus:outline-none focus:ring focus:ring-[#E95420]"
-                            onChange={(e) => { onChangeUserid(e); }}
+                            onChange={(e) => { onChangeUsername(e); }}
                             placeholder="아이디 (영문자 숫자 4자 이상)"
                             autoFocus />
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>
-                        <div className={`text-sm text-justify text-[#E95420]`}>{useridMessage}</div>
-                    </lebel>
+                        <div className={`text-sm text-justify text-[#E95420]`}>{usernameMessage}</div>
+                    </label>
 
-                    <lebel>
+                    <label>
                         <input type="text"
                             name="studentId"
                             className="border border-x-gray-300 rounded px-4 py-2 w-[92%] mt-3
@@ -208,8 +205,8 @@ function RegisterPage() {
                             placeholder="학번 (20XXXXXXXX)" />
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>
                         <div className={`text-sm text-justify text-[#E95420]`}>{studentIdMessage}</div>
-                    </lebel>
-                    <lebel>
+                    </label>
+                    <label>
                         <input type="text"
                             name="name"
                             className="border border-x-gray-300 rounded px-4 py-2 w-[92%] mt-3
@@ -217,36 +214,36 @@ function RegisterPage() {
                             onChange={(e) => { setName(e.target.value); }}
                             placeholder="이름 (18학번 홍길동)" />
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>
-                    </lebel>
+                    </label>
 
-                    <lebel>
+                    <label>
                         <input type="password"
-                            name="userpw"
+                            name="password"
                             className="border border-x-gray-300 rounded px-4 py-2 w-[92%] mt-9
                         focus:outline-none focus:ring focus:ring-[#E95420] text-black"
                             style={{
                                 // 일부 환경에서 비밀번호 입력시 입력된 내용이 안 보이는 문제 해결
                                 fontFamily: '"Apple SD Gothic Neo", Apple SD Gothic Neo, -apple-system, BlinkMacSystemFont, Malgun Gothic, "돋움", dotum, arial, sans-serif'
                             }}
-                            onChange={(e) => { onChangeUserpw(e); }}
+                            onChange={(e) => { onChangePassword(e); }}
                             placeholder="비밀번호 (영문 숫자 포함 8자 이상)" />
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>
-                        <div className={`text-sm text-justify text-[#E95420]`}>{userpwMessage}</div>
-                    </lebel>
-                    <lebel>
+                        <div className={`text-sm text-justify text-[#E95420]`}>{passwordMessage}</div>
+                    </label>
+                    <label>
                         <input type="password"
-                            name="checkpw"
+                            name="passwordCheck"
                             className="border border-x-gray-300 rounded px-4 py-2 w-[92%] mt-3
                         focus:outline-none focus:ring focus:ring-[#E95420] text-black"
                             style={{
                                 // 일부 환경에서 비밀번호 입력시 입력된 내용이 안 보이는 문제 해결
                                 fontFamily: '"Apple SD Gothic Neo", Apple SD Gothic Neo, -apple-system, BlinkMacSystemFont, Malgun Gothic, "돋움", dotum, arial, sans-serif'
                             }}
-                            onChange={(e) => { onChangeCheckpw(e); }}
+                            onChange={(e) => { onChangePasswordCheck(e); }}
                             placeholder="비밀번호 확인" />
                         <span className="w-[10%] pl-4 text-[#E95420]">*</span>
-                        <div className={`text-sm text-justify text-[#E95420]`}>{checkpwMessage}</div>
-                    </lebel>
+                        <div className={`text-sm text-justify text-[#E95420]`}>{passwordCheckMessage}</div>
+                    </label>
 
                     <div>
                         <input type="email"
@@ -272,7 +269,7 @@ function RegisterPage() {
                         type="submit"
                         className="bg-gray-100 hover:bg-gray-200 rounded py-2 w-full mt-6
                         disabled:opacity-50 disabled:hover:bg-gray-100"
-                        disabled={!(isUsableId && isStudentId && isUserpw && isCheckpw && isEmail)} >
+                        disabled={!(isUsableId && isStudentId && isPassword && isPasswordCheck && isEmail)} >
                         회원가입
                     </button>
                     <div className="text-xs mt-3 justify-center flex">
