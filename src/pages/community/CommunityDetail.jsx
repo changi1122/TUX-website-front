@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useEffect } from "react";
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
@@ -8,15 +10,10 @@ import CommunityRule from '../../components/rule/CommunityRule';
 
 function CommunityDetail() {
     const navigate = useNavigate();
+    const loginUser = useSelector((state) => state.userReducer);
 
     // 글 id
     let { id } = useParams();
-
-    // 현재 로그인된 유저 정보
-    const localUserId = localStorage.getItem("userId");
-    const sessionUserId = sessionStorage.getItem("userId");
-    const localRole = localStorage.getItem("role");
-    const sessionRole = sessionStorage.getItem("role");
 
     const [post, setPost] = useState();
     const [shareLabel, setShareLabel] = useState('공유');
@@ -52,7 +49,7 @@ function CommunityDetail() {
 
     /* 댓글 */
     async function handlePostComment() {
-        if (!(localStorage.getItem('userId') || sessionStorage.getItem('userId'))) {
+        if (!loginUser.isLoggedIn) {
             alert('댓글을 입력하려면 먼저 로그인하세요.');
             return;
         }
@@ -104,7 +101,7 @@ function CommunityDetail() {
 
     /* 추천 비추천 */
     async function handleLikeDislike(dislike) {
-        if (!(localStorage.getItem('userId') || sessionStorage.getItem('userId'))) {
+        if (!loginUser.isLoggedIn) {
             alert('추천/비추천하려면 먼저 로그인하세요.');
             return;
         }
@@ -160,14 +157,14 @@ function CommunityDetail() {
                                 <div className='md mt-4 ql-editor break-words' style={{ padding: '0' }}
                                     dangerouslySetInnerHTML={{ __html: post.body }}>
                                 </div>
-                                <div class="flex rounded-md justify-center mt-12 mb-4" role="group">
-                                    <button type="button" class="w-24 px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100
+                                <div className="flex rounded-md justify-center mt-12 mb-4" role="group">
+                                    <button type="button" className="w-24 px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100
                                                                 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 focus:text-blue-600 text-blue-600"
                                             onClick={() => handleLikeDislike(false)}>
                                         <p>{post.likes}</p>
                                         <p className='text-xs'>👍추천</p>
                                     </button>
-                                    <button type="button" class="w-24 px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100
+                                    <button type="button" className="w-24 px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100
                                                                 hover:text-red-700 focus:z-10 focus:ring-4 focus:ring-gray-200 focus:text-red-600 text-red-600"
                                             onClick={() => handleLikeDislike(true)}>
                                         <p>{post.dislikes * -1}</p>
@@ -208,16 +205,14 @@ function CommunityDetail() {
                                         {shareLabel}
                                     </button>
                                     {
-                                        (localUserId == post.authorId || sessionUserId == post.authorId ||
-                                            ['ADMIN'].includes(localRole) || ['ADMIN'].includes(sessionRole)) &&
+                                        (loginUser.userId == post.authorId || ['ADMIN'].includes(loginUser.role)) &&
                                         <Link className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
                                             to={`/community/${post.id}/edit`}>
                                             수정
                                         </Link>
                                     }
                                     {
-                                        (localUserId == post.authorId || sessionUserId == post.authorId ||
-                                            ['MANAGER', 'ADMIN'].includes(localRole) || ['MANAGER', 'ADMIN'].includes(sessionRole)) &&
+                                        (loginUser.userId == post.authorId || ['MANAGER', 'ADMIN'].includes(loginUser.role)) &&
                                         <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
                                             onClick={handleDelete}>
                                             삭제
@@ -245,7 +240,7 @@ function CommunityDetail() {
                                         </div>
                                     </div>
                                     {
-                                        (localUserId == c.authorId || sessionUserId == c.authorId) &&
+                                        (loginUser.userId == c.authorId) &&
                                         <div className='text-right'>
                                             <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
                                                 onClick={() => { handleDeleteComment(c.id) }}>

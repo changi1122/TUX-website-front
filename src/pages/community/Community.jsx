@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Pagination from '../../components/pagination/Pagination';
 
 import dayjs from 'dayjs';
@@ -8,6 +9,8 @@ import CommunityRule from '../../components/rule/CommunityRule';
 import LoadingIndicator from '../../components/LoadingIndicator';
 
 function Community() {
+    const loginUser = useSelector((state) => state.userReducer);
+
     const [searchParams, setSearchParams] = useSearchParams();
 
     const [posts, setPosts] = useState();
@@ -162,7 +165,7 @@ function Community() {
                         </div>
                         <div className='text-right'>
                             {
-                                (localStorage.userId || sessionStorage.userId) &&
+                                (loginUser.isLoggedIn) &&
                                 <Link className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 ml-2 mt-2 inline-block"
                                     to={`/community/write?type=${category[1]}`}>
                                     글쓰기
