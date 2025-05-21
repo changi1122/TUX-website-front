@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -49,7 +49,9 @@ function GalleryDetail() {
         });
     }
 
-    async function handlePostComment() {
+    async function handlePostComment(e) {
+        e.preventDefault();
+
         if (!loginUser.isLoggedIn) {
             alert('댓글을 입력하려면 먼저 로그인하세요.');
             return;
@@ -248,8 +250,8 @@ function GalleryDetail() {
                             </p>
                             {
                                 post.comments.map(c => (
-                                    <>
-                                    <div key={c.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow break-words">
+                                    <React.Fragment key={c.id}>
+                                    <div className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow break-words">
                                         <p className="mb-1 text-sm tracking-tight text-gray-900">
                                             {c.body}
                                         </p>
@@ -270,7 +272,7 @@ function GalleryDetail() {
                                             </button>
                                         </div>
                                     }
-                                    </>
+                                    </React.Fragment>
                             ))}
                             <form className='mt-3'>
                                 <div className="w-full mb-4 border border-gray-200 border-solid rounded-lg bg-gary-50 shadow">

@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import userReducer from './UserModule';
+import communityReducer from './CommunityModule';
 
 const rootReducer = combineReducers({
-	userReducer
+	userReducer,
+	communityReducer
 });
 
 export default rootReducer;

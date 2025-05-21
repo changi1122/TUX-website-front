@@ -1,21 +1,29 @@
-import { useState } from 'react';
-import { useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-
+import { useSelector, useDispatch } from 'react-redux';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import CommunityRule from '../../components/rule/CommunityRule';
+import {
+    callCommunityDeleteAPI,
+    callCommunityDetailAPI,
+    callCommunityAddCommentAPI,
+    callCommunityDeleteCommentAPI,
+    callCommunityPostLikeAPI
+} from '../../apis/CommunityAPI';
+
 
 function CommunityDetail() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    
     const loginUser = useSelector((state) => state.userReducer);
+    const post = useSelector((state) => state.communityReducer.detail);
 
     // 글 id
     let { id } = useParams();
 
-    const [post, setPost] = useState();
     const [shareLabel, setShareLabel] = useState('공유');
     const [comment, setComment] = useState('');
 
@@ -24,31 +32,28 @@ function CommunityDetail() {
     }, []);
 
     async function getCommunity(id) {
-        const res = await fetch(`/api/community/${id}`);
-        const post = await res.json();
-        for (const file of post.files) {
-            file.path = file.path.replace('[', '%5B').replace(']', '%5D');
+        const result = await dispatch(callCommunityDetailAPI(id));
+        if (!result.success) {
+            console.error(result.message);
         }
-        setPost(post);
     }
 
     async function handleDelete()
     {
         if (window.confirm("정말로 글을 삭제하시겠습니까?")) {
-            await deleteCommunity(post.id);
-            navigate('/community');
+            const result = await dispatch(callCommunityDeleteAPI(post.id));
+            if (result.success) {
+                navigate('/community');
+            } else {
+                alert(result.message);
+            }
         }
     }
 
-    async function deleteCommunity(id) {
-        await fetch(`/api/community/${id}`, {
-            method: "DELETE",
-            credentials: 'include'
-        });
-    }
-
     /* 댓글 */
-    async function handlePostComment() {
+    async function handlePostComment(e) {
+        e.preventDefault();
+
         if (!loginUser.isLoggedIn) {
             alert('댓글을 입력하려면 먼저 로그인하세요.');
             return;
@@ -58,45 +63,21 @@ function CommunityDetail() {
             return;
         }
 
-        const res = await postCmComment(post.id, comment);
-        if (res.ok) {
+        const result = await dispatch(callCommunityAddCommentAPI(id, comment));
+        if (result.success) {
             setComment('');
-            navigate(0);
         } else {
-            alert('댓글 업로드 중 오류가 발생하였습니다.');
+            alert(result.message);
         }
-    }
-
-    async function postCmComment(id, body) {
-        return await fetch(`/api/community/${id}/comment`, {
-            method: "POST",
-            credentials: 'include',
-            body: JSON.stringify({
-                body
-            }),
-            headers: {
-                "content-type": "application/json",
-            },
-        });
     }
 
     async function handleDeleteComment(commentId) {
         if (window.confirm("정말로 댓글을 삭제하시겠습니까?")) {
-            const res =  await deleteCmComment(post.id, commentId);
-
-            if (res.ok) {
-                navigate(0);
-            } else {
-                alert('댓글 삭제 중 오류가 발생하였습니다.');
+            const result = await dispatch(callCommunityDeleteCommentAPI(post.id, commentId));
+            if (!result.success) {
+                alert(result.message);
             }
         }
-    }
-
-    async function deleteCmComment(id, commentId) {
-        return await fetch(`/api/community/${id}/comment/${commentId}`, {
-            method: "DELETE",
-            credentials: 'include'
-        });
     }
 
     /* 추천 비추천 */
@@ -106,19 +87,10 @@ function CommunityDetail() {
             return;
         }
 
-        const res = await postLike(post.id, dislike);
-        if (res.ok) {
-            navigate(0);
-        } else {
-            alert(`이미 ${(dislike) ? '비추천' : '추천'}하였습니다.`);
+        const result = await dispatch(callCommunityPostLikeAPI(post.id, dislike));
+        if (!result.success) {
+            alert(result.message);
         }
-    }
-
-    async function postLike(id, dislike) {
-        return await fetch(`/api/community/${id}/likes?dislike=${dislike}`, {
-            method: "POST",
-            credentials: 'include'
-        });
     }
 
 
@@ -226,8 +198,8 @@ function CommunityDetail() {
                             </p>
                             {
                                 post.comments.map(c => (
-                                    <>
-                                    <div key={c.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow break-words">
+                                    <React.Fragment key={c.id}>
+                                    <div className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow break-words">
                                         <p className="mb-1 text-sm tracking-tight text-gray-900">
                                             {c.body}
                                         </p>
@@ -248,7 +220,7 @@ function CommunityDetail() {
                                             </button>
                                         </div>
                                     }
-                                    </>
+                                    </React.Fragment>
                             ))}
                             <form className='mt-3'>
                                 <div className="w-full mb-4 border border-gray-200 border-solid rounded-lg bg-gary-50 shadow">
