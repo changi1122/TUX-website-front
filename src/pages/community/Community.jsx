@@ -1,19 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '../../components/pagination/Pagination';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import CommunityRule from '../../components/rule/CommunityRule';
 import LoadingIndicator from '../../components/LoadingIndicator';
+import { callCommunityListAPI } from '../../apis/CommunityAPI';
 
 function Community() {
+    const dispatch = useDispatch();
     const loginUser = useSelector((state) => state.userReducer);
+    const posts = useSelector((state) => state.communityReducer.list);
 
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const [posts, setPosts] = useState();
     const [category, setCategory] = useState(defaultCategory(searchParams.get('type')));
     const [isCategoryOpened, setIsUserMenuOpened] = useState(false);
     const [searchQuery, setSearchQuery] = useState((searchParams.get('query')) ? searchParams.get('query') : '');
@@ -29,14 +31,9 @@ function Community() {
     }, [searchQuery]);
 
     async function getCommunityList(category, page, size, query) {
-        if (category) {
-            const res = await fetch(
-                `/api/community/list/category?${(category) ? 'type='+category+'&' : ''}page=${page - 1}&size=${size}&${(query) ? "&query="+query : ''}`
-            );
-            setPosts(await res.json());
-        } else {
-            const res = await fetch(`/api/community/list?page=${page - 1}&size=${size}&${(query) ? "&query="+query : ''}`);
-            setPosts(await res.json());
+        const result = await dispatch(callCommunityListAPI(category, page, size, query));
+        if (!result.success) {
+            alert(result.message);
         }
     } 
 

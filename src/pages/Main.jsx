@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
@@ -12,22 +13,20 @@ import './Main.css';
 import LoadingIndicator from '../components/LoadingIndicator';
 
 import MainListItem from '../components/listitem/MainListItem';
+import { callMainListAPI } from '../apis/CommunityAPI';
 
 const Main = () => {
+  const dispatch = useDispatch();
+  const notices = useSelector(state => state.communityReducer.mainNotices); // 최근 공지사항
+  const contests = useSelector(state => state.communityReducer.mainContests); // 최근 대회/공모전
+  const posts = useSelector(state => state.communityReducer.mainPosts);       // 최근 커뮤니티(자유게시판, 채용/취업, 팀원 모집)
+  const photos = useSelector(state => state.communityReducer.mainPhotos);     // 최근 갤러리
 
   const [banners, setBanners] = useState(['01.jpg']) // 배너 이미지 목록 (동적으로 가져옴)
 
-  const [notices, setNotices] = useState();   // 최근 공지사항
-  const [contests, setContests] = useState(); // 최근 대회/공모전 정보
-  const [posts, setPosts] = useState();       // 최근 커뮤니티(자유게시판, 채용/취업, 팀원 모집)
-  const [photos, setPhotos] = useState();     // 최근 갤러리
-
   useEffect(() => {
     getBanners(setBanners);
-    getPosts("notice", setNotices);
-    getPosts("contest", setContests);
-    getPosts("free,job,teamrecruitment", setPosts);
-    getPostsFromReferenceRoom("gallery", setPhotos);
+    getMainPosts();
   }, []);
 
   async function getBanners(setCallback) {
@@ -35,18 +34,11 @@ const Main = () => {
     setCallback(await res.json());
   }
 
-  async function getPosts(category, setCallback) {
-    const res = await fetch(
-        `/api/community/list/category?type=${category}&page=0&size=3`
-    );
-    setCallback(await res.json());
-  }
-
-  async function getPostsFromReferenceRoom(category, setCallback) {
-    const res = await fetch(
-        `/api/referenceroom/list/category?type=${category}&page=0&size=3`
-    );
-    setCallback(await res.json());
+  async function getMainPosts() {
+    const result = await dispatch(callMainListAPI());
+    if (!result.success) {
+      console.error(result.message);
+    }
   }
 
   /* 홈화면 네비게이션 버튼 컴포넌트 */

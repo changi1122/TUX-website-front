@@ -121,3 +121,75 @@ export const callCommunityPostLikeAPI = (postId, dislike) => {
         }
     }
 }
+
+export const callCommunityListAPI = (category, page, size, query) => {
+    let requestURL = '';
+    if (category)
+        requestURL = `${import.meta.env.VITE_API_URL}/api/community/list/category?${(category) ? 'type='+category+'&' : ''}page=${page - 1}&size=${size}&${(query) ? "&query="+query : ''}`;
+    else
+        requestURL = `${import.meta.env.VITE_API_URL}/api/community/list?page=${page - 1}&size=${size}&${(query) ? "&query="+query : ''}`;
+
+    return async (dispatch, getState) => {
+        const response = await fetch(requestURL, {
+            method: 'GET'
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            dispatch(actions.community.getCommunityList(result));
+            return { success: true };
+        } else {
+            return {
+                success: false,
+                message: '게시글 목록 조회에 실패하였습니다.'
+            };
+        }
+    }
+}
+
+export const callMainListAPI = () => {
+    const communityURL = `${import.meta.env.VITE_API_URL}/api/community/list/category?page=0&size=3&type=`;
+    const referenceRoomURL = `${import.meta.env.VITE_API_URL}/api/referenceroom/list/category?page=0&size=3&type=`;
+
+    return async (dispatch, getState) => {
+        const resNotices = await fetch(communityURL+'notice', {
+            method: 'GET'
+        });
+        const resContests = await fetch(communityURL+'contest', {
+            method: 'GET'
+        });
+        const resPosts = await fetch(communityURL+'free,job,teamrecruitment', {
+            method: 'GET'
+        });
+        const resPhotos = await fetch(referenceRoomURL+'gallery', {
+            method: 'GET'
+        });
+
+        const result = {};
+        let success = true;
+
+        if (resNotices.ok) result.notices = await resNotices.json();
+        else success = false;
+
+        if (resContests.ok) result.contests = await resContests.json();
+        else success = false;
+        
+        if (resPosts.ok) result.posts = await resPosts.json();
+        else success = false;
+        
+        if (resPhotos.ok) result.photos = await resPhotos.json();
+        else success = false;
+
+        dispatch(actions.community.getMainPosts({
+            notices: result.notices,
+            contests: result.contests,
+            posts: result.posts,
+            photos: result.photos
+        }));
+
+        return {
+            success: success,
+            message: '메인화면 게시글 목록 조회에 실패하였습니다.'
+        };
+    }
+}

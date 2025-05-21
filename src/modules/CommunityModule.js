@@ -3,6 +3,11 @@ import { createActions, handleActions } from 'redux-actions';
 /* 초기값 */
 const initialState = {
     detail: undefined,
+    list: undefined,
+    mainNotices: undefined,
+    mainContests: undefined,
+    mainPosts: undefined,
+    mainPhotos: undefined,
 };
 
 /* 액션 */
@@ -11,6 +16,8 @@ export const DELETE_COMMUNITY = 'community/DELETE_COMMUNITY';
 export const POST_COMMENT = 'community/POST_COMMENT';
 export const DELETE_COMMENT = 'community/DELETE_COMMENT';
 export const POST_LIKE = 'community/POST_LIKE';
+export const GET_COMMUNITY_LIST = 'community/GET_COMMUNITY_LIST';
+export const GET_MAIN_POSTS = 'community/GET_MAIN_POSTS';
 
 export const actions = createActions({
     [GET_COMMUNITY_DETAIL]: (payload) => payload,
@@ -18,6 +25,8 @@ export const actions = createActions({
     [POST_COMMENT]: (payload) => payload,
     [DELETE_COMMENT]: (payload) => payload,
     [POST_LIKE]: (payload) => payload,
+    [GET_COMMUNITY_LIST]: (payload) => payload,
+    [GET_MAIN_POSTS]: (payload) => payload,
 })
 
 /* 리듀서 */
@@ -52,6 +61,17 @@ const communityReducer = handleActions(
                 likes: state.detail.likes + (payload ? 0 : 1),
                 dislikes: state.detail.dislikes + (payload ? 1 : 0)
             }
+        }),
+        [GET_COMMUNITY_LIST]: (state, { payload }) => ({
+            ...state,
+            list: payload
+        }),
+        [GET_MAIN_POSTS]: (state, { payload }) => ({
+            ...state,
+            mainNotices: payload.notices,
+            mainContests: payload.contests,
+            mainPosts: payload.posts,
+            mainPhotos: payload.photos
         })
     },
     initialState
