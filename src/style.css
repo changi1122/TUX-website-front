@@ -1,0 +1,124 @@
+/*
+    Header.jsx, Footer.jsx, Tuxinfo02.jsx에서 사용하는 CSS
+*/
+
+.nav a {
+    padding: 27.5px 20px;
+}
+
+.nav .logo {
+    padding: 0;
+}
+
+.site-trigger {
+    display: flex;
+    border: none;
+    border-bottom: 1px solid #000;
+    vertical-align: middle;
+    transition: box-shadow 0.4s ease;
+    /* Strictly for positioning */
+}
+
+.site {
+    background: #ffffff;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 3em;
+    right: 0;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+
+.site.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.site ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.site li {
+    border-bottom: 1px solid #dddddd;
+    text-align: justify;
+}
+
+.site li a {
+    text-decoration: none;
+    color: #333333;
+    padding: 15px 20px;
+    display: block;
+}
+
+.site li a:hover {
+    background-color: #efefef;
+}
+
+.site-trigger {
+    display: flex;
+    border: none;
+    border-bottom: 1px solid #000;
+    vertical-align: middle;
+    transition: box-shadow 0.4s ease;
+    /* Strictly for positioning */
+}
+
+.menu {
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: transform 0.6s ease, visibility 0.6s;
+}
+
+.menu.active {
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.menu li a:hover {
+    color: #E95420;
+}
+
+.show-moblie-menu {
+    visibility: visible;
+    transform: translateX(0);
+    transition: transform 0.4s ease, visibility 0.4s ease;
+}
+
+.hide-mobile-menu {
+    visibility: hidden;
+    transform: translateX(-100vw);
+    transition: transform 0.4s ease, visibility 0.4s ease;
+}
+
+
+.right {
+    margin: 0px 90px;
+    float: right;
+}
+
+.write {
+    margin: 30px 50px;
+}
+
+.page-button{
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  margin: 0;
+  background: white;
+  font-size: 1rem;
+}
+
+.page-nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    margin: 16px;
+}
