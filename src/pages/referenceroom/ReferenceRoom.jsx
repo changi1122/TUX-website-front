@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '../../components/pagination/Pagination';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
 import LoadingIndicator from '../../components/LoadingIndicator';
+import { callReferenceRoomListAPI } from '../../apis/ReferenceRoomAPI';
 
 function ReferenceRoom() {
+    const dispatch = useDispatch();
     const loginUser = useSelector((state) => state.userReducer);
+    const posts = useSelector((state) => state.referenceRoomReducer.list);
 
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const [posts, setPosts] = useState();
     const [category, setCategory] = useState(defaultCategory(searchParams.get('type')));
     const [isCategoryOpened, setIsUserMenuOpened] = useState(false);
     const [searchQuery, setSearchQuery] = useState((searchParams.get('query')) ? searchParams.get('query') : '');
@@ -29,15 +31,9 @@ function ReferenceRoom() {
     }, [searchQuery]);
 
     async function getReferenceRoomList(category, page, size, query) {
-        if (category) {
-            const res = await fetch(
-                `/api/referenceroom/list/category?${(category) ? 'type='+category+'&' : ''}page=${page - 1}&size=${size}&${(query) ? "&query="+query : ''}`,
-                { credentials: 'include' }
-            );
-            setPosts(await res.json());
-        } else {
-            const res = await fetch(`/api/referenceroom/list?page=${page - 1}&size=${size}&${(query) ? "&query="+query : ''}`);
-            setPosts(await res.json());
+        const result = await dispatch(callReferenceRoomListAPI(category, page, size, query));
+        if (!result.success) {
+            alert(result.message);
         }
     } 
 

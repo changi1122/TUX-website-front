@@ -1,21 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
+import {
+    callReferenceRoomDetailAPI,
+    callReferenceRoomDeleteAPI,
+    callReferenceRoomAddCommentAPI,
+    callReferenceRoomDeleteCommentAPI,
+    callReferenceRoomPostLikeAPI
+} from '../../apis/ReferenceRoomAPI';
 
 /* Copy of ReferenceRoomDetail */
 
 function GalleryDetail() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const loginUser = useSelector((state) => state.userReducer);
+    const post = useSelector((state) => state.referenceRoomReducer.detail);
 
     // 글 id
     let { id } = useParams();
 
-    const [post, setPost] = useState();
     const [shareLabel, setShareLabel] = useState('공유');
     const [comment, setComment] = useState('');
 
@@ -24,31 +33,25 @@ function GalleryDetail() {
     }, []);
 
     async function getReferenceRoom(id) {
-        const res = await fetch(`/api/referenceroom/${id}`, {
-            credentials: 'include'
-        });
-        const post = await res.json();
-        for (const file of post.files) {
-            file.path = file.path.replace('[', '%5B').replace(']', '%5D');
+        const result = await dispatch(callReferenceRoomDetailAPI(id));
+        if (!result.success) {
+            console.error(result.message);
         }
-        setPost(post);
     }
 
     async function handleDelete()
     {
         if (window.confirm("정말로 글을 삭제하시겠습니까?")) {
-            await deleteReferenceRoom(post.id);
-            navigate('/referenceroom');
+            const result = await dispatch(callReferenceRoomDeleteAPI(post.id));
+            if (result.success) {
+                navigate('/referenceroom');
+            } else {
+                alert(result.message);
+            }
         }
     }
 
-    async function deleteReferenceRoom(id) {
-        await fetch(`/api/referenceroom/${id}`, {
-            method: "DELETE",
-            credentials: 'include'
-        });
-    }
-
+    /* 댓글 */
     async function handlePostComment(e) {
         e.preventDefault();
 
@@ -61,47 +64,22 @@ function GalleryDetail() {
             return;
         }
 
-        const res = await postRfComment(post.id, comment);
-        if (res.ok) {
+        const result = await dispatch(callReferenceRoomAddCommentAPI(post.id, comment));
+        if (result.success) {
             setComment('');
-            navigate(0);
         } else {
-            alert('댓글 업로드 중 오류가 발생하였습니다.');
+            alert(result.message);
         }
-    }
-
-    async function postRfComment(id, body) {
-        return await fetch(`/api/referenceroom/${id}/comment`, {
-            method: "POST",
-            credentials: 'include',
-            body: JSON.stringify({
-                body
-            }),
-            headers: {
-                "content-type": "application/json",
-            },
-        });
     }
 
     async function handleDeleteComment(commentId) {
         if (window.confirm("정말로 댓글을 삭제하시겠습니까?")) {
-            const res =  await deleteRfComment(post.id, commentId);
-
-            if (res.ok) {
-                navigate(0);
-            } else {
-                alert('댓글 삭제 중 오류가 발생하였습니다.');
+            const result = await dispatch(callReferenceRoomDeleteCommentAPI(post.id, commentId));
+            if (!result.success) {
+                alert(result.message);
             }
         }
     }
-
-    async function deleteRfComment(id, commentId) {
-        return await fetch(`/api/referenceroom/${id}/comment/${commentId}`, {
-            method: "DELETE",
-            credentials: 'include'
-        });
-    }
-
 
     /* 추천 비추천 */
     async function handleLikeDislike(dislike) {
@@ -110,21 +88,12 @@ function GalleryDetail() {
             return;
         }
 
-        const res = await postLike(post.id, dislike);
-        if (res.ok) {
-            navigate(0);
-        } else {
-            alert(`이미 ${(dislike) ? '비추천' : '추천'}하였습니다.`);
+        const result = await dispatch(callReferenceRoomPostLikeAPI(post.id, dislike));
+        if (!result.success) {
+            alert(result.message);
         }
     }
-
-    async function postLike(id, dislike) {
-        return await fetch(`/api/referenceroom/${id}/likes?dislike=${dislike}`, {
-            method: "POST",
-            credentials: 'include'
-        });
-    }
-
+    
 
     return (
         <div className='min-h-screen px-3 md:pt-10 md:pb-20 pt-5 pb-10'>

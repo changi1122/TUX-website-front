@@ -6,9 +6,6 @@ export const callCommunityDetailAPI = (postId) => {
     return async (dispatch, getState) => {
         const response = await fetch(requestURL, {
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
             credentials: 'include',
         });
 
@@ -34,9 +31,6 @@ export const callCommunityDeleteAPI = (postId) => {
     return async (dispatch, getState) => {
         const response = await fetch(requestURL, {
             method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
             credentials: 'include',
         });
 
