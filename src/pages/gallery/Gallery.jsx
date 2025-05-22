@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '../../components/pagination/Pagination';
+
 import LoadingIndicator from '../../components/LoadingIndicator';
+import { callGalleryListAPI } from '../../apis/GalleryAPI';
 
 function Gallery() {
+    const dispatch = useDispatch();
     const loginUser = useSelector((state) => state.userReducer);
+    const posts = useSelector((state) => state.galleryReducer.list);
 
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const [posts, setPosts] = useState();
     const [searchQuery, setSearchQuery] = useState((searchParams.get('query')) ? searchParams.get('query') : '');
     const [currentPage, setCurrentPage] = useState((searchParams.get('page')) ? searchParams.get('page') : 1);
 
@@ -23,8 +26,10 @@ function Gallery() {
     }, [searchQuery]);
 
     async function getGalleryList(page, size, query) {
-        const res = await fetch(`/api/gallery/list?&page=${page - 1}&size=${size}&${(query) ? "&query="+query : ''}`);
-        setPosts(await res.json());
+        const result = await dispatch(callGalleryListAPI(page, size, query));
+        if (!result.success) {
+            alert(result.message);
+        }
     } 
 
     function handleSearch(e) {
