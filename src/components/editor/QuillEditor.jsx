@@ -77,7 +77,8 @@ export default function QuillEditor({ body, handleQuillChange, mountBody, setMou
             quill.root.setAttribute("spellcheck", "false");
 
             // 초기 body state 적용
-            quill.root.innerHTML = body;
+            if (typeof body === 'string')
+                quill.root.innerHTML = body;
 
             /* quill에서 text-change 이벤트 발생시에 setBody(innerHTML)을 통해 body를 업데이트합니다.
                body가 업데이트되어도 useEffect 발생 조건 인자([isError, mountBody])에 body가 없으므로
