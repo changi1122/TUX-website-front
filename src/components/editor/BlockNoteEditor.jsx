@@ -35,7 +35,7 @@ const BlockNoteEditor = ({ editable, body, onChange, uploadFile }) => {
 		onChange?.(editor.document);
 	}
 
-  	return <BlockNoteView editor={editor} slashMenu={false} editable={editable} onChange={handleOnChange}>
+  	return <BlockNoteView editor={editor} slashMenu={false} theme="light" editable={editable} onChange={handleOnChange}>
 		<SuggestionMenuController
 			triggerCharacter={"/"}
 			getItems={async (query) =>
