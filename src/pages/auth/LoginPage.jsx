@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { useSearchParams } from 'react-router-dom';
 
 import { callLoginAPI } from "../../apis/UserAPI";
 
 function LoginPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     // 아이디, 비밀번호
     const [username, setUsername] = useState('');
@@ -24,7 +26,8 @@ function LoginPage() {
 
         if (result.success) {
             // 로그인 성공
-            navigate('/', { replace: true });
+            const redirectTo = searchParams.get('from');
+            navigate(redirectTo || '/', { replace: true });
         } else {
             alert(result.message);
         }

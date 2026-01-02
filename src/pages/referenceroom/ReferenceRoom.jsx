@@ -60,7 +60,7 @@ function ReferenceRoom() {
                 <div className="text-4xl font-bold max-sm:text-xl">자료실</div>
             </div>
 
-            <div className="mt-5 md:mt-10 mx-auto lg:w-[936px] w-full text-left">
+            <div className="mt-5 md:mt-10 mx-auto lg:w-[1044px] w-full text-left">
                 <div className='flex'>
                     <div className='w-60 min-w-[15rem] max-lg:hidden'>
                         {/*사이드바*/}

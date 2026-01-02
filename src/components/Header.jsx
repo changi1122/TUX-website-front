@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoLogoTux, IoMdMenu, IoIosLogIn, IoIosLogOut } from 'react-icons/io';
 import { gnbIsLogin, gnbIsNotLogin } from "../assets/jsons";
@@ -11,6 +11,12 @@ function Header() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const loginUser = useSelector(state => state.userReducer);
+
+    const location = useLocation();
+    let from = encodeURIComponent(location.pathname + location.search);
+    if (location.pathname === '/login') {
+        from = encodeURIComponent('/');
+    }
 
     let keyForSomeElement = -1;
 
@@ -222,7 +228,7 @@ function Header() {
                                     <a href="#" className="hover:text-[#E95420]" onClick={onClickLogout} >로그아웃</a>
                                 </div>
                                 :
-                                <a href="/login" className="hover:text-[#E95420]" >로그인</a>
+                                <a href={`/login?from=${from}`} className="hover:text-[#E95420]" >로그인</a>
                         }
                     </div>
                     {/* 모바일 기기 메뉴 */}
@@ -263,7 +269,7 @@ function Header() {
                         </div>
                         :
                         <button className='px-10 py-5 border-b-2 w-full justify-end inline-flex'
-                            onClick={() => { navigate('/login'); toggleMenu(); }}>
+                            onClick={() => { navigate(`/login?from=${from}`); toggleMenu(); }}>
                             < IoIosLogIn style={{ transform: 'translate(0, 4px)' }} />
                             <div className='ml-2'>로그인</div>
                         </button>

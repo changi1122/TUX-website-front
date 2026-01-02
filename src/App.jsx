@@ -47,9 +47,6 @@ const ReferenceRoomDetail = lazy(() => import('./pages/referenceroom/ReferenceRo
 const ReferenceRoomWrite = lazy(() => import('./pages/referenceroom/ReferenceRoomWrite'));
 const ReferenceRoomEdit = lazy(() => import('./pages/referenceroom/ReferenceRoomEdit'));
 const Gallery = lazy(() => import('./pages/gallery/Gallery'));
-const GalleryDetail = lazy(() => import('./pages/gallery/GalleryDetail'));
-const GalleryWrite = lazy(() => import('./pages/gallery/GalleryWrite'));
-const GalleryEdit = lazy(() => import('./pages/gallery/GalleryEdit'));
 
 const JoinPage = lazy(() => import('./pages/join/JoinPage'));
 const ContactPage = lazy(() => import('./pages/join/ContactPage'));
@@ -166,27 +163,20 @@ const App = () => {
 
             {/* 자료실 */}
             <Route path="/referenceroom" element={
-              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoom />} isFalse={<Navigate to='/login' />} />
+              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoom />} isFalse={<Navigate to={`/login?from=%2Freferenceroom`} />} />
             } />
             <Route path="/referenceroom/:id" element={
-              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoomDetail />} isFalse={<Navigate to='/login' />} />
+              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoomDetail />} isFalse={<Navigate to='/login?from=%2Freferenceroom' />} />
             } />
             <Route path="/referenceroom/write" element={
-              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoomWrite />} isFalse={<Navigate to='/login' />} />
+              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoomWrite />} isFalse={<Navigate to='/login?from=%2Freferenceroom' />} />
             } />
             <Route path="/referenceroom/:id/edit" element={
-              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoomEdit />} isFalse={<Navigate to='/login' />} />
+              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoomEdit />} isFalse={<Navigate to='/login?from=%2Freferenceroom' />} />
             } />
 
             {/* 갤러리 */}
             <Route path="/gallery" element={<Gallery />}></Route>
-            <Route path="/gallery/:id" element={<GalleryDetail />}></Route>
-            <Route path="/gallery/write" element={
-              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<GalleryWrite />} isFalse={<Navigate to='/login' />} />
-            } />
-            <Route path="/gallery/:id/edit" element={
-              <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<GalleryEdit />} isFalse={<Navigate to='/login' />} />
-            } />
 
             {/* 지원하기 */}
             <Route path="/join" element={<JoinPage />}></Route>

@@ -5,11 +5,11 @@ import BlockNoteEditor from '../../components/editor/BlockNoteEditor';
 import CommunityRule from '../../components/rule/CommunityRule';
 
 const CATEGORIES = [
-  { label: '공지사항', value: 'notice' },
-  { label: '팀원 모집', value: 'teamrecruitment' },
-  { label: '대회/공모전', value: 'contest' },
-  { label: '채용/취업 정보', value: 'job' },
-  { label: '자유게시판', value: 'free' },
+  { label: '공지사항', value: 'notice', color: 'rgb(220 252 231)' },
+  { label: '팀원 모집', value: 'teamrecruitment', color: 'rgb(252 231 243)' },
+  { label: '대회/공모전', value: 'contest', color: 'rgb(254 249 195)' },
+  { label: '채용/취업 정보', value: 'job', color: 'rgb(254 226 226)' },
+  { label: '자유게시판', value: 'free', color: 'rgb(243 232 255)' },
 ];
 
 function CommunityWrite() {
@@ -158,8 +158,8 @@ function CommunityWrite() {
         });
     }
 
-    const handleCategoryClick = (label, value) => {
-        setCategory([label, value]);
+    const handleCategoryClick = (label, value, color) => {
+        setCategory([label, value, color]);
         setIsUserMenuOpened(false);
     };
 
@@ -181,7 +181,7 @@ function CommunityWrite() {
                         <div style={{ position: 'relative' }}>
                             <button className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200"
                                 type="button" onClick={() => { setIsUserMenuOpened(!isCategoryOpened) }}>
-                            { category[0] }
+                            <span className='w-2 h-[16px] mr-2 rounded-full' style={{ backgroundColor: `${category[2]}` }}></span>{ category[0] }
                             <svg className="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
                             </svg></button>
@@ -192,8 +192,9 @@ function CommunityWrite() {
                                     <button
                                         type="button"
                                         className="inline-flex w-full px-4 py-2 hover:bg-gray-100"
-                                        onClick={() => handleCategoryClick(cat.label, cat.value)}
+                                        onClick={() => handleCategoryClick(cat.label, cat.value, cat.color)}
                                     >
+                                        <span className='w-2 mr-2 rounded-full' style={{ backgroundColor: `${cat.color}` }}></span>
                                         {cat.label}
                                     </button>
                                     </li>
@@ -315,17 +316,17 @@ function CommunityWrite() {
 function defaultCategory(type) {
     switch(type) {
         case 'notice':
-            return ['공지사항', 'notice'];
+            return ['공지사항', 'notice', 'rgb(220 252 231)'];
         case 'teamrecruitment':
-            return ['팀원 모집', 'teamrecruitment'];
+            return ['팀원 모집', 'teamrecruitment', 'rgb(252 231 243)'];
         case 'contest':
-            return ['대회/공모전', 'contest'];
+            return ['대회/공모전', 'contest', 'rgb(254 249 195)'];
         case 'job':
-            return ['채용/취업 정보', 'job'];
+            return ['채용/취업 정보', 'job', 'rgb(254 226 226)'];
         case 'free':
-            return ['자유게시판', 'free'];
+            return ['자유게시판', 'free', 'rgb(243 232 255)'];
         default:
-            return ['자유게시판', 'free'];
+            return ['자유게시판', 'free', 'rgb(243 232 255)'];
     }
 }
 
