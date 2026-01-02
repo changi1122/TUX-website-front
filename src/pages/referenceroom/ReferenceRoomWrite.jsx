@@ -182,7 +182,10 @@ function ReferenceRoomWrite() {
         <div className='min-h-screen px-3 md:pt-10 md:pb-20 pt-5 pb-10'>
             <div className="border-b border-black w-full md:pb-10 pb-5 ani-fadein-up">
                 <div className="text-lg"></div>
-                <div className="text-4xl font-bold max-sm:text-xl">자료실</div>
+                <div className="text-4xl font-bold max-sm:text-xl">
+                    {(category[1] === 'gallery') && '갤러리' }
+                    {(category[1] !== 'gallery') && '자료실' }
+                </div>
             </div>
 
             <div className="mt-5 md:mt-10 mx-auto lg:w-[1044px] w-full text-left">
@@ -225,15 +228,15 @@ function ReferenceRoomWrite() {
                             <div className='md:flex md:gap-x-2'>
                                 <div className="my-4 flex-1">
                                     <input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                        type="text" placeholder='강의 이름' value={lecture} onChange={(e) => { setLecture(e.target.value) }}/>
+                                        type="text" placeholder={category[1] === 'gallery' ? '촬영 장소 (선택)' : '강의 이름'} value={lecture} onChange={(e) => { setLecture(e.target.value) }}/>
                                 </div>
                                 <div className="my-4 flex-1">
                                     <input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                        type="text" placeholder='수강 학기' value={semester} onChange={(e) => { setSemester(e.target.value) }}/>
+                                        type="text" placeholder={category[1] === 'gallery' ? '촬영 일자 (선택)' : '수강 학기'} value={semester} onChange={(e) => { setSemester(e.target.value) }}/>
                                 </div>
                                 <div className="my-4 flex-1">
                                     <input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                        type="text" placeholder='담당 교수' value={professor} onChange={(e) => { setProfessor(e.target.value) }}/>
+                                        type="text" placeholder={category[1] === 'gallery' ? '기타 (선택)' : '담당 교수'} value={professor} onChange={(e) => { setProfessor(e.target.value) }}/>
                                 </div>
                             </div>
                             <div className="inline-flex rounded-md shadow-xs mb-2" role="group">
