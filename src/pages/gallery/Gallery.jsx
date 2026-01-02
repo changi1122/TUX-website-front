@@ -49,7 +49,7 @@ function Gallery() {
                 <div className="text-4xl font-bold max-sm:text-xl">갤러리</div>
             </div>
 
-            <div className="mt-5 md:mt-10 mx-auto lg:w-[936px] w-full text-left">
+            <div className="mt-5 md:mt-10 mx-auto lg:w-[1044px] w-full text-left">
                 <div className='flex'>
                     <div className='flex-1 ml-4 max-md:ml-0'>
                         {/* 카테고리/검색 바 */}
@@ -73,7 +73,7 @@ function Gallery() {
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8">
                             {
                                 posts && posts.content.length != 0 && posts.content.map(p => (
-                                    <Link key={p.id} to={"/gallery/"+p.id}>
+                                    <Link key={p.id} to={"/referenceroom/"+p.id}>
                                         <div className='gallery-item relative'>
                                             
                                             <img className="h-[200px] w-full max-w-full rounded-lg object-cover" src={(p.mainImage) ? p.mainImage.path : '/images/noimage.jpg'} alt=""/>
@@ -109,7 +109,7 @@ function Gallery() {
                             {
                                 (['MANAGER', 'ADMIN'].includes(loginUser.role)) &&
                                 <Link className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 ml-2 mt-2 inline-block"
-                                    to='/gallery/write'>
+                                    to='/referenceroom/write?type=gallery'>
                                     글쓰기
                                 </Link>
                             }

@@ -8,6 +8,7 @@ const initialState = {
 
 /* 액션 */
 export const GET_REFERENCE_ROOM_DETAIL = 'referenceRoom/GET_REFERENCE_ROOM_DETAIL';
+export const CLEAN_UP_REFERENCE_ROOM_DETAIL = 'referenceRoom/CLEAN_UP_REFERENCE_ROOM_DETAIL';
 export const DELETE_REFERENCE_ROOM = 'referenceRoom/DELETE_REFERENCE_ROOM';
 export const POST_COMMENT = 'referenceRoom/POST_COMMENT';
 export const DELETE_COMMENT = 'referenceRoom/DELETE_COMMENT';
@@ -16,6 +17,7 @@ export const GET_REFERENCE_ROOM_LIST = 'referenceRoom/GET_REFERENCE_ROOM_LIST';
 
 export const actions = createActions({
     [GET_REFERENCE_ROOM_DETAIL]: (payload) => payload,
+    [CLEAN_UP_REFERENCE_ROOM_DETAIL]: () => {},
     [DELETE_REFERENCE_ROOM]: () => {},
     [POST_COMMENT]: (payload) => payload,
     [DELETE_COMMENT]: (payload) => payload,
@@ -29,6 +31,10 @@ const referenceRoomReducer = handleActions(
         [GET_REFERENCE_ROOM_DETAIL]: (state, { payload }) => ({
             ...state,
             detail: payload,
+        }),
+        [CLEAN_UP_REFERENCE_ROOM_DETAIL]: (state) => ({
+            ...state,
+            detail: undefined
         }),
         [DELETE_REFERENCE_ROOM]: (state) => ({
             ...state,

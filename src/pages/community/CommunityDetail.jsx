@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import CommunityRule from '../../components/rule/CommunityRule';
+import BlockNoteEditor from '../../components/editor/BlockNoteEditor';
 import {
     callCommunityDeleteAPI,
     callCommunityDetailAPI,
@@ -12,6 +13,7 @@ import {
     callCommunityDeleteCommentAPI,
     callCommunityPostLikeAPI
 } from '../../apis/CommunityAPI';
+import { CLEAN_UP_COMMUNITY_DETAIL } from '../../modules/CommunityModule';
 
 
 function CommunityDetail() {
@@ -29,7 +31,23 @@ function CommunityDetail() {
 
     useEffect(() => {
         getCommunity(id);
-    }, []);
+
+        // 컴포넌트가 언마운트(페이지를 나갈 때)될 때 실행
+        return () => {
+            dispatch({ type: CLEAN_UP_COMMUNITY_DETAIL }); 
+        };
+    }, [id, dispatch]);
+
+    const parsedBody = useMemo(() => {
+        try {
+            // JSON 문자열이면 파싱하고, HTML 문자열이면 그대로 반환
+            if (post && post.editorVersion && post.editorVersion >= 2 && post.body)
+                return JSON.parse(post.body);
+        } catch (error) {
+            console.error("BlockNote data parse error:", error);
+            return undefined;
+        }
+    }, [post]);
 
     async function getCommunity(id) {
         const result = await dispatch(callCommunityDetailAPI(id));
@@ -101,12 +119,12 @@ function CommunityDetail() {
                 <div className="text-4xl font-bold max-sm:text-xl">커뮤니티</div>
             </div>
 
-            <div className="mt-5 md:mt-10 mx-auto lg:w-[936px] w-full text-left">
+            <div className="mt-5 md:mt-10 mx-auto lg:w-[1044px] w-full text-left">
                 <div className='flex'>
                     <div className='w-60 min-w-[15rem] max-lg:hidden'>
                         <CommunityRule />
                     </div>
-                    <div className='flex-1 ml-4 max-lg:ml-0 lg:max-w-[680px] max-w-full'>
+                    <div className='flex-1 ml-4 max-lg:ml-0 lg:max-w-[788px] max-w-full'>
                         {
                             post &&
                             <>
@@ -126,9 +144,16 @@ function CommunityDetail() {
                                     <span className='text-gray-500 text-xs font-medium mr-4'><span className='inline-block mr-1'>👀</span> {post.view}</span>
                                     <span className='text-gray-500 text-xs font-medium mr-4'><span className='inline-block mr-1'>👍</span> {post.likes}</span>
                                 </div>
-                                <div className='md mt-4 ql-editor break-words' style={{ padding: '0' }}
-                                    dangerouslySetInnerHTML={{ __html: post.body }}>
-                                </div>
+                                { post && post.editorVersion && post.editorVersion >= 2 && (
+                                    <div className='blocknote-viewer mt-4 break-words'>
+                                        <BlockNoteEditor editable={false} body={parsedBody} />
+                                    </div>
+                                )}
+                                { !(post && post.editorVersion && post.editorVersion >= 2) && (
+                                    <div className='md mt-4 ql-editor break-words' style={{ padding: '0' }}
+                                        dangerouslySetInnerHTML={{ __html: post.body }}>
+                                    </div>
+                                )}
                                 <div className="flex rounded-md justify-center mt-12 mb-4" role="group">
                                     <button type="button" className="w-24 px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100
                                                                 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 focus:text-blue-600 text-blue-600"
@@ -179,7 +204,7 @@ function CommunityDetail() {
                                     {
                                         (loginUser.userId == post.authorId || ['ADMIN'].includes(loginUser.role)) &&
                                         <Link className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
-                                            to={`/community/${post.id}/edit`}>
+                                            to={`/community/${post.id}/edit?ev=${post.editorVersion || 1}`}>
                                             수정
                                         </Link>
                                     }

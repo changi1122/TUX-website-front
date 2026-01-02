@@ -12,6 +12,7 @@ const initialState = {
 
 /* 액션 */
 export const GET_COMMUNITY_DETAIL = 'community/GET_COMMUNITY_DETAIL';
+export const CLEAN_UP_COMMUNITY_DETAIL = 'community/CLEAN_UP_COMMUNITY_DETAIL';
 export const DELETE_COMMUNITY = 'community/DELETE_COMMUNITY';
 export const POST_COMMENT = 'community/POST_COMMENT';
 export const DELETE_COMMENT = 'community/DELETE_COMMENT';
@@ -21,6 +22,7 @@ export const GET_MAIN_POSTS = 'community/GET_MAIN_POSTS';
 
 export const actions = createActions({
     [GET_COMMUNITY_DETAIL]: (payload) => payload,
+    [CLEAN_UP_COMMUNITY_DETAIL]: () => {},
     [DELETE_COMMUNITY]: () => {},
     [POST_COMMENT]: (payload) => payload,
     [DELETE_COMMENT]: (payload) => payload,
@@ -35,6 +37,10 @@ const communityReducer = handleActions(
         [GET_COMMUNITY_DETAIL]: (state, { payload }) => ({
             ...state,
             detail: payload
+        }),
+        [CLEAN_UP_COMMUNITY_DETAIL]: (state) => ({
+            ...state,
+            detail: undefined
         }),
         [DELETE_COMMUNITY]: (state) => ({
             ...state,

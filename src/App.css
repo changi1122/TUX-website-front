@@ -93,6 +93,29 @@
   display: block;
 }
 
+/* BlockNote 에디터 */
+.blocknote-viewer .bn-editor {
+  padding-inline: 0;
+}
+.blocknote-container .bn-editor {
+  padding: 36px 54px;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5em;
+  min-height: 200px;
+}
+.bn-default-styles h1 {
+  font-size: 30px !important;
+  margin-top: 30px !important;
+}
+.bn-default-styles h2 {
+  font-size: 26px !important;
+  margin-top: 20px !important;
+}
+.bn-default-styles h3 {
+  font-size: 22px !important;
+  margin-top: 16px !important;
+}
+
 /* 갤러리 스타일 일부 */
 .gallery-item .text-background {
   background-color: rgba(0, 0, 0, 0.6);
