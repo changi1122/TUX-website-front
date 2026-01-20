@@ -65,8 +65,9 @@ function AdministratorPage() {
         }
 
         if (newPassword) {
-            const res = await fetch(`/api/admin/user/${id}/password/${newPassword}`, {
+            const res = await fetch(`/api/admin/user/${id}/password`, {
                 method: "PUT",
+                body: newPassword,
                 credentials: 'include'
             });
             if (res.ok) {
