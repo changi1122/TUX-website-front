@@ -100,7 +100,7 @@ function ReferenceRoomWrite() {
 
         let res;
         if (id)
-            res = await postReferenceRoomAfterFileUpload(id);
+            res = await postReferenceRoomAfterFileUpload(id, category[1]);
         else
             res = await postReferenceRoomWithoutFileUpload(category[1]);
 
@@ -132,8 +132,8 @@ function ReferenceRoomWrite() {
         return res;
     }
     
-    async function postReferenceRoomAfterFileUpload(id) {
-        const res = await fetch(`/api/referenceroom/${id}`, {
+    async function postReferenceRoomAfterFileUpload(id, type) {
+        const res = await fetch(`/api/referenceroom/${id}?type=${type}`, {
             method: "POST",
             credentials: 'include',
             body: JSON.stringify({

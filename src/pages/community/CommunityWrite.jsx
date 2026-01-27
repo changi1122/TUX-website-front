@@ -95,7 +95,7 @@ function CommunityWrite() {
 
         let res;
         if (id)
-            res = await postCommunityAfterFileUpload(id);
+            res = await postCommunityAfterFileUpload(id, category[1]);
         else
             res = await postCommunityWithoutFileUpload(category[1]);
 
@@ -122,8 +122,8 @@ function CommunityWrite() {
         return res;
     }
 
-    async function postCommunityAfterFileUpload(id) {
-        const res = await fetch(`/api/community/${id}`, {
+    async function postCommunityAfterFileUpload(id, type) {
+        const res = await fetch(`/api/community/${id}?type=${type}`, {
             method: "POST",
             credentials: 'include',
             body: JSON.stringify({
