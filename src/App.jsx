@@ -168,6 +168,9 @@ const App = () => {
             <Route path="/referenceroom/:id" element={
               <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoomDetail />} isFalse={<Navigate to='/login?from=%2Freferenceroom' />} />
             } />
+            <Route path="/gallery/:id" element={
+              <ReferenceRoomDetail />
+            } />
             <Route path="/referenceroom/write" element={
               <PrivateRoute isThatTrue={isLogined() && isNotGuest()} isTrue={<ReferenceRoomWrite />} isFalse={<Navigate to='/login?from=%2Freferenceroom' />} />
             } />

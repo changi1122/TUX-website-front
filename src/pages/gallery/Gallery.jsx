@@ -73,7 +73,7 @@ function Gallery() {
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8">
                             {
                                 posts && posts.content.length != 0 && posts.content.map(p => (
-                                    <Link key={p.id} to={"/referenceroom/"+p.id}>
+                                    <Link key={p.id} to={"/gallery/"+p.id}>
                                         <div className='gallery-item relative'>
                                             
                                             <img className="h-[200px] w-full max-w-full rounded-lg object-cover" src={(p.mainImage) ? p.mainImage.path : '/images/noimage.jpg'} alt=""/>
