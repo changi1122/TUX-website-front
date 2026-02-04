@@ -39,12 +39,14 @@ function Community() {
 
     function handleCategorySelect(category) {
         setCategory(defaultCategory(category));
+        setCurrentPage(1);
         setSearchParams({ ...searchParams, type: category });
         setIsUserMenuOpened(false);
     }
 
     function handleSearch(e) {
         e.preventDefault();
+        setCurrentPage(1);
         setSearchParams({ ...searchParams, query: searchQuery });
     }
 
