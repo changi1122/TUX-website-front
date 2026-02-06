@@ -1,4 +1,5 @@
 import { actions } from '../modules/UserModule';
+import fetchWrapper from './fetchWrapper';
 
 export const callLoginAPI = ({ username, password, keepAuth }) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/auth`;
@@ -22,20 +23,18 @@ export const callLoginAPI = ({ username, password, keepAuth }) => {
             // localStorage 또는 sessionStorage에 저장
             if (keepAuth === true) {
                     // 로그인 유지
-                    localStorage.setItem('token', result.token.token);
-                    localStorage.setItem('expiresIn', result.token.expiresIn);
-                    localStorage.setItem('userId', result.id);
-                    localStorage.setItem('username', result.username);
-                    localStorage.setItem('nickname', result.nickname);
-                    localStorage.setItem('role', result.role);
+                    localStorage.setItem('expiresIn', result.refreshToken.expiresIn);
+                    localStorage.setItem('userId', result.user.id);
+                    localStorage.setItem('username', result.user.username);
+                    localStorage.setItem('nickname', result.user.nickname);
+                    localStorage.setItem('role', result.user.role);
                 }
                 else {
-                    sessionStorage.setItem('token', result.token.token);
-                    sessionStorage.setItem('expiresIn', result.token.expiresIn);
-                    sessionStorage.setItem('userId', result.id);
-                    sessionStorage.setItem('username', result.username);
-                    sessionStorage.setItem('nickname', result.nickname);
-                    sessionStorage.setItem('role', result.role);
+                    sessionStorage.setItem('expiresIn', result.refreshToken.expiresIn);
+                    sessionStorage.setItem('userId', result.user.id);
+                    sessionStorage.setItem('username', result.user.username);
+                    sessionStorage.setItem('nickname', result.user.nickname);
+                    sessionStorage.setItem('role', result.user.role);
                 }
 
             await dispatch(actions.user.login(result));
@@ -81,7 +80,7 @@ export const callGetCurrentUserAPI = () => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/auth`;
 
     return async (dispatch, getState) => {
-        const response = await fetch(requestURL, {
+        const response = await fetchWrapper(requestURL, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -107,7 +106,7 @@ export const callUpdateUserAPI = ({ userId, key, value }) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/user/${userId}`;
 
     return async (dispatch, getState) => {
-        const response = await fetch(requestURL, {
+        const response = await fetchWrapper(requestURL, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -135,7 +134,7 @@ export const callDeleteUserAPI = (userId) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/user/${userId}`;
 
     return async (dispatch, getState) => {
-        const response = await fetch(requestURL, {
+        const response = await fetchWrapper(requestURL, {
             method: 'DELETE',
             credentials: 'include'
         });

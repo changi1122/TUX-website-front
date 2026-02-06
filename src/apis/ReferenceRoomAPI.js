@@ -1,10 +1,11 @@
 import { actions } from '../modules/ReferenceRoomModule';
+import fetchWrapper from './fetchWrapper';
 
 export const callReferenceRoomDetailAPI = (postId) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/referenceroom/${postId}`;
 
     return async (dispatch, getState) => {
-        const response = await fetch(requestURL, {
+        const response = await fetchWrapper(requestURL, {
             method: 'GET',
             credentials: 'include',
         });
@@ -29,7 +30,7 @@ export const callReferenceRoomDeleteAPI = (postId) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/referenceroom/${postId}`;
 
     return async (dispatch, getState) => {
-        const response = await fetch(requestURL, {
+        const response = await fetchWrapper(requestURL, {
             method: 'DELETE',
             credentials: 'include',
         });
@@ -50,7 +51,7 @@ export const callReferenceRoomAddCommentAPI = (postId, comment) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/referenceroom/${postId}/comment`;
 
     return async (dispatch, getState) => {
-        const response = await fetch(requestURL, {
+        const response = await fetchWrapper(requestURL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -78,7 +79,7 @@ export const callReferenceRoomDeleteCommentAPI = (postId, commentId) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/referenceroom/${postId}/comment/${commentId}`;
 
     return async (dispatch, getState) => {
-        const response = await fetch(requestURL, {
+        const response = await fetchWrapper(requestURL, {
             method: 'DELETE',
             credentials: 'include',
         });
@@ -99,7 +100,7 @@ export const callReferenceRoomPostLikeAPI = (postId, dislike) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/referenceroom/${postId}/likes?dislike=${dislike}`;
 
     return async (dispatch, getState) => {
-        const response = await fetch(requestURL, {
+        const response = await fetchWrapper(requestURL, {
             method: 'POST',
             credentials: 'include',
         });
@@ -124,7 +125,7 @@ export const callReferenceRoomListAPI = (category, page, size, query) => {
         requestURL = `${import.meta.env.VITE_API_URL}/api/referenceroom/list?page=${page - 1}&size=${size}&${(query) ? "&query="+query : ''}`;
 
     return async (dispatch, getState) => {
-        const response = await fetch(requestURL, {
+        const response = await fetchWrapper(requestURL, {
             method: 'GET',
             credentials: 'include',
         });

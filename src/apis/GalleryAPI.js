@@ -1,10 +1,11 @@
 import { actions } from '../modules/GalleryModule';
+import fetchWrapper from './fetchWrapper';
 
 export const callGalleryListAPI = (page, size, query) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/gallery/list?page=${page - 1}&size=${size}&query=${query}`;
 
     return async (dispatch, getState) => {
-        const response = await fetch(requestURL, {
+        const response = await fetchWrapper(requestURL, {
             method: 'GET',
             credentials: 'include',
         });

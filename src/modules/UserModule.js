@@ -3,7 +3,6 @@ import { createActions, handleActions } from 'redux-actions';
 /* 초기값 */
 const initialState = {
     isInitialized: false,
-    token: null,
     expiresIn: null,
     userId: null,
     username: '',
@@ -40,12 +39,11 @@ const userReducer = handleActions(
         [LOGIN]: (state, { payload }) => (
             {
                 isInitialized: true,
-                token: payload.token.token,
-                expiresIn: payload.token.expiresIn,
-                userId: payload.id,
-                username: payload.username,
-                nickname: payload.nickname,
-                role: payload.role,
+                expiresIn: payload.refreshToken.expiresIn,
+                userId: payload.user.id,
+                username: payload.user.username,
+                nickname: payload.user.nickname,
+                role: payload.user.role,
                 isLoggedIn: true
             }
         ),
@@ -69,7 +67,6 @@ const userReducer = handleActions(
         }),
         [SET_USER]: (state, { payload }) => ({
             isInitialized: true,
-            token: payload.token,
             expiresIn: payload.expiresIn,
             userId: payload.userId,
             username: payload.username,

@@ -1,10 +1,11 @@
 import { actions } from '../modules/CommunityModule';
+import fetchWrapper from './fetchWrapper';
 
 export const callCommunityDetailAPI = (postId) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/community/${postId}`;
 
     return async (dispatch, getState) => {
-        const response = await fetch(requestURL, {
+        const response = await fetchWrapper(requestURL, {
             method: 'GET',
             credentials: 'include',
         });
@@ -29,7 +30,7 @@ export const callCommunityDeleteAPI = (postId) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/community/${postId}`;
 
     return async (dispatch, getState) => {
-        const response = await fetch(requestURL, {
+        const response = await fetchWrapper(requestURL, {
             method: 'DELETE',
             credentials: 'include',
         });
@@ -50,7 +51,7 @@ export const callCommunityAddCommentAPI = (postId, comment) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/community/${postId}/comment`;
 
     return async (dispatch, getState) => {
-        const response = await fetch(requestURL, {
+        const response = await fetchWrapper(requestURL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -78,7 +79,7 @@ export const callCommunityDeleteCommentAPI = (postId, commentId) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/community/${postId}/comment/${commentId}`;
 
     return async (dispatch, getState) => {
-        const response = await fetch(requestURL, {
+        const response = await fetchWrapper(requestURL, {
             method: 'DELETE',
             credentials: 'include',
         });
@@ -99,7 +100,7 @@ export const callCommunityPostLikeAPI = (postId, dislike) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/community/${postId}/likes?dislike=${dislike}`;
 
     return async (dispatch, getState) => {
-        const response = await fetch(requestURL, {
+        const response = await fetchWrapper(requestURL, {
             method: 'POST',
             credentials: 'include',
         });
@@ -124,7 +125,7 @@ export const callCommunityListAPI = (category, page, size, query) => {
         requestURL = `${import.meta.env.VITE_API_URL}/api/community/list?page=${page - 1}&size=${size}&${(query) ? "&query="+query : ''}`;
 
     return async (dispatch, getState) => {
-        const response = await fetch(requestURL, {
+        const response = await fetchWrapper(requestURL, {
             method: 'GET'
         });
 
@@ -146,16 +147,16 @@ export const callMainListAPI = () => {
     const referenceRoomURL = `${import.meta.env.VITE_API_URL}/api/referenceroom/list/category?page=0&size=3&type=`;
 
     return async (dispatch, getState) => {
-        const resNotices = await fetch(communityURL+'notice', {
+        const resNotices = await fetchWrapper(communityURL+'notice', {
             method: 'GET'
         });
-        const resContests = await fetch(communityURL+'contest', {
+        const resContests = await fetchWrapper(communityURL+'contest', {
             method: 'GET'
         });
-        const resPosts = await fetch(communityURL+'free,job,teamrecruitment', {
+        const resPosts = await fetchWrapper(communityURL+'free,job,teamrecruitment', {
             method: 'GET'
         });
-        const resPhotos = await fetch(referenceRoomURL+'gallery', {
+        const resPhotos = await fetchWrapper(referenceRoomURL+'gallery', {
             method: 'GET'
         });
 

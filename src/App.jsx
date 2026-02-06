@@ -62,7 +62,6 @@ const App = () => {
     if (localStorage.userId || sessionStorage.userId) {
       const storage = localStorage.userId ? localStorage : sessionStorage;
 
-      const token = storage.getItem('token');
       const expiresIn = storage.getItem('expiresIn');
       const userId = storage.getItem('userId');
       const username = storage.getItem('username');
@@ -71,9 +70,8 @@ const App = () => {
 
       const isExpired = !expiresIn || Date.now() > Number(expiresIn);
 
-      if (!isExpired && token && userId && username) {
+      if (!isExpired && userId && username) {
         dispatch(actions.user.setUser({
-            token,
             expiresIn,
             userId,
             username,
