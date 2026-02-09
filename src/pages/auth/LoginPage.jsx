@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { useSearchParams } from 'react-router-dom';
 
-import { callLoginAPI } from "../../apis/UserAPI";
+import { login } from "../../apis/UserAPI";
 
 function LoginPage() {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -18,11 +16,11 @@ function LoginPage() {
     const onSubmit = async (e) => {
         e.preventDefault();
 
-        const result = await dispatch(callLoginAPI({
+        const result = await login({
             username,
             password,
             keepAuth
-        }));
+        });
 
         if (result.success) {
             // 로그인 성공

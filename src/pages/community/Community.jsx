@@ -1,18 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '../../components/pagination/Pagination';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import CommunityRule from '../../components/rule/CommunityRule';
 import LoadingIndicator from '../../components/LoadingIndicator';
-import { callCommunityListAPI } from '../../apis/CommunityAPI';
+import useAuthStore from '../../stores/useAuthStore';
+import { useCommunityList } from '../../queries/useCommunityQueries';
 
 function Community() {
-    const dispatch = useDispatch();
-    const loginUser = useSelector((state) => state.userReducer);
-    const posts = useSelector((state) => state.communityReducer.list);
+    const loginUser = useAuthStore();
 
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -21,21 +19,7 @@ function Community() {
     const [searchQuery, setSearchQuery] = useState((searchParams.get('query')) ? searchParams.get('query') : '');
     const [currentPage, setCurrentPage] = useState((searchParams.get('page')) ? searchParams.get('page') : 1);
 
-    useEffect(() => {
-        getCommunityList(category[1], currentPage, 6, searchQuery);
-    }, [category, currentPage]);
-
-    useEffect(() => {
-        setCurrentPage(1);
-        getCommunityList(category[1], currentPage, 6, searchQuery);
-    }, [searchQuery]);
-
-    async function getCommunityList(category, page, size, query) {
-        const result = await dispatch(callCommunityListAPI(category, page, size, query));
-        if (!result.success) {
-            alert(result.message);
-        }
-    } 
+    const { data: posts, isLoading, isError } = useCommunityList(category[1], currentPage, 6, searchQuery);
 
     function handleCategorySelect(category) {
         setCategory(defaultCategory(category));
@@ -147,7 +131,8 @@ function Community() {
                                 <p className='text-lg text-gray-500'>조건에 해당하는 게시물이 없습니다.</p>
                             </div>
                         }
-                        { !posts && <LoadingIndicator /> }
+                        { isLoading && <LoadingIndicator /> }
+                        { isError && <div className='text-center py-20'><p className='text-lg text-gray-500'>오류가 발생했습니다.</p></div> }
 
                         {/* Pagination/글쓰기 버튼 */}
                         <div className='flex flex-wrap justify-center mt-6 mb-4'>

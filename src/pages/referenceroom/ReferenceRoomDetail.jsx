@@ -1,41 +1,35 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
 import BlockNoteEditor from '../../components/editor/BlockNoteEditor';
+import useAuthStore from '../../stores/useAuthStore';
 import {
-    callReferenceRoomDetailAPI,
-    callReferenceRoomDeleteAPI,
-    callReferenceRoomAddCommentAPI,
-    callReferenceRoomDeleteCommentAPI,
-    callReferenceRoomPostLikeAPI
-} from '../../apis/ReferenceRoomAPI';
-import { CLEAN_UP_REFERENCE_ROOM_DETAIL } from '../../modules/ReferenceRoomModule';
+    useReferenceRoomDetail,
+    useReferenceRoomDelete,
+    useReferenceRoomAddComment,
+    useReferenceRoomDeleteComment,
+    useReferenceRoomLike,
+} from '../../queries/useReferenceRoomQueries';
 
 function ReferenceRoomDetail() {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
-    const loginUser = useSelector((state) => state.userReducer);
-    const post = useSelector((state) => state.referenceRoomReducer.detail);
+    const loginUser = useAuthStore();
 
     // 글 id
     let { id } = useParams();
 
+    const { data: post } = useReferenceRoomDetail(id);
+    const deleteMutation = useReferenceRoomDelete();
+    const addCommentMutation = useReferenceRoomAddComment();
+    const deleteCommentMutation = useReferenceRoomDeleteComment();
+    const likeMutation = useReferenceRoomLike();
+
     const [shareLabel, setShareLabel] = useState('공유');
     const [comment, setComment] = useState('');
-
-    useEffect(() => {
-        getReferenceRoom(id);
-
-        // 컴포넌트가 언마운트(페이지를 나갈 때)될 때 실행
-        return () => {
-            dispatch({ type: CLEAN_UP_REFERENCE_ROOM_DETAIL }); 
-        };
-    }, [id, dispatch]);
 
     const parsedBody = useMemo(() => {
         try {
@@ -48,21 +42,14 @@ function ReferenceRoomDetail() {
         }
     }, [post]);
 
-    async function getReferenceRoom(id) {
-        const result = await dispatch(callReferenceRoomDetailAPI(id));
-        if (!result.success) {
-            console.error(result.message);
-        }
-    }
-
     async function handleDelete()
     {
         if (window.confirm("정말로 글을 삭제하시겠습니까?")) {
-            const result = await dispatch(callReferenceRoomDeleteAPI(post.id));
-            if (result.success) {
+            try {
+                await deleteMutation.mutateAsync(post.id);
                 navigate('/referenceroom');
-            } else {
-                alert(result.message);
+            } catch (error) {
+                alert(error.message);
             }
         }
     }
@@ -80,19 +67,20 @@ function ReferenceRoomDetail() {
             return;
         }
 
-        const result = await dispatch(callReferenceRoomAddCommentAPI(post.id, comment));
-        if (result.success) {
+        try {
+            await addCommentMutation.mutateAsync({ postId: post.id, comment });
             setComment('');
-        } else {
-            alert(result.message);
+        } catch (error) {
+            alert(error.message);
         }
     }
 
     async function handleDeleteComment(commentId) {
         if (window.confirm("정말로 댓글을 삭제하시겠습니까?")) {
-            const result = await dispatch(callReferenceRoomDeleteCommentAPI(post.id, commentId));
-            if (!result.success) {
-                alert(result.message);
+            try {
+                await deleteCommentMutation.mutateAsync({ postId: post.id, commentId });
+            } catch (error) {
+                alert(error.message);
             }
         }
     }
@@ -104,9 +92,10 @@ function ReferenceRoomDetail() {
             return;
         }
 
-        const result = await dispatch(callReferenceRoomPostLikeAPI(post.id, dislike));
-        if (!result.success) {
-            alert(result.message);
+        try {
+            await likeMutation.mutateAsync({ postId: post.id, dislike });
+        } catch (error) {
+            alert(error.message);
         }
     }
 
@@ -133,21 +122,21 @@ function ReferenceRoomDetail() {
                             <div className='block max-w px-6 py-6 my-3 bg-white border border-gray-200 rounded-lg shadow'>
                                 <span className={badge(post.category)[0] + " text-xs font-medium rounded mr-2 mb-2 px-2.5 py-1 inline-block align-text-top"}>{badge(post.category)[1]}</span>
                                 {
-                                    post.lecture && 
+                                    post.lecture &&
                                     <span className="inline-block max-w-[160px] overflow-hidden text-ellipsis align-text-top mb-2
                                                     bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded whitespace-nowrap">
                                         {post.lecture}
                                     </span>
                                 }
                                 {
-                                    post.semester && 
+                                    post.semester &&
                                     <span className="inline-block max-w-[160px] overflow-hidden text-ellipsis align-text-top mb-2
                                                     bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded whitespace-nowrap">
                                         {post.semester}
                                     </span>
                                 }
                                 {
-                                    post.professor && 
+                                    post.professor &&
                                     <span className="inline-block max-w-[160px] overflow-hidden text-ellipsis align-text-top mb-2
                                                     bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded whitespace-nowrap">
                                         {post.professor}

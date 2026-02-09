@@ -1,17 +1,21 @@
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { callDeleteUserAPI, callGetCurrentUserAPI, callUpdateUserAPI } from '../../apis/UserAPI';
+import useAuthStore from '../../stores/useAuthStore';
+import { useCurrentUser, useUpdateUser, useDeleteUser } from '../../queries/useUserQueries';
 
 function MyPage() {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const loginUser = useSelector(state => state.userReducer);
+    const loginUser = useAuthStore();
+    const { data: currentUser } = useCurrentUser();
+    const updateUserMutation = useUpdateUser();
+    const deleteUserMutation = useDeleteUser();
 
     useEffect(() => {
-        dispatch(callGetCurrentUserAPI());
-    }, []);
+        if (currentUser) {
+            useAuthStore.getState().getUser(currentUser);
+        }
+    }, [currentUser]);
 
     function handleChangePassword() {
         const newPassword = prompt("변경할 비밀번호를 입력하세요.");
@@ -23,7 +27,7 @@ function MyPage() {
         }
 
         if (newPassword) {
-            updateUser('password', newPassword);
+            handleUpdateUser('password', newPassword);
         }
     }
 
@@ -31,7 +35,7 @@ function MyPage() {
         const newNickname = prompt("변경할 닉네임을 입력하세요. (예시: 18학번 홍길동)", loginUser.nickname);
 
         if (newNickname) {
-            updateUser('nickname', newNickname);
+            handleUpdateUser('nickname', newNickname);
         }
     }
 
@@ -46,7 +50,7 @@ function MyPage() {
         }
 
         if (newEmail) {
-            updateUser('email', newEmail);
+            handleUpdateUser('email', newEmail);
         }
     }
 
@@ -54,7 +58,7 @@ function MyPage() {
         const newPhone = prompt("변경할 전화번호를 입력하세요.", loginUser.phoneNumber);
 
         if (newPhone) {
-            updateUser('phoneNumber', newPhone);
+            handleUpdateUser('phoneNumber', newPhone);
         }
     }
 
@@ -62,20 +66,20 @@ function MyPage() {
         const newDepartment = prompt("변경할 학과(학부)를 입력하세요.", loginUser.department);
 
         if (newDepartment) {
-            updateUser('department', newDepartment);
+            handleUpdateUser('department', newDepartment);
         }
     }
 
-    async function updateUser(name, value) {
-        const result = await dispatch(callUpdateUserAPI({
-            userId: loginUser.userId,
-            key: name,
-            value: value
-        }))
-        if (result.success) {
+    async function handleUpdateUser(name, value) {
+        try {
+            await updateUserMutation.mutateAsync({
+                userId: loginUser.userId,
+                key: name,
+                value: value
+            });
             navigate(0);
-        } else {
-            alert(result.message);
+        } catch (error) {
+            alert(error.message);
         }
     }
 
@@ -84,13 +88,12 @@ function MyPage() {
         if (window.confirm("정말로 회원 탈퇴하시겠습니까?")) {
             const typeUsername = prompt("회원 탈퇴하면 현재 사용 중인 아이디를 다시 사용할 수 없습니다.\n회원 탈퇴를 위해 현재 사용 중인 아이디를 입력하세요.");
             if (typeUsername === loginUser.username) {
-                const result = await dispatch(callDeleteUserAPI(loginUser.userId));
-
-                if (result.success) {
+                try {
+                    await deleteUserMutation.mutateAsync(loginUser.userId);
                     navigate('/');
                     window.location.reload();
-                } else {
-                    alert(result.message);
+                } catch (error) {
+                    alert(error.message);
                 }
             } else {
                 alert("입력하신 아이디가 일치하지 않습니다.");
@@ -125,7 +128,7 @@ function MyPage() {
                             onClick={(e) => { e.preventDefault(); handleChangeNickname(); }}>
                             닉네임 변경
                         </button>
-                    </div>  
+                    </div>
                     <div>
                         <label className="block mb-2 text-sm font-medium text-gray-900">회원 권한</label>
                         <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"

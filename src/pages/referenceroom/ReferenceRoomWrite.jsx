@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import useAuthStore from '../../stores/useAuthStore';
 import QuillEditor from '../../components/editor/QuillEditor';
 import BlockNoteEditor from '../../components/editor/BlockNoteEditor';
 import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
@@ -15,7 +15,7 @@ const CATEGORIES = [
 
 function ReferenceRoomWrite() {
     const navigate = useNavigate();
-    const loginUser = useSelector((state) => state.userReducer);
+    const loginUser = useAuthStore();
     const [searchParams, setSearchParams] = useSearchParams();
 
     const [id, setId] = useState(); // 글 ID : 파일업로드를 통해 글이 임시 생성되었을 경우, ID를 가짐

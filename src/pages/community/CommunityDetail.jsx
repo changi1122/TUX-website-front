@@ -1,42 +1,36 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import CommunityRule from '../../components/rule/CommunityRule';
 import BlockNoteEditor from '../../components/editor/BlockNoteEditor';
+import useAuthStore from '../../stores/useAuthStore';
 import {
-    callCommunityDeleteAPI,
-    callCommunityDetailAPI,
-    callCommunityAddCommentAPI,
-    callCommunityDeleteCommentAPI,
-    callCommunityPostLikeAPI
-} from '../../apis/CommunityAPI';
-import { CLEAN_UP_COMMUNITY_DETAIL } from '../../modules/CommunityModule';
+    useCommunityDetail,
+    useCommunityDelete,
+    useCommunityAddComment,
+    useCommunityDeleteComment,
+    useCommunityLike,
+} from '../../queries/useCommunityQueries';
 
 
 function CommunityDetail() {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    
-    const loginUser = useSelector((state) => state.userReducer);
-    const post = useSelector((state) => state.communityReducer.detail);
+
+    const loginUser = useAuthStore();
 
     // 글 id
     let { id } = useParams();
 
+    const { data: post } = useCommunityDetail(id);
+    const deleteMutation = useCommunityDelete();
+    const addCommentMutation = useCommunityAddComment();
+    const deleteCommentMutation = useCommunityDeleteComment();
+    const likeMutation = useCommunityLike();
+
     const [shareLabel, setShareLabel] = useState('공유');
     const [comment, setComment] = useState('');
-
-    useEffect(() => {
-        getCommunity(id);
-
-        // 컴포넌트가 언마운트(페이지를 나갈 때)될 때 실행
-        return () => {
-            dispatch({ type: CLEAN_UP_COMMUNITY_DETAIL }); 
-        };
-    }, [id, dispatch]);
 
     const parsedBody = useMemo(() => {
         try {
@@ -49,21 +43,14 @@ function CommunityDetail() {
         }
     }, [post]);
 
-    async function getCommunity(id) {
-        const result = await dispatch(callCommunityDetailAPI(id));
-        if (!result.success) {
-            console.error(result.message);
-        }
-    }
-
     async function handleDelete()
     {
         if (window.confirm("정말로 글을 삭제하시겠습니까?")) {
-            const result = await dispatch(callCommunityDeleteAPI(post.id));
-            if (result.success) {
+            try {
+                await deleteMutation.mutateAsync(post.id);
                 navigate('/community');
-            } else {
-                alert(result.message);
+            } catch (error) {
+                alert(error.message);
             }
         }
     }
@@ -81,19 +68,20 @@ function CommunityDetail() {
             return;
         }
 
-        const result = await dispatch(callCommunityAddCommentAPI(id, comment));
-        if (result.success) {
+        try {
+            await addCommentMutation.mutateAsync({ postId: id, comment });
             setComment('');
-        } else {
-            alert(result.message);
+        } catch (error) {
+            alert(error.message);
         }
     }
 
     async function handleDeleteComment(commentId) {
         if (window.confirm("정말로 댓글을 삭제하시겠습니까?")) {
-            const result = await dispatch(callCommunityDeleteCommentAPI(post.id, commentId));
-            if (!result.success) {
-                alert(result.message);
+            try {
+                await deleteCommentMutation.mutateAsync({ postId: post.id, commentId });
+            } catch (error) {
+                alert(error.message);
             }
         }
     }
@@ -105,9 +93,10 @@ function CommunityDetail() {
             return;
         }
 
-        const result = await dispatch(callCommunityPostLikeAPI(post.id, dislike));
-        if (!result.success) {
-            alert(result.message);
+        try {
+            await likeMutation.mutateAsync({ postId: post.id, dislike });
+        } catch (error) {
+            alert(error.message);
         }
     }
 

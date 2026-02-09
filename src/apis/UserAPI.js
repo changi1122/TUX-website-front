@@ -1,156 +1,126 @@
-import { actions } from '../modules/UserModule';
+import useAuthStore from '../stores/useAuthStore';
 import fetchWrapper from './fetchWrapper';
 
-export const callLoginAPI = ({ username, password, keepAuth }) => {
+export const login = async ({ username, password, keepAuth }) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/auth`;
 
-    return async (dispatch, getState) => {
-        const response = await fetch(requestURL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify({
-                username,
-                password,
-            })
-        });
-        
-        if (response.ok) {
-            const result = await response.json();
+    const response = await fetch(requestURL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+            username,
+            password,
+        })
+    });
 
-            // localStorage 또는 sessionStorage에 저장
-            if (keepAuth === true) {
-                    // 로그인 유지
-                    localStorage.setItem('expiresIn', result.refreshToken.expiresIn);
-                    localStorage.setItem('userId', result.user.id);
-                    localStorage.setItem('username', result.user.username);
-                    localStorage.setItem('nickname', result.user.nickname);
-                    localStorage.setItem('role', result.user.role);
-                }
-                else {
-                    sessionStorage.setItem('expiresIn', result.refreshToken.expiresIn);
-                    sessionStorage.setItem('userId', result.user.id);
-                    sessionStorage.setItem('username', result.user.username);
-                    sessionStorage.setItem('nickname', result.user.nickname);
-                    sessionStorage.setItem('role', result.user.role);
-                }
+    if (response.ok) {
+        const result = await response.json();
 
-            await dispatch(actions.user.login(result));
+        // localStorage 또는 sessionStorage에 저장
+        if (keepAuth === true) {
+                // 로그인 유지
+                localStorage.setItem('expiresIn', result.refreshToken.expiresIn);
+                localStorage.setItem('userId', result.user.id);
+                localStorage.setItem('username', result.user.username);
+                localStorage.setItem('nickname', result.user.nickname);
+                localStorage.setItem('role', result.user.role);
+            }
+            else {
+                sessionStorage.setItem('expiresIn', result.refreshToken.expiresIn);
+                sessionStorage.setItem('userId', result.user.id);
+                sessionStorage.setItem('username', result.user.username);
+                sessionStorage.setItem('nickname', result.user.nickname);
+                sessionStorage.setItem('role', result.user.role);
+            }
 
-            return { success: true };
-        }
-        else {
-            return {  
-                success: false,
-                message: '로그인에 실패하였습니다. 다시 시도해 주세요.'
-            };
-        }
+        useAuthStore.getState().login(result);
+
+        return { success: true };
+    }
+    else {
+        return {
+            success: false,
+            message: '로그인에 실패하였습니다. 다시 시도해 주세요.'
+        };
     }
 }
 
-export const callLogoutAPI = () => {
+export const logout = async () => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/auth`;
 
-    return async (dispatch, getState) => {
-        // 서버 응답을 통해 쿠키 삭제
-        const response = await fetch(requestURL, {
-            method: 'DELETE',
-            credentials: 'include'
-        });
+    // 서버 응답을 통해 쿠키 삭제
+    const response = await fetch(requestURL, {
+        method: 'DELETE',
+        credentials: 'include'
+    });
 
-        if (response.ok) {
-            localStorage.clear();
-            sessionStorage.clear();
+    if (response.ok) {
+        localStorage.clear();
+        sessionStorage.clear();
 
-            await dispatch(actions.user.logout());
-            return { success: true };
-        }
-        else {
-            return {
-                success: false,
-                message: '로그아웃에 실패하였습니다. 다시 시도해 주세요.'
-            };
-        }
+        useAuthStore.getState().logout();
+        return { success: true };
+    }
+    else {
+        return {
+            success: false,
+            message: '로그아웃에 실패하였습니다. 다시 시도해 주세요.'
+        };
     }
 }
 
-export const callGetCurrentUserAPI = () => {
+export const fetchCurrentUser = async () => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/auth`;
 
-    return async (dispatch, getState) => {
-        const response = await fetchWrapper(requestURL, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include'
-        });
+    const response = await fetchWrapper(requestURL, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include'
+    });
 
-        if (response.ok) {
-            const result = await response.json();
-            await dispatch(actions.user.getUser(result));
-            return { success: true };
-        }
-        else {
-            return {
-                success: false,
-                message: '회원 정보 조회 중 오류가 발생하였습니다.'
-            };
-        }
-    }
+    if (!response.ok) throw new Error('회원 정보 조회 중 오류가 발생하였습니다.');
+    return response.json();
 }
 
-export const callUpdateUserAPI = ({ userId, key, value }) => {
+export const updateUser = async ({ userId, key, value }) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/user/${userId}`;
 
-    return async (dispatch, getState) => {
-        const response = await fetchWrapper(requestURL, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify({
-                [key]: value
-            })
-        });
+    const response = await fetchWrapper(requestURL, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+            [key]: value
+        })
+    });
 
-        if (response.ok) {
-            await dispatch(actions.user.updateUser({ key, value }));
-            return { success: true };
-        }
-        else {
-            return {
-                success: false,
-                message: '회원 정보 변경 중 오류가 발생하였습니다.'
-            };
-        }
-    }
+    if (!response.ok) throw new Error('회원 정보 변경 중 오류가 발생하였습니다.');
+    return { key, value };
 }
 
-export const callDeleteUserAPI = (userId) => {
+export const deleteUser = async (userId) => {
     const requestURL = `${import.meta.env.VITE_API_URL}/api/user/${userId}`;
 
-    return async (dispatch, getState) => {
-        const response = await fetchWrapper(requestURL, {
-            method: 'DELETE',
-            credentials: 'include'
-        });
+    const response = await fetchWrapper(requestURL, {
+        method: 'DELETE',
+        credentials: 'include'
+    });
 
-        if (response.ok) {
-            localStorage.clear();
-            sessionStorage.clear();
-            await dispatch(actions.user.logout());
-            return { success: true };
-        }
-        else {
-            return {
-                success: false,
-                message: '회원 탈퇴 중 오류가 발생하였습니다.'
-            };
-        }
+    if (response.ok) {
+        localStorage.clear();
+        sessionStorage.clear();
+        useAuthStore.getState().logout();
+        return { success: true };
+    }
+    else {
+        throw new Error('회원 탈퇴 중 오류가 발생하였습니다.');
     }
 }
 
@@ -210,7 +180,7 @@ export const checkUsernameDuplicationAPI = async (username) => {
                 isDuplicated: !resultBool
             };
         }
-        
+
     } catch (error) {
         return {
             success: false,

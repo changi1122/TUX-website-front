@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
@@ -13,20 +12,19 @@ import './Main.css';
 import LoadingIndicator from '../components/LoadingIndicator';
 
 import MainListItem from '../components/listitem/MainListItem';
-import { callMainListAPI } from '../apis/CommunityAPI';
+import { useMainPosts } from '../queries/useCommunityQueries';
 
 const Main = () => {
-  const dispatch = useDispatch();
-  const notices = useSelector(state => state.communityReducer.mainNotices); // 최근 공지사항
-  const contests = useSelector(state => state.communityReducer.mainContests); // 최근 대회/공모전
-  const posts = useSelector(state => state.communityReducer.mainPosts);       // 최근 커뮤니티(자유게시판, 채용/취업, 팀원 모집)
-  const photos = useSelector(state => state.communityReducer.mainPhotos);     // 최근 갤러리
+  const { data: mainData, isError } = useMainPosts();
+  const notices = mainData?.notices;
+  const contests = mainData?.contests;
+  const posts = mainData?.posts;
+  const photos = mainData?.photos;
 
   const [banners, setBanners] = useState(['01.jpg']) // 배너 이미지 목록 (동적으로 가져옴)
 
   useEffect(() => {
     getBanners(setBanners);
-    getMainPosts();
   }, []);
 
   async function getBanners(setCallback) {
@@ -34,11 +32,8 @@ const Main = () => {
     setCallback(await res.json());
   }
 
-  async function getMainPosts() {
-    const result = await dispatch(callMainListAPI());
-    if (!result.success) {
-      console.error(result.message);
-    }
+  if (isError) {
+    console.error('메인화면 게시글 목록 조회에 실패하였습니다.');
   }
 
   /* 홈화면 네비게이션 버튼 컴포넌트 */
@@ -121,7 +116,7 @@ const Main = () => {
   };
 
 	return (
-		<>	
+		<>
 		<div>
       <Swiper className='Banner'
         // install Swiper modules
@@ -132,7 +127,7 @@ const Main = () => {
         centerInsufficientSlides={true}
         slidesPerView={1}
         pagination={{ clickable: true }}
-        onSwiper={() => {}}  
+        onSwiper={() => {}}
         onSlideChange={() => {}}>
         {
           banners && banners.map((banner, index) => (
@@ -169,7 +164,7 @@ const Main = () => {
           <h2 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-4xl lg:text-5xl">TUX ❤️ Linux</h2>
           <p className="mb-8 text-base font-normal text-gray-500 lg:text-lg break-keep">
             TUX는 Linux 및 Open Source Software를 중점적으로 연구하는 충북대학교 소프트웨어학부 소속 학술 동아리입니다.
-            Linux의 응용과 실습을 바탕으로 OSS를 이해하고, 활용할 능력을 갖추는 걸 목표로 하고 있습니다.  
+            Linux의 응용과 실습을 바탕으로 OSS를 이해하고, 활용할 능력을 갖추는 걸 목표로 하고 있습니다.
           </p>
           <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
               <a href="/join" className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300">
@@ -180,7 +175,7 @@ const Main = () => {
               </a>
               <a href="/tuxinfo01" className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 ">
                   더 알아보기
-              </a>  
+              </a>
           </div>
         </div>
 

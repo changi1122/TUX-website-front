@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useEffect } from "react";
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import useAuthStore from '../../stores/useAuthStore';
 import QuillEditor from '../../components/editor/QuillEditor';
 import BlockNoteEditor from '../../components/editor/BlockNoteEditor';
 import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
@@ -14,7 +14,7 @@ const CATEGORIES = [
 
 function ReferenceRoomEdit() {
     const navigate = useNavigate();
-    const loginUser = useSelector((state) => state.userReducer);
+    const loginUser = useAuthStore();
     const [searchParams, setSearchParams] = useSearchParams();
 
     let { id } = useParams();
