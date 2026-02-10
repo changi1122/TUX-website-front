@@ -1,7 +1,7 @@
 import { BsQuestionCircleFill } from 'react-icons/bs';
 import { MdDeveloperMode } from 'react-icons/md';
 import { gnbIsLogin, gnbIsNotLogin } from "../../assets/jsons"
-import { useSelector } from 'react-redux';
+import useAuthStore from '../../stores/useAuthStore';
 
 const GnbSub = ({ sub }) => {
     return (
@@ -45,7 +45,7 @@ const GnbBox = ({ gnb, isLogin }) => {
 };
 
 function Sitemap() {
-    const loginUser = useSelector((state) => state.userReducer);
+    const loginUser = useAuthStore();
 
     return (
         <div className='min-h-screen px-3 md:py-20 py-10'>

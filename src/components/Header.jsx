@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { IoLogoTux, IoMdMenu, IoIosLogIn, IoIosLogOut } from 'react-icons/io';
 import { gnbIsLogin, gnbIsNotLogin } from "../assets/jsons";
 import ConfirmPopup from "../components/popup/ConfirmPopup";
 
-import { callLogoutAPI } from "../apis/UserAPI";
+import useAuthStore from "../stores/useAuthStore";
+import { logout } from "../api/user";
 
 function Header() {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const loginUser = useSelector(state => state.userReducer);
+    const loginUser = useAuthStore();
 
     const location = useLocation();
     let from = encodeURIComponent(location.pathname + location.search);
@@ -47,7 +46,7 @@ function Header() {
     }
 
     const handleLogout = async () => {
-        const result = await dispatch(callLogoutAPI());
+        const result = await logout();
 
         if (result.success) {
             navigate('/', { replace: true });
@@ -152,7 +151,7 @@ function Header() {
                     {
                         isLogin
                             ?
-                            gnbIsLogin.map((ele, index) =>
+                            gnbIsLogin.map((ele) =>
                                 ele.subInfo.map((subEle) =>
                                     ele.gnbName == gnb.gnbName ?
                                         <a key={subEle.subHref} className='w-full justify-end flex sm:py-3 py-2'
@@ -163,7 +162,7 @@ function Header() {
                                 )
                             )
                             :
-                            gnbIsNotLogin.map((ele, index) =>
+                            gnbIsNotLogin.map((ele) =>
                                 ele.subInfo.map((subEle) =>
                                     ele.gnbName == gnb.gnbName ?
                                         <a key={subEle.subHref} className='w-full justify-end flex sm:py-3 py-2'
@@ -246,7 +245,7 @@ function Header() {
 
             {/* 세부 메뉴 - ver.mobile*/}
             {
-                isOpen && 
+                isOpen &&
                 <div className='fixed z-40'
                     style={{ background: 'rgba(0,0,0,0.01)', height: '100vh', width: '100%' }}
                     onClick={() => toggleMenu()}>

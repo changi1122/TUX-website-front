@@ -3,7 +3,7 @@ import { FaGithub } from 'react-icons/fa';
 import { FiLink } from 'react-icons/fi';
 import { relatedSites } from "../assets/jsons";
 
-function Footer(props) {
+function Footer() {
     const [isActive, setIsActive] = useState(false);
     const onClick = () => setIsActive(!isActive);
 

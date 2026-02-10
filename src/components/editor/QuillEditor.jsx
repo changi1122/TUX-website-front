@@ -95,6 +95,7 @@ export default function QuillEditor({ body, handleQuillChange, mountBody, setMou
                계속 변경되면서 재시도합니다. */
             setIsError((prevIsError) => (!prevIsError));
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isError, mountBody]);
 
     return (

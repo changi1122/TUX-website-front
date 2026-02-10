@@ -1,18 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '../../components/pagination/Pagination';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
 import LoadingIndicator from '../../components/LoadingIndicator';
-import { callReferenceRoomListAPI } from '../../apis/ReferenceRoomAPI';
+import useAuthStore from '../../stores/useAuthStore';
+import { useReferenceRoomList } from '../../queries/useReferenceRoomQueries';
 
 function ReferenceRoom() {
-    const dispatch = useDispatch();
-    const loginUser = useSelector((state) => state.userReducer);
-    const posts = useSelector((state) => state.referenceRoomReducer.list);
+    const loginUser = useAuthStore();
 
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -21,21 +19,7 @@ function ReferenceRoom() {
     const [searchQuery, setSearchQuery] = useState((searchParams.get('query')) ? searchParams.get('query') : '');
     const [currentPage, setCurrentPage] = useState((searchParams.get('page')) ? searchParams.get('page') : 1);
 
-    useEffect(() => {
-        getReferenceRoomList(category[1], currentPage, 6, searchQuery);
-    }, [category, currentPage]);
-
-    useEffect(() => {
-        setCurrentPage(1);
-        getReferenceRoomList(category[1], currentPage, 6, searchQuery);
-    }, [searchQuery]);
-
-    async function getReferenceRoomList(category, page, size, query) {
-        const result = await dispatch(callReferenceRoomListAPI(category, page, size, query));
-        if (!result.success) {
-            alert(result.message);
-        }
-    } 
+    const { data: posts, isLoading, isError } = useReferenceRoomList(category[1], currentPage, 6, searchQuery);
 
     function handleCategorySelect(category) {
         setCategory(defaultCategory(category));
@@ -118,21 +102,21 @@ function ReferenceRoom() {
                             <Link key={p.id} to={"/referenceroom/"+p.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
                                 <span className={badge(p.category)[0] + " text-xs font-medium rounded mr-2 mb-2 px-2.5 py-1 inline-block align-text-top"}>{badge(p.category)[1]}</span>
                                 {
-                                    p.lecture && 
+                                    p.lecture &&
                                     <span className="inline-block max-w-[160px] overflow-hidden text-ellipsis align-text-top mb-2
                                                     bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded whitespace-nowrap">
                                         {p.lecture}
                                     </span>
                                 }
                                 {
-                                    p.semester && 
+                                    p.semester &&
                                     <span className="inline-block max-w-[160px] overflow-hidden text-ellipsis align-text-top mb-2
                                                     bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded whitespace-nowrap">
                                         {p.semester}
                                     </span>
                                 }
                                 {
-                                    p.professor && 
+                                    p.professor &&
                                     <span className="inline-block max-w-[160px] overflow-hidden text-ellipsis align-text-top mb-2
                                                     bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-1 rounded whitespace-nowrap">
                                         {p.professor}
@@ -160,7 +144,8 @@ function ReferenceRoom() {
                                 <p className='text-lg text-gray-500'>조건에 해당하는 게시물이 없습니다.</p>
                             </div>
                         }
-                        { !posts && <LoadingIndicator /> }
+                        { isLoading && <LoadingIndicator /> }
+                        { isError && <div className='text-center py-20'><p className='text-lg text-gray-500'>오류가 발생했습니다.</p></div> }
 
                         {/* Pagination/글쓰기 버튼 */}
                         <div className='flex flex-wrap justify-center mt-6 mb-4'>

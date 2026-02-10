@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
+import { fetchStaticPage } from '../../api/staticPage';
 
 const PeopleBox = ({ props }) => {
     return (
@@ -24,16 +25,16 @@ function Tuxinfo03() {
     const [people, setPeople] = useState([]);
 
     useEffect(() => {
+        async function loadPeople() {
+            try {
+                const page = await fetchStaticPage('people');
+                setPeople(JSON.parse(decodeURI(page.body)));
+            } catch {
+                // 페이지가 없는 경우 무시
+            }
+        }
         loadPeople();
     }, []);
-
-    async function loadPeople() {
-        const res = await fetch(`/api/staticpage/people`, { method: "GET" });
-        if (res.ok) {
-            const page = await res.json();
-            setPeople(JSON.parse(decodeURI(page.body)));
-        }
-    }
 
 
     return (

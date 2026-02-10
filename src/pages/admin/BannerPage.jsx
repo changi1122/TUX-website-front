@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router';
-
+import { fetchBannerList, deleteBanner, uploadBanner as apiUploadBanner } from '../../api/admin';
 
 function BannerPage() {
 
@@ -10,23 +10,15 @@ function BannerPage() {
     const [selectedFile, setSelectedFile] = useState(null); // 파일 업로드용
 
     useEffect(() => {
-        getBanners(setBanners);
+        fetchBannerList().then(setBanners);
     }, []);
-
-    async function getBanners(setCallback) {
-        const res = await fetch('/api/banner');
-        setCallback(await res.json());
-    }
 
     async function removeBanner(filename) {
         if (window.confirm('배너를 삭제하시겠습니까?')) {
-            const res = await fetch(`/api/admin/banner/${filename}`, {
-                method: "DELETE",
-                credentials: 'include'
-            });
-            if (res.ok) {
+            try {
+                await deleteBanner(filename);
                 navigate(0);
-            } else {
+            } catch {
                 alert('배너 삭제 중 오류가 발생하였습니다.');
             }
         }
@@ -38,29 +30,20 @@ function BannerPage() {
 
     const uploadBanner = async (event) => {
         event.preventDefault();
-    
+
         if (!selectedFile) {
           alert('파일을 선택해주세요.');
           return;
         }
-    
+
         const formData = new FormData();
         formData.append('file', selectedFile);
-    
-        try {
-            const res = await fetch(`/api/admin/banner`, {
-                method: "POST",
-                credentials: 'include',
-                body: formData
-            });
 
-            if (res.ok) {
-                navigate(0);
-            } else {
-                alert('배너 삭제 중 오류가 발생하였습니다.');
-            }
-        } catch (error) {
-            alert('배너 삭제 중 오류가 발생하였습니다.');
+        try {
+            await apiUploadBanner(formData);
+            navigate(0);
+        } catch {
+            alert('배너 업로드 중 오류가 발생하였습니다.');
         }
     };
 

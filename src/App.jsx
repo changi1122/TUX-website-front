@@ -7,9 +7,8 @@ import './App.css';
 import './style.css';
 
 import React, { lazy, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { actions } from './modules/UserModule';
+import useAuthStore from './stores/useAuthStore';
 
 /* Dayjs */
 import dayjs from 'dayjs';
@@ -54,8 +53,7 @@ const ContactPage = lazy(() => import('./pages/join/ContactPage'));
 const Sitemap = lazy(() => import('./pages/common/Sitemap'));
 
 const App = () => {
-  const dispatch = useDispatch();
-  const loginUser = useSelector(state => state.userReducer);
+  const loginUser = useAuthStore();
 
   useEffect(() => {
     // storage에 저장된 로그인 정보가 있다면, 로그인 상태로 설정
@@ -71,27 +69,27 @@ const App = () => {
       const isExpired = !expiresIn || Date.now() > Number(expiresIn);
 
       if (!isExpired && userId && username) {
-        dispatch(actions.user.setUser({
+        useAuthStore.getState().setUser({
             expiresIn,
             userId,
             username,
             nickname,
             role
-        }));
+        });
       } else {
         // 만료되었으면 양쪽 스토리지 모두 정리
         localStorage.clear();
         sessionStorage.clear();
-        dispatch(actions.user.initGuest());
+        useAuthStore.getState().initGuest();
       }
     }
     else {
       // 로그인 상태가 아니라면
-      dispatch(actions.user.initGuest());
+      useAuthStore.getState().initGuest();
     }
   }, []);
 
-  
+
   function isLogined() { return loginUser.isLoggedIn; }
   function isAdmin() { return loginUser.role === "ADMIN"; }
   function isNotGuest() { return loginUser.role !== "GUEST"; }

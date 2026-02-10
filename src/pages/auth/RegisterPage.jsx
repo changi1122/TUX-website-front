@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
 
-import { callSignupAPI, checkUsernameDuplicationAPI } from "../../apis/UserAPI";
+import { signup, checkUsernameDuplicate } from "../../api/user";
 
 
 function RegisterPage() {
@@ -12,7 +12,7 @@ function RegisterPage() {
     const [studentId, setStudentId] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordCheck, setPasswordCheck] = useState('');
+    const [_, setPasswordCheck] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
 
@@ -34,7 +34,7 @@ function RegisterPage() {
     const onSubmit = async (e) => {
         e.preventDefault();
 
-        const result = await callSignupAPI({
+        const result = await signup({
             username,
             password,
             nickname: name,
@@ -53,7 +53,7 @@ function RegisterPage() {
 
     // username 중복 확인
     const checkUsername = async (username) => {
-        const result = await checkUsernameDuplicationAPI(username);
+        const result = await checkUsernameDuplicate(username);
 
         if (result.success) {
             if (result.isDuplicated) {
@@ -178,7 +178,7 @@ function RegisterPage() {
                         <button type="button"
                             className="absolute top-[0.25em] right-[1.9em] bg-gray-100 hover:bg-gray-200 rounded border-2 px-3 py-1
                             disabled:opacity-50 disabled:hover:bg-gray-100"
-                            onClick={(e) => { checkUsername(username) }}
+                            onClick={() => { checkUsername(username) }}
                             disabled={!isUsername} >
                             확인
                         </button>

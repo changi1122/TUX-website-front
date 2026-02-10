@@ -1,4 +1,3 @@
-import React from 'react';
 import { IoLogoTux, IoMdArrowBack, IoMdHome } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 

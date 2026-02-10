@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { fetchCommunityDetail, uploadCommunityFile, deleteCommunityFile } from '../../api/community';
+import { useCommunityUpdate } from '../../queries/useCommunityQueries';
 import QuillEditor from '../../components/editor/QuillEditor';
 import BlockNoteEditor from '../../components/editor/BlockNoteEditor';
 import CommunityRule from '../../components/rule/CommunityRule';
@@ -14,9 +16,10 @@ const CATEGORIES = [
 
 function CommunityEdit() {
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, _] = useSearchParams();
 
     let { id } = useParams();
+    const updateMutation = useCommunityUpdate();
 
     const [post, setPost] = useState(); // 첨부파일 리스트 표시용
     const [loadAgain, setLoadAgain] = useState(false);
@@ -30,55 +33,39 @@ function CommunityEdit() {
 
     // 수정시 이전 내용 로드
     useEffect(() => {
-        getCommunity(id);
-    }, [])
+        async function loadCommunity() {
+            const prev = await fetchCommunityDetail(id);
+            setCategory(toCategory(prev.category));
+            setTitle(prev.title);
+            try {
+                if (prev.editorVersion >= 2 && prev.body)
+                    setBody(JSON.parse(prev.body));
+                else
+                    setBody(prev.body);
+            } catch (error) {
+                console.error("BlockNote data parse error:", error);
+                setBody(prev.body);
+            }
+            if (!prev.editorVersion || prev.editorVersion === 1)
+                setMountBody(m => !m);
+        }
+        loadCommunity();
+    }, [id]);
 
     useEffect(() => {
-        updateFiles(id);
-    }, [loadAgain]);
-
-    async function getCommunity(id) {
-        const res = await fetch(`/api/community/${id}`, {
-            credentials: 'include'
-        });
-        const prev = await res.json();
-        setCategory(toCategory(prev.category));
-        setTitle(prev.title);
-        setBody(parseBody(prev));
-        if (!prev.editorVersion || prev.editorVersion === 1)
-            rerenderBody();
-    }
-
-    function parseBody(prev) {
-        try {
-            // JSON 문자열이면 파싱하고, HTML 문자열이면 그대로 반환
-            if (prev && prev.editorVersion && prev.editorVersion >= 2 && prev.body)
-                return JSON.parse(prev.body);
-            else
-                return prev.body;
-        } catch (error) {
-            console.error("BlockNote data parse error:", error);
-            return prev.body;
+        async function loadFiles() {
+            const data = await fetchCommunityDetail(id);
+            setPost(data);
         }
-    }
-
-    async function updateFiles(id) {
-        const res = await fetch(`/api/community/${id}`, {
-            credentials: 'include'
-        });
-        setPost(await res.json());
-    }
-
-    function rerenderBody() {
-        setMountBody(mountBody => !mountBody);
-    }
+        loadFiles();
+    }, [id, loadAgain]);
 
     async function handleFileUpload(e) {
         try {
             const url = await uploadFile(e.target.files[0]);
             return url;
-        } catch (error) {
-            alert(error.message);
+        } catch {
+            alert('파일 업로드 중 오류가 발생하였습니다.');
         } finally {
             e.target.value = '';
         }
@@ -88,21 +75,11 @@ function CommunityEdit() {
         const safeFileName = file.name.replace(/\s+/g, '_');
         const newFile = new File([file], safeFileName, { type: file.type });
 
-        let data = new FormData();
-        data.append('file', newFile);
-        const res = await fetch(`/api/community/${id}/file`, {
-            method: 'POST',
-            credentials: 'include',
-            body: data
-        });
-
-        if (res.ok) {
-            setLoadAgain(!loadAgain);
-            return `/api/community/${id}/file/${safeFileName}`;
-        }
-        else {
-            alert('파일 업로드 중 오류가 발생하였습니다.');
-        }
+        const formData = new FormData();
+        formData.append('file', newFile);
+        await uploadCommunityFile(id, formData);
+        setLoadAgain(!loadAgain);
+        return `/api/community/${id}/file/${safeFileName}`;
     }
 
     async function submit(e) {
@@ -112,49 +89,31 @@ function CommunityEdit() {
             return;
         }
 
-        const res = await putCommunity(id);
-
-        if (res.ok) {
+        try {
+            await updateMutation.mutateAsync({
+                postId: id,
+                type: category[1],
+                body: {
+                    title,
+                    body: (typeof body === 'string' ? body : JSON.stringify(body)),
+                    editorVersion
+                },
+            });
             navigate(`/community/${id}`);
-        } else {
+        } catch {
             alert('글쓰기 중 오류가 발생하였습니다.');
         }
     }
 
-    async function putCommunity(id) {
-        const res = await fetch(`/api/community/${id}?type=${category[1]}`, {
-            method: "PUT",
-            credentials: 'include',
-            body: JSON.stringify({
-                title,
-                body: (typeof body === 'string' ? body : JSON.stringify(body)),
-                editorVersion
-            }),
-            headers: {
-                "content-type": "application/json",
-            },
-        });
-        
-        return res;
-    }
-
     async function handleDeleteAttachment(filename) {
         if (window.confirm("정말로 첨부파일을 삭제하시겠습니까?")) {
-            const res =  await deleteAttachment(id, filename);
-
-            if (res.ok) {
+            try {
+                await deleteCommunityFile(id, filename);
                 setLoadAgain(la => !la);
-            } else {
+            } catch {
                 alert('첨부파일 삭제 중 오류가 발생하였습니다.');
             }
         }
-    }
-
-    async function deleteAttachment(id, filename) {
-        return await fetch(`/api/community/${id}/file/${filename}`, {
-            method: "DELETE",
-            credentials: 'include'
-        });
     }
 
     const handleCategoryClick = (label, value, color) => {

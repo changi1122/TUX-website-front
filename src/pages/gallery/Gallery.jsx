@@ -1,36 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '../../components/pagination/Pagination';
 
 import LoadingIndicator from '../../components/LoadingIndicator';
-import { callGalleryListAPI } from '../../apis/GalleryAPI';
+import useAuthStore from '../../stores/useAuthStore';
+import { useGalleryList } from '../../queries/useGalleryQueries';
 
 function Gallery() {
-    const dispatch = useDispatch();
-    const loginUser = useSelector((state) => state.userReducer);
-    const posts = useSelector((state) => state.galleryReducer.list);
+    const loginUser = useAuthStore();
 
     const [searchParams, setSearchParams] = useSearchParams();
 
     const [searchQuery, setSearchQuery] = useState((searchParams.get('query')) ? searchParams.get('query') : '');
     const [currentPage, setCurrentPage] = useState((searchParams.get('page')) ? searchParams.get('page') : 1);
 
-    useEffect(() => {
-        getGalleryList(currentPage, 12, searchQuery);
-    }, [currentPage]);
-
-    useEffect(() => {
-        setCurrentPage(1);
-        getGalleryList(currentPage, 12, searchQuery);
-    }, [searchQuery]);
-
-    async function getGalleryList(page, size, query) {
-        const result = await dispatch(callGalleryListAPI(page, size, query));
-        if (!result.success) {
-            alert(result.message);
-        }
-    } 
+    const { data: posts, isLoading, isError } = useGalleryList(currentPage, 12, searchQuery);
 
     function handleSearch(e) {
         e.preventDefault();
@@ -75,7 +59,7 @@ function Gallery() {
                                 posts && posts.content.length != 0 && posts.content.map(p => (
                                     <Link key={p.id} to={"/gallery/"+p.id}>
                                         <div className='gallery-item relative'>
-                                            
+
                                             <img className="h-[200px] w-full max-w-full rounded-lg object-cover" src={(p.mainImage) ? p.mainImage.path : '/images/noimage.jpg'} alt=""/>
                                             <div className='text-background w-full text-sm text-white absolute bottom-0 px-1 py-2 rounded-lg overflow-hidden text-ellipsis'>
                                                 {p.title}
@@ -90,7 +74,8 @@ function Gallery() {
                                 <p className='text-lg text-gray-500'>조건에 해당하는 게시물이 없습니다.</p>
                             </div>
                         }
-                        { !posts && <LoadingIndicator /> }
+                        { isLoading && <LoadingIndicator /> }
+                        { isError && <div className='text-center py-20'><p className='text-lg text-gray-500'>오류가 발생했습니다.</p></div> }
 
                         {/* Pagination/글쓰기 버튼 */}
                         <div className='flex flex-wrap justify-center mt-6 mb-4'>
