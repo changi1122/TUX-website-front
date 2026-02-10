@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import useAuthStore from '../../stores/useAuthStore';
+import { fetchReferenceRoomDetail, createReferenceRoom, createReferenceRoomWithFile, uploadReferenceRoomFileInit, uploadReferenceRoomFile, deleteReferenceRoomFile } from '../../api/referenceRoom';
 import QuillEditor from '../../components/editor/QuillEditor';
 import BlockNoteEditor from '../../components/editor/BlockNoteEditor';
 import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
@@ -35,57 +35,35 @@ function ReferenceRoomWrite() {
 
     useEffect(() => {
         if (id) {
-            getReferenceRoom(id);
+            fetchReferenceRoomDetail(id).then(setPost);
         }
     }, [id, loadAgain]);
-
-    async function getReferenceRoom(id) {
-        const res = await fetch(`/api/referenceroom/${id}`, {
-            credentials: 'include'
-        });
-        setPost(await res.json());
-    }
 
     async function handleFileUpload(e) {
         try {
             const url = await uploadFile(e.target.files[0]);
             return url;
-        } catch (error) {
-            alert(error.message);
+        } catch {
+            alert('파일 업로드 중 오류가 발생하였습니다.');
         } finally {
             e.target.value = '';
         }
     }
 
     async function uploadFile(file) {
-        const isFirstUpload = !id;
-        const url = isFirstUpload 
-            ? `/api/referenceroom/file` 
-            : `/api/referenceroom/${id}/file`;
         const safeFileName = file.name.replace(/\s+/g, '_');
         const newFile = new File([file], safeFileName, { type: file.type });
 
-        const data = new FormData();
-        data.append('file', newFile);
-        if (isFirstUpload) {
-            data.append('type', category[1]);
-        }
+        const formData = new FormData();
+        formData.append('file', newFile);
 
-        const res = await fetch(url, {
-            method: 'POST',
-            credentials: 'include',
-            body: data
-        });
-
-        if (!res.ok) {
-            throw new Error('파일 업로드 중 오류가 발생하였습니다.');
-        }
-
-        if (isFirstUpload) {
-            const newId = await res.json();
+        if (!id) {
+            formData.append('type', category[1]);
+            const newId = await uploadReferenceRoomFileInit(formData);
             setId(newId);
             return `/api/referenceroom/${newId}/file/${safeFileName}`;
         } else {
+            await uploadReferenceRoomFile(id, formData);
             setLoadAgain(!loadAgain);
             return `/api/referenceroom/${id}/file/${safeFileName}`;
         }
@@ -98,78 +76,35 @@ function ReferenceRoomWrite() {
             return;
         }
 
-        let res;
-        if (id)
-            res = await postReferenceRoomAfterFileUpload(id, category[1]);
-        else
-            res = await postReferenceRoomWithoutFileUpload(category[1]);
-
-        if (res.ok) {
+        try {
+            const postBody = {
+                title,
+                body: (typeof body === 'string' ? body : JSON.stringify(body)),
+                editorVersion,
+                lecture,
+                semester,
+                professor,
+                isAnonymized
+            };
+            if (id)
+                await createReferenceRoomWithFile(id, category[1], postBody);
+            else
+                await createReferenceRoom(category[1], postBody);
             navigate("/referenceroom");
-        } else {
+        } catch {
             alert('글쓰기 중 오류가 발생하였습니다.');
         }
     }
 
-    async function postReferenceRoomWithoutFileUpload(type) {
-        const res = await fetch(`/api/referenceroom?type=${type}`, {
-            method: "POST",
-            credentials: 'include',
-            body: JSON.stringify({
-                title,
-                body: (typeof body === 'string' ? body : JSON.stringify(body)),
-                editorVersion,
-                lecture,
-                semester,
-                professor,
-                isAnonymized
-            }),
-            headers: {
-                "content-type": "application/json",
-            },
-        });
-        
-        return res;
-    }
-    
-    async function postReferenceRoomAfterFileUpload(id, type) {
-        const res = await fetch(`/api/referenceroom/${id}?type=${type}`, {
-            method: "POST",
-            credentials: 'include',
-            body: JSON.stringify({
-                title,
-                body: (typeof body === 'string' ? body : JSON.stringify(body)),
-                editorVersion,
-                lecture,
-                semester,
-                professor,
-                isAnonymized
-            }),
-            headers: {
-                "content-type": "application/json",
-            },
-        });
-        
-        return res;
-    }
-
     async function handleDeleteAttachment(filename) {
         if (window.confirm("정말로 첨부파일을 삭제하시겠습니까?")) {
-            const res =  await deleteAttachment(id, filename);
-
-            if (res.ok) {
+            try {
+                await deleteReferenceRoomFile(id, filename);
                 setLoadAgain(la => !la);
-            } else {
+            } catch {
                 alert('첨부파일 삭제 중 오류가 발생하였습니다.');
             }
         }
-    }
-
-    async function deleteAttachment(id, filename) {
-        return await fetch(`/api/referenceroom/${id}/file/${filename}`, {
-            method: "DELETE",
-            credentials: 'include'
-        });
     }
 
     const handleCategoryClick = (label, value, color) => {

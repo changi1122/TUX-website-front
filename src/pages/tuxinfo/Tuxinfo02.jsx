@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
+import { fetchStaticPage } from '../../api/staticPage';
 
 const HistoryBox = ({ props }) => {
     return (
@@ -21,16 +22,16 @@ function Tuxinfo02() {
     const [history, setHistory] = useState([]);
 
     useEffect(() => {
+        async function loadHistory() {
+            try {
+                const page = await fetchStaticPage('history');
+                setHistory(JSON.parse(decodeURI(page.body)));
+            } catch {
+                // 페이지가 없는 경우 무시
+            }
+        }
         loadHistory();
     }, []);
-
-    async function loadHistory() {
-        const res = await fetch(`/api/staticpage/history`, { method: "GET" });
-        if (res.ok) {
-            const page = await res.json();
-            setHistory(JSON.parse(decodeURI(page.body)));
-        }
-    }
 
 
     return (

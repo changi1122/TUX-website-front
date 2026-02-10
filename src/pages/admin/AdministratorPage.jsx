@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router';
+import * as adminApi from '../../api/admin';
 
 
 function AdministratorPage() {
@@ -9,18 +10,14 @@ function AdministratorPage() {
     const [memberList, setMemberList] = useState();
 
     useEffect(() => {
-        loadWaitingList();
-        loadMemeberList();
+        async function loadData() {
+            const waitings = await adminApi.fetchWaitingList();
+            setWaitingList(waitings.map((w) => { return { ...w, newUserRole: 'USER' } }));
+            const members = await adminApi.fetchMemberList();
+            setMemberList(members.map((m) => { return { ...m, newUserRole: m.role } }));
+        }
+        loadData();
     }, []);
-
-    async function loadWaitingList() {
-        const res = await fetch("/api/admin/user/waiting", {
-            credentials: 'include',
-        });
-        let waitings = await res.json();
-        waitings = waitings.map((w) => { return { ...w, newUserRole: 'USER' } });
-        setWaitingList(waitings);
-    }
 
     function handleGuestRoleSelect(id, role) {
         let newWaitings = waitingList.map((w) => { return (w.id === id) ? { ...w, newUserRole: role } : w });
@@ -28,32 +25,18 @@ function AdministratorPage() {
     }
 
     async function changeUserRole(id, role) {
-        const res = await fetch(`/api/admin/user/${id}/role/${role}`, {
-            method: "POST",
-            credentials: 'include'
-        });
-        if (res.ok) {
+        try {
+            await adminApi.changeUserRole(id, role);
             navigate(0);
-        } else {
+        } catch {
             alert('회원 등급 변경 중 오류가 발생하였습니다.');
         }
-    }
-
-
-    async function loadMemeberList() {
-        const res = await fetch("/api/admin/user/member", {
-            credentials: 'include',
-        });
-        let members = await res.json();
-        members = members.map((m) => { return { ...m, newUserRole: m.role } });
-        setMemberList(members);
     }
 
     function handleMemberRoleSelect(id, role) {
         let newMembers = memberList.map((m) => { return (m.id === id) ? { ...m, newUserRole: role } : m });
         setMemberList(newMembers);
     }
-
 
     async function changePassword(id) {
         const newPassword = prompt("변경할 비밀번호를 입력하세요.");
@@ -65,14 +48,10 @@ function AdministratorPage() {
         }
 
         if (newPassword) {
-            const res = await fetch(`/api/admin/user/${id}/password`, {
-                method: "PUT",
-                body: newPassword,
-                credentials: 'include'
-            });
-            if (res.ok) {
+            try {
+                await adminApi.changeUserPassword(id, newPassword);
                 navigate(0);
-            } else {
+            } catch {
                 alert('비밀번호 변경 중 오류가 발생하였습니다.');
             }
         }
@@ -80,13 +59,10 @@ function AdministratorPage() {
 
     async function banUser(id) {
         if (window.confirm("정말로 로그인할 수 없도록 설정하시겠습니까?\n(해제시 직접 DB 수정 필요)")) {
-            const res = await fetch(` /api/admin/user/${id}/ban`, {
-                method: "DELETE",
-                credentials: 'include'
-            });
-            if (res.ok) {
+            try {
+                await adminApi.banUser(id);
                 navigate(0);
-            } else {
+            } catch {
                 alert('로그인 금지 설정 중 오류가 발생하였습니다.');
             }
         }

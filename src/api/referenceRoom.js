@@ -40,3 +40,35 @@ export const fetchReferenceRoomList = async (category, page, size, query) => {
     const { data } = await client.get(url);
     return data;
 }
+
+export const createReferenceRoom = async (type, body) => {
+    const { data } = await client.post(`/api/referenceroom?type=${type}`, body);
+    return data;
+}
+
+export const createReferenceRoomWithFile = async (postId, type, body) => {
+    const { data } = await client.post(`/api/referenceroom/${postId}?type=${type}`, body);
+    return data;
+}
+
+export const updateReferenceRoom = async (postId, type, body) => {
+    const { data } = await client.put(`/api/referenceroom/${postId}?type=${type}`, body);
+    return data;
+}
+
+export const uploadReferenceRoomFileInit = async (formData) => {
+    const { data } = await client.post('/api/referenceroom/file', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    });
+    return data;
+}
+
+export const uploadReferenceRoomFile = async (postId, formData) => {
+    await client.post(`/api/referenceroom/${postId}/file`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    });
+}
+
+export const deleteReferenceRoomFile = async (postId, filename) => {
+    await client.delete(`/api/referenceroom/${postId}/file/${filename}`);
+}

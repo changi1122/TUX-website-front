@@ -59,3 +59,35 @@ export const fetchMainList = async () => {
         photos: resPhotos.data,
     };
 }
+
+export const createCommunity = async (type, body) => {
+    const { data } = await client.post(`/api/community?type=${type}`, body);
+    return data;
+}
+
+export const createCommunityWithFile = async (postId, type, body) => {
+    const { data } = await client.post(`/api/community/${postId}?type=${type}`, body);
+    return data;
+}
+
+export const updateCommunity = async (postId, type, body) => {
+    const { data } = await client.put(`/api/community/${postId}?type=${type}`, body);
+    return data;
+}
+
+export const uploadCommunityFileInit = async (formData) => {
+    const { data } = await client.post('/api/community/file', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    });
+    return data;
+}
+
+export const uploadCommunityFile = async (postId, formData) => {
+    await client.post(`/api/community/${postId}/file`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    });
+}
+
+export const deleteCommunityFile = async (postId, filename) => {
+    await client.delete(`/api/community/${postId}/file/${filename}`);
+}

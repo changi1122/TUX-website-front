@@ -158,7 +158,7 @@ function ReferenceRoomDetail() {
                                 </div>
                                 { post && post.editorVersion && post.editorVersion >= 2 && (
                                     <div className='blocknote-viewer mt-4 break-words'>
-                                        <BlockNoteEditor editable={false} body={parsedBody} />
+                                        <BlockNoteEditor editable={false} body={parsedBody} key={post?.editedDate}/>
                                     </div>
                                 )}
                                 { !(post && post.editorVersion && post.editorVersion >= 2) && (

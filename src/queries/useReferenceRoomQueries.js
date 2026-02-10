@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   fetchReferenceRoomList,
   fetchReferenceRoomDetail,
+  updateReferenceRoom,
   deleteReferenceRoom,
   addReferenceRoomComment,
   deleteReferenceRoomComment,
@@ -20,6 +21,17 @@ export const useReferenceRoomDetail = (postId) => {
     queryKey: ['referenceRoomDetail', postId],
     queryFn: () => fetchReferenceRoomDetail(postId),
     enabled: !!postId,
+  });
+};
+
+export const useReferenceRoomUpdate = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ postId, type, body }) => updateReferenceRoom(postId, type, body),
+    onSuccess: (_, { postId }) => {
+      queryClient.invalidateQueries({ queryKey: ['referenceRoomDetail', postId] });
+      queryClient.invalidateQueries({ queryKey: ['referenceRoomList'] });
+    },
   });
 };
 

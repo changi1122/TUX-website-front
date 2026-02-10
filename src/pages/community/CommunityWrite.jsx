@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { fetchCommunityDetail, createCommunity, createCommunityWithFile, uploadCommunityFileInit, uploadCommunityFile, deleteCommunityFile } from '../../api/community';
 import QuillEditor from '../../components/editor/QuillEditor';
 import BlockNoteEditor from '../../components/editor/BlockNoteEditor';
 import CommunityRule from '../../components/rule/CommunityRule';
@@ -29,58 +30,35 @@ function CommunityWrite() {
 
     useEffect(() => {
         if (id) {
-            getCommunity(id);
+            fetchCommunityDetail(id).then(setPost);
         }
     }, [id, loadAgain]);
-
-    async function getCommunity(id) {
-        const res = await fetch(`/api/community/${id}`, {
-            credentials: 'include'
-        });
-        setPost(await res.json());
-    }
 
     async function handleFileUpload(e) {
         try {
             const url = await uploadFile(e.target.files[0]);
             return url;
-        } catch (error) {
-            alert(error.message);
+        } catch {
+            alert('파일 업로드 중 오류가 발생하였습니다.');
         } finally {
             e.target.value = '';
         }
     }
 
     async function uploadFile(file) {
-        const isFirstUpload = !id;
-        const url = isFirstUpload 
-            ? `/api/community/file` 
-            : `/api/community/${id}/file`;
-
         const safeFileName = file.name.replace(/\s+/g, '_');
         const newFile = new File([file], safeFileName, { type: file.type });
 
-        const data = new FormData();
-        data.append('file', newFile);
-        if (isFirstUpload) {
-            data.append('type', category[1]);
-        }
+        const formData = new FormData();
+        formData.append('file', newFile);
 
-        const res = await fetch(url, {
-            method: 'POST',
-            credentials: 'include',
-            body: data
-        });
-
-        if (!res.ok) {
-            throw new Error('파일 업로드 중 오류가 발생하였습니다.');
-        }
-
-        if (isFirstUpload) {
-            const newId = await res.json();
+        if (!id) {
+            formData.append('type', category[1]);
+            const newId = await uploadCommunityFileInit(formData);
             setId(newId);
             return `/api/community/${newId}/file/${safeFileName}`;
         } else {
+            await uploadCommunityFile(id, formData);
             setLoadAgain(!loadAgain);
             return `/api/community/${id}/file/${safeFileName}`;
         }
@@ -93,69 +71,31 @@ function CommunityWrite() {
             return;
         }
 
-        let res;
-        if (id)
-            res = await postCommunityAfterFileUpload(id, category[1]);
-        else
-            res = await postCommunityWithoutFileUpload(category[1]);
-
-        if (res.ok) {
+        try {
+            const postBody = {
+                title,
+                body: (typeof body === 'string' ? body : JSON.stringify(body)),
+                editorVersion
+            };
+            if (id)
+                await createCommunityWithFile(id, category[1], postBody);
+            else
+                await createCommunity(category[1], postBody);
             navigate("/community");
-        } else {
+        } catch {
             alert('글쓰기 중 오류가 발생하였습니다.');
         }
     }
 
-    async function postCommunityWithoutFileUpload(type) {
-        const res = await fetch(`/api/community?type=${type}`, {
-            method: "POST",
-            body: JSON.stringify({
-                title,
-                body: (typeof body === 'string' ? body : JSON.stringify(body)),
-                editorVersion
-            }),
-            headers: {
-                "content-type": "application/json",
-            },
-        });
-        
-        return res;
-    }
-
-    async function postCommunityAfterFileUpload(id, type) {
-        const res = await fetch(`/api/community/${id}?type=${type}`, {
-            method: "POST",
-            credentials: 'include',
-            body: JSON.stringify({
-                title,
-                body: (typeof body === 'string' ? body : JSON.stringify(body)),
-                editorVersion
-            }),
-            headers: {
-                "content-type": "application/json",
-            },
-        });
-        
-        return res;
-    }
-
     async function handleDeleteAttachment(filename) {
         if (window.confirm("정말로 첨부파일을 삭제하시겠습니까?")) {
-            const res =  await deleteAttachment(id, filename);
-
-            if (res.ok) {
+            try {
+                await deleteCommunityFile(id, filename);
                 setLoadAgain(la => !la);
-            } else {
+            } catch {
                 alert('첨부파일 삭제 중 오류가 발생하였습니다.');
             }
         }
-    }
-
-    async function deleteAttachment(id, filename) {
-        return await fetch(`/api/community/${id}/file/${filename}`, {
-            method: "DELETE",
-            credentials: 'include'
-        });
     }
 
     const handleCategoryClick = (label, value, color) => {

@@ -13,6 +13,7 @@ import LoadingIndicator from '../components/LoadingIndicator';
 
 import MainListItem from '../components/listitem/MainListItem';
 import { useMainPosts } from '../queries/useCommunityQueries';
+import { fetchBannerList } from '../api/admin';
 
 const Main = () => {
   const { data: mainData, isError } = useMainPosts();
@@ -24,13 +25,8 @@ const Main = () => {
   const [banners, setBanners] = useState(['01.jpg']) // 배너 이미지 목록 (동적으로 가져옴)
 
   useEffect(() => {
-    getBanners(setBanners);
+    fetchBannerList().then(setBanners);
   }, []);
-
-  async function getBanners(setCallback) {
-    const res = await fetch('/api/banner');
-    setCallback(await res.json());
-  }
 
   if (isError) {
     console.error('메인화면 게시글 목록 조회에 실패하였습니다.');

@@ -3,6 +3,7 @@ import {
   fetchCommunityList,
   fetchCommunityDetail,
   fetchMainList,
+  updateCommunity,
   deleteCommunity,
   addCommunityComment,
   deleteCommunityComment,
@@ -28,6 +29,17 @@ export const useMainPosts = () => {
   return useQuery({
     queryKey: ['mainPosts'],
     queryFn: fetchMainList,
+  });
+};
+
+export const useCommunityUpdate = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ postId, type, body }) => updateCommunity(postId, type, body),
+    onSuccess: (_, { postId }) => {
+      queryClient.invalidateQueries({ queryKey: ['communityDetail', postId] });
+      queryClient.invalidateQueries({ queryKey: ['communityList'] });
+    },
   });
 };
 

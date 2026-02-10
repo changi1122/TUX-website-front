@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import dayjs from 'dayjs';
@@ -135,7 +135,7 @@ function CommunityDetail() {
                                 </div>
                                 { post && post.editorVersion && post.editorVersion >= 2 && (
                                     <div className='blocknote-viewer mt-4 break-words'>
-                                        <BlockNoteEditor editable={false} body={parsedBody} />
+                                        <BlockNoteEditor editable={false} body={parsedBody} key={post?.editedDate}/>
                                     </div>
                                 )}
                                 { !(post && post.editorVersion && post.editorVersion >= 2) && (

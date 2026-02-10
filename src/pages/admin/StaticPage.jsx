@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { updateStaticPage } from '../../api/admin';
+import { fetchStaticPage } from '../../api/staticPage';
 
 import historyDefault from '../../assets/default/history.json';
 import peopleDefault from '../../assets/default/people.json';
@@ -25,30 +27,20 @@ function StaticPage() {
     }
 
     async function postUpdated(name, body) {
-
-        const res = await fetch(`/api/admin/staticpage/${name}`, {
-            method: "POST",
-            credentials: 'include',
-            body: JSON.stringify({
-                name,
-                body
-            }),
-            headers: {
-                "content-type": "application/json",
-            },
-        });
-        
-        if (res.ok)
+        try {
+            await updateStaticPage(name, body);
             alert("저장하는데 성공하였습니다.");
-        else
+        } catch {
             alert("저장 도중 오류가 발생하였습니다.");
+        }
     }
-    
+
     async function loadPage(name, setState) {
-        const res = await fetch(`/api/staticpage/${name}`, { method: "GET" });
-        if (res.ok) {
-            const page = await res.json();
+        try {
+            const page = await fetchStaticPage(name);
             setState(decodeURI(page.body));
+        } catch {
+            // 페이지가 없는 경우 무시
         }
     }
 
