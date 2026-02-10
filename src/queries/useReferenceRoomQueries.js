@@ -6,7 +6,7 @@ import {
   addReferenceRoomComment,
   deleteReferenceRoomComment,
   postReferenceRoomLike,
-} from '../apis/ReferenceRoomAPI';
+} from '../api/referenceRoom';
 
 export const useReferenceRoomList = (category, page, size, query) => {
   return useQuery({

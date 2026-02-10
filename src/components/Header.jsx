@@ -5,7 +5,7 @@ import { gnbIsLogin, gnbIsNotLogin } from "../assets/jsons";
 import ConfirmPopup from "../components/popup/ConfirmPopup";
 
 import useAuthStore from "../stores/useAuthStore";
-import { logout } from "../apis/UserAPI";
+import { logout } from "../api/user";
 
 function Header() {
     const navigate = useNavigate();

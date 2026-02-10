@@ -7,7 +7,7 @@ import {
   addCommunityComment,
   deleteCommunityComment,
   postCommunityLike,
-} from '../apis/CommunityAPI';
+} from '../api/community';
 
 export const useCommunityList = (category, page, size, query) => {
   return useQuery({

@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
 
-import { callSignupAPI, checkUsernameDuplicationAPI } from "../../apis/UserAPI";
+import { signup, checkUsernameDuplicate } from "../../api/user";
 
 
 function RegisterPage() {
@@ -34,7 +34,7 @@ function RegisterPage() {
     const onSubmit = async (e) => {
         e.preventDefault();
 
-        const result = await callSignupAPI({
+        const result = await signup({
             username,
             password,
             nickname: name,
@@ -53,7 +53,7 @@ function RegisterPage() {
 
     // username 중복 확인
     const checkUsername = async (username) => {
-        const result = await checkUsernameDuplicationAPI(username);
+        const result = await checkUsernameDuplicate(username);
 
         if (result.success) {
             if (result.isDuplicated) {

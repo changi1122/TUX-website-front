@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { fetchCurrentUser, login, logout, updateUser, deleteUser } from '../apis/UserAPI';
+import { fetchCurrentUser, login, logout, updateUser, deleteUser } from '../api/user';
 
 export const useCurrentUser = () => {
   return useQuery({

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useSearchParams } from 'react-router-dom';
 
-import { login } from "../../apis/UserAPI";
+import { login } from "../../api/user";
 
 function LoginPage() {
     const navigate = useNavigate();
