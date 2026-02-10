@@ -68,7 +68,7 @@ function ReferenceRoomDetail() {
         }
 
         try {
-            await addCommentMutation.mutateAsync({ postId: post.id, comment });
+            await addCommentMutation.mutateAsync({ postId: id, comment });
             setComment('');
         } catch (error) {
             alert(error.message);
@@ -78,7 +78,7 @@ function ReferenceRoomDetail() {
     async function handleDeleteComment(commentId) {
         if (window.confirm("정말로 댓글을 삭제하시겠습니까?")) {
             try {
-                await deleteCommentMutation.mutateAsync({ postId: post.id, commentId });
+                await deleteCommentMutation.mutateAsync({ postId: id, commentId });
             } catch (error) {
                 alert(error.message);
             }
@@ -93,7 +93,7 @@ function ReferenceRoomDetail() {
         }
 
         try {
-            await likeMutation.mutateAsync({ postId: post.id, dislike });
+            await likeMutation.mutateAsync({ postId: id, dislike });
         } catch (error) {
             alert(error.message);
         }

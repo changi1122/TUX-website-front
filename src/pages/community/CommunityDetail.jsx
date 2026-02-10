@@ -79,7 +79,7 @@ function CommunityDetail() {
     async function handleDeleteComment(commentId) {
         if (window.confirm("정말로 댓글을 삭제하시겠습니까?")) {
             try {
-                await deleteCommentMutation.mutateAsync({ postId: post.id, commentId });
+                await deleteCommentMutation.mutateAsync({ postId: id, commentId });
             } catch (error) {
                 alert(error.message);
             }
@@ -94,7 +94,7 @@ function CommunityDetail() {
         }
 
         try {
-            await likeMutation.mutateAsync({ postId: post.id, dislike });
+            await likeMutation.mutateAsync({ postId: id, dislike });
         } catch (error) {
             alert(error.message);
         }
