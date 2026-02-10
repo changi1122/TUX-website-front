@@ -14,7 +14,7 @@ const CATEGORIES = [
 
 function CommunityWrite() {
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, _] = useSearchParams();
 
     const [id, setId] = useState(); // 글 ID : 파일업로드를 통해 글이 임시 생성되었을 경우, ID를 가짐
     const [post, setPost] = useState(); // 첨부파일 리스트 표시용

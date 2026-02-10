@@ -6,7 +6,7 @@ import { login } from "../../api/user";
 
 function LoginPage() {
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, _] = useSearchParams();
 
     // 아이디, 비밀번호
     const [username, setUsername] = useState('');

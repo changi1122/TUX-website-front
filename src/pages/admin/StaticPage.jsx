@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router';
 
 import historyDefault from '../../assets/default/history.json';
 import peopleDefault from '../../assets/default/people.json';
@@ -8,8 +7,6 @@ import contactFormDefault from '../../assets/default/contactForm.md';
 
 
 function StaticPage() {
-    const navigate = useNavigate();
-
     const [history, setHistory] = useState('');
     const [people, setPeople] = useState('');
     const [joinForm, setJoinForm] = useState('');

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router';
 
-
 function BannerPage() {
 
     const navigate = useNavigate();
@@ -59,7 +58,7 @@ function BannerPage() {
             } else {
                 alert('배너 삭제 중 오류가 발생하였습니다.');
             }
-        } catch (error) {
+        } catch {
             alert('배너 삭제 중 오류가 발생하였습니다.');
         }
     };

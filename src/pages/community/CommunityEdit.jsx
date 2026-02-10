@@ -14,7 +14,7 @@ const CATEGORIES = [
 
 function CommunityEdit() {
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, _] = useSearchParams();
 
     let { id } = useParams();
 

@@ -15,7 +15,7 @@ const CATEGORIES = [
 function ReferenceRoomEdit() {
     const navigate = useNavigate();
     const loginUser = useAuthStore();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, _] = useSearchParams();
 
     let { id } = useParams();
 

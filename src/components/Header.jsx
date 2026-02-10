@@ -151,7 +151,7 @@ function Header() {
                     {
                         isLogin
                             ?
-                            gnbIsLogin.map((ele, index) =>
+                            gnbIsLogin.map((ele) =>
                                 ele.subInfo.map((subEle) =>
                                     ele.gnbName == gnb.gnbName ?
                                         <a key={subEle.subHref} className='w-full justify-end flex sm:py-3 py-2'
@@ -162,7 +162,7 @@ function Header() {
                                 )
                             )
                             :
-                            gnbIsNotLogin.map((ele, index) =>
+                            gnbIsNotLogin.map((ele) =>
                                 ele.subInfo.map((subEle) =>
                                     ele.gnbName == gnb.gnbName ?
                                         <a key={subEle.subHref} className='w-full justify-end flex sm:py-3 py-2'
