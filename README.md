@@ -4,7 +4,7 @@
 ## Built With
 ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=fff)
 ![React](https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB)
-![Redux](https://img.shields.io/badge/Redux-764ABC?logo=redux&logoColor=fff)
+![React](https://img.shields.io/badge/Zustand-%2320232a.svg?logo=react&logoColor=%2361DAFB)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind%20CSS-%2338B2AC.svg?logo=tailwind-css&logoColor=white)
 
 
