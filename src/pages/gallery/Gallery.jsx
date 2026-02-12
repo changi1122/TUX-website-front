@@ -47,7 +47,7 @@ function Gallery() {
 
             <div className="mt-5 md:mt-10 mx-auto lg:w-[1044px] w-full text-left">
                 <div className='flex'>
-                    <div className='flex-1 ml-4 max-md:ml-0'>
+                    <div className='flex-1 ml-4 max-md:ml-0 min-w-0'>
                         {/* ViewMode */}
                         <ViewModeToggle
                             modes={['gallery', 'list', 'detail']}
