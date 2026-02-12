@@ -32,7 +32,7 @@ function badge(category) {
         case 'CONTEST':
             return ['bg-yellow-100 text-yellow-800', '대회/공모전'];
         case 'JOB':
-            return ['bg-red-100 text-red-800', '채용/취업 정보'];
+            return ['bg-red-100 text-red-800', '채용/취업'];
         case 'STUDY':
             return ['bg-red-100 text-red-800', '강의/스터디'];
         case 'GALLERY':

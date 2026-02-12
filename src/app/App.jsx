@@ -1,14 +1,12 @@
-/* eslint-disable*/
-
-import './components/pagination/Pagination.scss';
-import './components/markdown/markdown.scss';
-import './components/editor/quill.snow.css';
+import '../components/pagination/Pagination.scss';
+import '../components/markdown/markdown.scss';
+import '../components/editor/quill.snow.css';
 import './App.css';
 import './style.css';
 
-import React, { lazy, useEffect, useState } from 'react';
+import React, { lazy, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import useAuthStore from './stores/useAuthStore';
+import useAuthStore from '../stores/useAuthStore';
 
 /* Dayjs */
 import dayjs from 'dayjs';
@@ -17,40 +15,40 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 dayjs().locale('ko');
 
-import { Header, Footer, PrivateRoute } from './components';
-import Loading from './pages/common/Loading';
-import NotFound from './pages/common/NotFound';
-import NoPermission from './pages/common/NoPermission';
+import { Header, Footer, PrivateRoute } from '../components';
+import Loading from '../pages/common/Loading';
+import NotFound from '../pages/common/NotFound';
+import NoPermission from '../pages/common/NoPermission';
 
 /* Lazy loading for code splitting */
-const Main = lazy(() => import('./pages/Main'));
-const LoginPage = lazy(() => import('./pages/auth/LoginPage'));
-const RegisterPage = lazy(() => import('./pages/auth/RegisterPage'));
-const SuccessfulSignup = lazy(() => import('./pages/auth/SuccessfulSignup'));
-const MyPage = lazy(() => import('./pages/auth/MyPage'));
-const AdministratorPage = lazy(() => import('./pages/admin/AdministratorPage'));
-const StaticPage = lazy(() => import('./pages/admin/StaticPage'));
-const BannerPage = lazy(() => import('./pages/admin/BannerPage'));
+const Main = lazy(() => import('../pages/Main'));
+const LoginPage = lazy(() => import('../pages/auth/LoginPage'));
+const RegisterPage = lazy(() => import('../pages/auth/RegisterPage'));
+const SuccessfulSignup = lazy(() => import('../pages/auth/SuccessfulSignup'));
+const MyPage = lazy(() => import('../pages/auth/MyPage'));
+const AdministratorPage = lazy(() => import('../pages/admin/AdministratorPage'));
+const StaticPage = lazy(() => import('../pages/admin/StaticPage'));
+const BannerPage = lazy(() => import('../pages/admin/BannerPage'));
 
-const Tuxinfo01 = lazy(() => import('./pages/tuxinfo/Tuxinfo01'));
-const Tuxinfo02 = lazy(() => import('./pages/tuxinfo/Tuxinfo02'));
-const Tuxinfo03 = lazy(() => import('./pages/tuxinfo/Tuxinfo03'));
+const Tuxinfo01 = lazy(() => import('../pages/tuxinfo/Tuxinfo01'));
+const Tuxinfo02 = lazy(() => import('../pages/tuxinfo/Tuxinfo02'));
+const Tuxinfo03 = lazy(() => import('../pages/tuxinfo/Tuxinfo03'));
 
-const Community = lazy(() => import('./pages/community/Community'));
-const CommunityDetail = lazy(() => import('./pages/community/CommunityDetail'));
-const CommunityWrite = lazy(() => import('./pages/community/CommunityWrite'));
-const CommunityEdit = lazy(() => import('./pages/community/CommunityEdit'));
+const Community = lazy(() => import('../pages/community/Community'));
+const CommunityDetail = lazy(() => import('../pages/community/CommunityDetail'));
+const CommunityWrite = lazy(() => import('../pages/community/CommunityWrite'));
+const CommunityEdit = lazy(() => import('../pages/community/CommunityEdit'));
 
-const ReferenceRoom = lazy(() => import('./pages/referenceroom/ReferenceRoom'));
-const ReferenceRoomDetail = lazy(() => import('./pages/referenceroom/ReferenceRoomDetail'));
-const ReferenceRoomWrite = lazy(() => import('./pages/referenceroom/ReferenceRoomWrite'));
-const ReferenceRoomEdit = lazy(() => import('./pages/referenceroom/ReferenceRoomEdit'));
-const Gallery = lazy(() => import('./pages/gallery/Gallery'));
+const ReferenceRoom = lazy(() => import('../pages/referenceroom/ReferenceRoom'));
+const ReferenceRoomDetail = lazy(() => import('../pages/referenceroom/ReferenceRoomDetail'));
+const ReferenceRoomWrite = lazy(() => import('../pages/referenceroom/ReferenceRoomWrite'));
+const ReferenceRoomEdit = lazy(() => import('../pages/referenceroom/ReferenceRoomEdit'));
+const Gallery = lazy(() => import('../pages/gallery/Gallery'));
 
-const JoinPage = lazy(() => import('./pages/join/JoinPage'));
-const ContactPage = lazy(() => import('./pages/join/ContactPage'));
+const JoinPage = lazy(() => import('../pages/join/JoinPage'));
+const ContactPage = lazy(() => import('../pages/join/ContactPage'));
 
-const Sitemap = lazy(() => import('./pages/common/Sitemap'));
+const Sitemap = lazy(() => import('../pages/common/Sitemap'));
 
 const App = () => {
   const loginUser = useAuthStore();

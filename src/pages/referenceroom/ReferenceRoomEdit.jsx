@@ -6,12 +6,8 @@ import { useReferenceRoomUpdate } from '../../queries/useReferenceRoomQueries';
 import QuillEditor from '../../components/editor/QuillEditor';
 import BlockNoteEditor from '../../components/editor/BlockNoteEditor';
 import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
-
-const CATEGORIES = [
-  { label: '강의/스터디', value: 'study', color: 'rgb(254 226 226)' },
-  { label: '시험정보', value: 'exam', color: 'rgb(243 232 255)' },
-  { label: '갤러리', value: 'gallery', color: 'rgb(254 249 195)' }
-];
+import CategoryDropdown from '../../components/CategoryDropdown';
+import { REFERENCE_ROOM_CATEGORIES, getDefaultReferenceRoomWriteCategory, toReferenceRoomCategory } from '../../constants/referenceRoomCategories';
 
 function ReferenceRoomEdit() {
     const navigate = useNavigate();
@@ -24,8 +20,7 @@ function ReferenceRoomEdit() {
     const [post, setPost] = useState(); // 첨부파일 리스트 표시용
     const [loadAgain, setLoadAgain] = useState(false);
 
-    const [category, setCategory] = useState(defaultCategory(searchParams.get('type')));
-    const [isCategoryOpened, setIsUserMenuOpened] = useState(false);
+    const [category, setCategory] = useState(getDefaultReferenceRoomWriteCategory(searchParams.get('type')));
     const [title, setTitle] = useState('');
     const [editorVersion, setEditorVersion] = useState(parseInt(searchParams.get('ev') || '1', 10));
     const [body, setBody] = useState('');
@@ -39,7 +34,7 @@ function ReferenceRoomEdit() {
     useEffect(() => {
         async function loadReferenceRoom() {
             const prev = await fetchReferenceRoomDetail(id);
-            setCategory(toCategory(prev.category));
+            setCategory(toReferenceRoomCategory(prev.category));
             setTitle(prev.title);
             try {
                 if (prev.editorVersion >= 2 && prev.body)
@@ -130,9 +125,11 @@ function ReferenceRoomEdit() {
 
     const handleCategoryClick = (label, value, color) => {
         setCategory([label, value, color]);
-        setIsUserMenuOpened(false);
     };
 
+    const filteredCategories = REFERENCE_ROOM_CATEGORIES.filter(
+        cat => cat.value !== 'gallery' || ['MANAGER', 'ADMIN'].includes(loginUser.role)
+    );
 
     return (
         <div className='min-h-screen px-3 md:pt-10 md:pb-20 pt-5 pb-10'>
@@ -148,31 +145,12 @@ function ReferenceRoomEdit() {
                     </div>
                     <div className='flex-1 ml-4 max-lg:ml-0 lg:max-w-[788px] max-w-full'>
                         {/* 에디터 영역 */}
-                        <div style={{ position: 'relative' }}>
-                            <button className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200"
-                                type="button" onClick={() => { setIsUserMenuOpened(!isCategoryOpened) }}>
-                            <span className='w-2 h-[16px] mr-2 rounded-full' style={{ backgroundColor: `${category[2]}` }}></span>{ category[0] }
-                            <svg className="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
-                            </svg></button>
-                            <div style={{ display: (isCategoryOpened) ? 'block' : 'none', position: 'absolute', top: '100%' }} className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-                                <ul className="py-2 text-sm text-gray-700" aria-labelledby="dropdown-button">
-                                {CATEGORIES.filter(cat => (cat.value !== 'gallery' || ['MANAGER', 'ADMIN'].includes(loginUser.role)))
-                                    .map((cat) => (
-                                    <li key={cat.value}>
-                                    <button
-                                        type="button"
-                                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100"
-                                        onClick={() => handleCategoryClick(cat.label, cat.value, cat.color)}
-                                    >
-                                        <span className='w-2 mr-2 rounded-full' style={{ backgroundColor: `${cat.color}` }}></span>
-                                        {cat.label}
-                                    </button>
-                                    </li>
-                                ))}
-                                </ul>
-                            </div>
-                        </div>
+                        <CategoryDropdown
+                            categories={filteredCategories}
+                            category={category}
+                            onSelect={handleCategoryClick}
+                            variant="form"
+                        />
                         <form>
                             <div className="mt-4">
                                 <input className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500"
@@ -292,7 +270,7 @@ function ReferenceRoomEdit() {
                                 onClick={() => { navigate(-1) }}>
                                 취소
                             </button>
-                        
+
                             <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
                                 onClick={submit}>
                                 글 수정
@@ -304,32 +282,5 @@ function ReferenceRoomEdit() {
         </div>
     );
 }
-
-function defaultCategory(type) {
-    switch(type) {
-        case 'study':
-            return ['강의/스터디', 'study', 'rgb(254 226 226)'];
-        case 'exam':
-            return ['시험정보', 'exam', 'rgb(243 232 255)'];
-        case 'gallery':
-            return ['갤러리', 'gallery', 'rgb(254 249 195)'];
-        default:
-            return ['시험정보', 'exam', 'rgb(243 232 255)'];
-    }
-}
-
-function toCategory(type) {
-    switch(type) {
-        case 'STUDY':
-            return ['강의/스터디', 'study', 'rgb(254 226 226)'];
-        case 'EXAM':
-            return ['시험정보', 'exam', 'rgb(243 232 255)'];
-        case 'GALLERY':
-            return ['갤러리', 'gallery', 'rgb(254 249 195)'];
-        default:
-            return ['시험정보', 'exam', 'rgb(243 232 255)'];
-    }
-}
-
 
 export default ReferenceRoomEdit;

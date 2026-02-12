@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import dayjs from 'dayjs';
@@ -271,7 +271,7 @@ function badge(category) {
         case 'CONTEST':
             return ['bg-yellow-100 text-yellow-800', '대회/공모전'];
         case 'JOB':
-            return ['bg-red-100 text-red-800', '채용/취업 정보'];
+            return ['bg-red-100 text-red-800', '채용/취업'];
         case 'FREE':
             return ['bg-purple-100 text-purple-800', '자유게시판'];
     }
