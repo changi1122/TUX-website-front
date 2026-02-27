@@ -185,14 +185,19 @@ function Header() {
             {logoutPopup.open && <ConfirmPopup onOpenAlert={onClickLogout} onConfirm={handleLogout} title={logoutPopup.title} message={logoutPopup.message} />}
 
             <div className={`w-full flex justify-center border-b-2 bg-white lg:p-0 py-2`}>
-                <div className="w-[90%] flex justify-between items-center nav">
+                <div className="w-full mx-3 lg:w-[90%] flex justify-start lg:justify-between items-center nav">
+                    {/* 모바일 기기 메뉴 */}
+                    <div className='lg:hidden flex w-[44px] h-[44px] mr-2 justify-center items-center cursor-pointer'
+                        onClick={() => toggleMenu()}>
+                        <IoMdMenu size={25} />
+                    </div>
                     <div className="flex">
                         <a href="/"
                             className="flex items-center gap-3 md:mr-5 text-left logo">
                             <IoLogoTux size={40} />
                             <div>
-                                <h1 className="text-2xl font-black">CBNU TUX</h1>
-                                <div className='text-base'>Linux & OSS Club</div>
+                                <h1 className="text-xl font-black">CBNU TUX</h1>
+                                <div className='text-xs'>Linux & OSS Club</div>
                             </div>
                         </a>
                         <div className='lg:flex hidden items-center'>
@@ -230,11 +235,6 @@ function Header() {
                                 <a href={`/login?from=${from}`} className="hover:text-[#E95420]" >로그인</a>
                         }
                     </div>
-                    {/* 모바일 기기 메뉴 */}
-                    <div className='lg:hidden flex'
-                        onClick={() => toggleMenu()}>
-                        <IoMdMenu size={25} />
-                    </div>
                 </div>
             </div>
 
@@ -255,7 +255,7 @@ function Header() {
                 {
                     isLogin
                         ?
-                        <div className='px-10 py-3 border-b-2 flex items-center gap-x-2'>
+                        <div className='px-10 py-2 border-b-2 flex items-center gap-x-2'>
                             <button className='inline-flex w-[50vw] py-3 justify-start text-base'
                                 onClick={() => { navigate('/mypage'); toggleMenu(); }}>
                                 <div className='ml-2'>{nickname} 님</div>
