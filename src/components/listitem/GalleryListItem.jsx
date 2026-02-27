@@ -49,7 +49,7 @@ function GalleryListItem({ post, viewMode='gallery' }) {
     // gallery (default)
     return (
         <Link to={"/gallery/" + post.id} className="block bg-white border border-gray-200 rounded-lg overflow-hidden">
-            <img className="h-[200px] w-full object-cover" src={(post.mainImage) ? post.mainImage.path : '/images/noimage.jpg'} alt=""/>
+            <img className="h-[200px] w-full object-cover" src={(post.mainImage) ? post.mainImage.path : '/images/noimage.jpg'} alt="" loading="lazy" decoding="async"/>
             <div className="px-3 pt-2 pb-3">
                 <div className="flex items-center gap-3 text-gray-500 text-xs mt-1 mb-1.5">
                     <span>👍 {post.likes}</span>
