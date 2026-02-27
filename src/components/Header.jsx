@@ -193,11 +193,11 @@ function Header() {
                     </div>
                     <div className="flex">
                         <a href="/"
-                            className="flex items-center gap-3 md:mr-5 text-left logo">
+                            className="flex items-center gap-2 lg:gap-3 lg:mr-6 text-left logo">
                             <IoLogoTux size={40} />
                             <div>
-                                <h1 className="text-xl font-black">CBNU TUX</h1>
-                                <div className='text-xs'>Linux & OSS Club</div>
+                                <h1 className="text-lg lg:text-xl font-black">CBNU TUX</h1>
+                                <div className='text-[0.6rem] lg:text-xs'>Linux & OSS Club</div>
                             </div>
                         </a>
                         <div className='lg:flex hidden items-center'>
