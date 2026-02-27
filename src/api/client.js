@@ -30,4 +30,8 @@ export const publicClient = axios.create({
     headers: { 'Content-Type': 'application/json' },
 });
 
+export const getApiErrorMessage = (error, fallback = '오류가 발생하였습니다.') => {
+    return error?.response?.data?.message || fallback;
+};
+
 export default client;

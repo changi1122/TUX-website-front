@@ -13,6 +13,7 @@ import {
     useCommunityDeleteComment,
     useCommunityLike,
 } from '../../queries/useCommunityQueries';
+import { getApiErrorMessage } from '../../api/client';
 
 
 function CommunityDetail() {
@@ -50,7 +51,7 @@ function CommunityDetail() {
                 await deleteMutation.mutateAsync(post.id);
                 navigate('/community');
             } catch (error) {
-                alert(error.message);
+                alert(getApiErrorMessage(error));
             }
         }
     }
@@ -72,7 +73,7 @@ function CommunityDetail() {
             await addCommentMutation.mutateAsync({ postId: id, comment });
             setComment('');
         } catch (error) {
-            alert(error.message);
+            alert(getApiErrorMessage(error));
         }
     }
 
@@ -81,7 +82,7 @@ function CommunityDetail() {
             try {
                 await deleteCommentMutation.mutateAsync({ postId: id, commentId });
             } catch (error) {
-                alert(error.message);
+                alert(getApiErrorMessage(error));
             }
         }
     }
@@ -96,7 +97,7 @@ function CommunityDetail() {
         try {
             await likeMutation.mutateAsync({ postId: id, dislike });
         } catch (error) {
-            alert(error.message);
+            alert(getApiErrorMessage(error));
         }
     }
 

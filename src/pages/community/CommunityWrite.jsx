@@ -6,6 +6,7 @@ import BlockNoteEditor from '../../components/editor/BlockNoteEditor';
 import CommunityRule from '../../components/rule/CommunityRule';
 import CategoryDropdown from '../../components/CategoryDropdown';
 import { COMMUNITY_CATEGORIES, getDefaultCommunityWriteCategory } from '../../constants/communityCategories';
+import { getApiErrorMessage } from '../../api/client';
 
 function CommunityWrite() {
     const navigate = useNavigate();
@@ -31,8 +32,8 @@ function CommunityWrite() {
         try {
             const url = await uploadFile(e.target.files[0]);
             return url;
-        } catch {
-            alert('파일 업로드 중 오류가 발생하였습니다.');
+        } catch (error) {
+            alert(getApiErrorMessage(error, '파일 업로드 중 오류가 발생하였습니다.'));
         } finally {
             e.target.value = '';
         }
@@ -75,8 +76,8 @@ function CommunityWrite() {
             else
                 await createCommunity(category[1], postBody);
             navigate("/community");
-        } catch {
-            alert('글쓰기 중 오류가 발생하였습니다.');
+        } catch (error) {
+            alert(getApiErrorMessage(error, '글쓰기 중 오류가 발생하였습니다.'));
         }
     }
 
@@ -85,8 +86,8 @@ function CommunityWrite() {
             try {
                 await deleteCommunityFile(id, filename);
                 setLoadAgain(la => !la);
-            } catch {
-                alert('첨부파일 삭제 중 오류가 발생하였습니다.');
+            } catch (error) {
+                alert(getApiErrorMessage(error, '첨부파일 삭제 중 오류가 발생하였습니다.'));
             }
         }
     }

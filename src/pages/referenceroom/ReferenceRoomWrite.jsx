@@ -7,6 +7,7 @@ import BlockNoteEditor from '../../components/editor/BlockNoteEditor';
 import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
 import CategoryDropdown from '../../components/CategoryDropdown';
 import { REFERENCE_ROOM_CATEGORIES, getDefaultReferenceRoomWriteCategory } from '../../constants/referenceRoomCategories';
+import { getApiErrorMessage } from '../../api/client';
 
 
 function ReferenceRoomWrite() {
@@ -38,8 +39,8 @@ function ReferenceRoomWrite() {
         try {
             const url = await uploadFile(e.target.files[0]);
             return url;
-        } catch {
-            alert('파일 업로드 중 오류가 발생하였습니다.');
+        } catch (error) {
+            alert(getApiErrorMessage(error, '파일 업로드 중 오류가 발생하였습니다.'));
         } finally {
             e.target.value = '';
         }
@@ -86,8 +87,8 @@ function ReferenceRoomWrite() {
             else
                 await createReferenceRoom(category[1], postBody);
             navigate("/referenceroom");
-        } catch {
-            alert('글쓰기 중 오류가 발생하였습니다.');
+        } catch (error) {
+            alert(getApiErrorMessage(error, '글쓰기 중 오류가 발생하였습니다.'));
         }
     }
 
@@ -96,8 +97,8 @@ function ReferenceRoomWrite() {
             try {
                 await deleteReferenceRoomFile(id, filename);
                 setLoadAgain(la => !la);
-            } catch {
-                alert('첨부파일 삭제 중 오류가 발생하였습니다.');
+            } catch (error) {
+                alert(getApiErrorMessage(error, '첨부파일 삭제 중 오류가 발생하였습니다.'));
             }
         }
     }

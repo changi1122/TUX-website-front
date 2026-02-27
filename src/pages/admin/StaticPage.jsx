@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { updateStaticPage } from '../../api/admin';
 import { fetchStaticPage } from '../../api/staticPage';
+import { getApiErrorMessage } from '../../api/client';
 
 import historyDefault from '../../assets/default/history.json';
 import peopleDefault from '../../assets/default/people.json';
@@ -19,7 +20,7 @@ function StaticPage() {
         const form = await res.text();
         setJoinForm(form);
     }
-    
+
     async function fetchContactFormDefault() {
         const res = await fetch(contactFormDefault);
         const form = await res.text();
@@ -30,8 +31,8 @@ function StaticPage() {
         try {
             await updateStaticPage(name, body);
             alert("저장하는데 성공하였습니다.");
-        } catch {
-            alert("저장 도중 오류가 발생하였습니다.");
+        } catch (error) {
+            alert(getApiErrorMessage(error, "저장 도중 오류가 발생하였습니다."));
         }
     }
 

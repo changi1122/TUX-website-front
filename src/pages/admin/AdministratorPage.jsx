@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router';
 import * as adminApi from '../../api/admin';
+import { getApiErrorMessage } from '../../api/client';
 
 
 function AdministratorPage() {
@@ -28,8 +29,8 @@ function AdministratorPage() {
         try {
             await adminApi.changeUserRole(id, role);
             navigate(0);
-        } catch {
-            alert('회원 등급 변경 중 오류가 발생하였습니다.');
+        } catch (error) {
+            alert(getApiErrorMessage(error, '회원 등급 변경 중 오류가 발생하였습니다.'));
         }
     }
 
@@ -51,8 +52,8 @@ function AdministratorPage() {
             try {
                 await adminApi.changeUserPassword(id, newPassword);
                 navigate(0);
-            } catch {
-                alert('비밀번호 변경 중 오류가 발생하였습니다.');
+            } catch (error) {
+                alert(getApiErrorMessage(error, '비밀번호 변경 중 오류가 발생하였습니다.'));
             }
         }
     }
@@ -62,8 +63,8 @@ function AdministratorPage() {
             try {
                 await adminApi.banUser(id);
                 navigate(0);
-            } catch {
-                alert('로그인 금지 설정 중 오류가 발생하였습니다.');
+            } catch (error) {
+                alert(getApiErrorMessage(error, '로그인 금지 설정 중 오류가 발생하였습니다.'));
             }
         }
     }

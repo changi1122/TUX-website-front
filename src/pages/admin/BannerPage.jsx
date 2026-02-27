@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router';
 import { fetchBannerList, deleteBanner, uploadBanner as apiUploadBanner } from '../../api/admin';
+import { getApiErrorMessage } from '../../api/client';
 
 function BannerPage() {
 
@@ -18,8 +19,8 @@ function BannerPage() {
             try {
                 await deleteBanner(filename);
                 navigate(0);
-            } catch {
-                alert('배너 삭제 중 오류가 발생하였습니다.');
+            } catch (error) {
+                alert(getApiErrorMessage(error, '배너 삭제 중 오류가 발생하였습니다.'));
             }
         }
     }
@@ -42,8 +43,8 @@ function BannerPage() {
         try {
             await apiUploadBanner(formData);
             navigate(0);
-        } catch {
-            alert('배너 업로드 중 오류가 발생하였습니다.');
+        } catch (error) {
+            alert(getApiErrorMessage(error, '배너 업로드 중 오류가 발생하였습니다.'));
         }
     };
 

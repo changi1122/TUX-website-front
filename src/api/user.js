@@ -1,5 +1,5 @@
 import useAuthStore from '../stores/useAuthStore';
-import client, { publicClient } from './client';
+import client, { publicClient, getApiErrorMessage } from './client';
 
 export const login = async ({ username, password, keepAuth }) => {
     try {
@@ -17,10 +17,10 @@ export const login = async ({ username, password, keepAuth }) => {
 
         return { success: true };
     }
-    catch {
+    catch (error) {
         return {
             success: false,
-            message: '로그인에 실패하였습니다. 다시 시도해 주세요.'
+            message: getApiErrorMessage(error, '로그인에 실패하였습니다. 다시 시도해 주세요.')
         };
     }
 }
@@ -36,10 +36,10 @@ export const logout = async () => {
         useAuthStore.getState().logout();
         return { success: true };
     }
-    catch {
+    catch (error) {
         return {
             success: false,
-            message: '로그아웃에 실패하였습니다. 다시 시도해 주세요.'
+            message: getApiErrorMessage(error, '로그아웃에 실패하였습니다. 다시 시도해 주세요.')
         };
     }
 }
@@ -70,10 +70,10 @@ export const signup = async ({ username, password, nickname, email, phoneNumber,
         });
         return { success: true };
     }
-    catch {
+    catch (error) {
         return {
             success: false,
-            message: '회원가입 중 오류가 발생하였습니다.'
+            message: getApiErrorMessage(error, '회원가입 중 오류가 발생하였습니다.')
         };
     }
 }
@@ -85,10 +85,10 @@ export const checkUsernameDuplicate = async (username) => {
             success: true,
             isDuplicated: !data,
         };
-    } catch {
+    } catch (error) {
         return {
             success: false,
-            message: '서버와 통신 중 문제가 발생했습니다.'
+            message: getApiErrorMessage(error, '서버와 통신 중 문제가 발생했습니다.')
         };
     }
 }

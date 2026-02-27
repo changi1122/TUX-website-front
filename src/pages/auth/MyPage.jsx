@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import useAuthStore from '../../stores/useAuthStore';
 import { useCurrentUser, useUpdateUser, useDeleteUser } from '../../queries/useUserQueries';
+import { getApiErrorMessage } from '../../api/client';
 
 function MyPage() {
     const navigate = useNavigate();
@@ -79,7 +80,7 @@ function MyPage() {
             });
             navigate(0);
         } catch (error) {
-            alert(error.message);
+            alert(getApiErrorMessage(error));
         }
     }
 
@@ -93,7 +94,7 @@ function MyPage() {
                     navigate('/');
                     window.location.reload();
                 } catch (error) {
-                    alert(error.message);
+                    alert(getApiErrorMessage(error));
                 }
             } else {
                 alert("입력하신 아이디가 일치하지 않습니다.");

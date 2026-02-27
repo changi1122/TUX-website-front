@@ -13,6 +13,7 @@ import {
     useReferenceRoomDeleteComment,
     useReferenceRoomLike,
 } from '../../queries/useReferenceRoomQueries';
+import { getApiErrorMessage } from '../../api/client';
 
 function ReferenceRoomDetail() {
     const navigate = useNavigate();
@@ -49,7 +50,7 @@ function ReferenceRoomDetail() {
                 await deleteMutation.mutateAsync(post.id);
                 navigate('/referenceroom');
             } catch (error) {
-                alert(error.message);
+                alert(getApiErrorMessage(error));
             }
         }
     }
@@ -71,7 +72,7 @@ function ReferenceRoomDetail() {
             await addCommentMutation.mutateAsync({ postId: id, comment });
             setComment('');
         } catch (error) {
-            alert(error.message);
+            alert(getApiErrorMessage(error));
         }
     }
 
@@ -80,7 +81,7 @@ function ReferenceRoomDetail() {
             try {
                 await deleteCommentMutation.mutateAsync({ postId: id, commentId });
             } catch (error) {
-                alert(error.message);
+                alert(getApiErrorMessage(error));
             }
         }
     }
@@ -95,7 +96,7 @@ function ReferenceRoomDetail() {
         try {
             await likeMutation.mutateAsync({ postId: id, dislike });
         } catch (error) {
-            alert(error.message);
+            alert(getApiErrorMessage(error));
         }
     }
 

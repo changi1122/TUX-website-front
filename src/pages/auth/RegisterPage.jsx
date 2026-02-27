@@ -71,13 +71,13 @@ function RegisterPage() {
 
     // username
     const onChangeUsername = useCallback((e) => {
-        const usernameRegex = /^[A-Za-z0-9_]{4,}$/
+        const usernameRegex = /^[A-Za-z0-9_]{8,}$/
         const usernameCurrent = e.target.value;
         setUsername(usernameCurrent);
 
         if (!usernameRegex.test(usernameCurrent)) {
             setIsUsername(false);
-            setUsernameMessage('아이디는 영문자와 숫자의 조합으로 4자 이상 작성해야 합니다.');
+            setUsernameMessage('아이디는 영문자와 숫자의 조합으로 8자 이상 작성해야 합니다.');
         }
         else {
             setIsUsername(true);
