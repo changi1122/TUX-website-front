@@ -9,10 +9,10 @@ import {
   postReferenceRoomLike,
 } from '../api/referenceRoom';
 
-export const useReferenceRoomList = (category, page, size, query) => {
+export const useReferenceRoomList = (category, page, size, query, searchType) => {
   return useQuery({
-    queryKey: ['referenceRoomList', category, page, size, query],
-    queryFn: () => fetchReferenceRoomList(category, page, size, query),
+    queryKey: ['referenceRoomList', category, page, size, query, query ? searchType : null],
+    queryFn: () => fetchReferenceRoomList(category, page, size, query, searchType),
   });
 };
 

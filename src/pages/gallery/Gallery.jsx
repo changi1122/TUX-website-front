@@ -15,7 +15,8 @@ function Gallery() {
 
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const [searchQuery, setSearchQuery] = useState((searchParams.get('query')) ? searchParams.get('query') : '');
+    const [inputQuery, setInputQuery] = useState(searchParams.get('query') || '');
+    const [searchQuery, setSearchQuery] = useState(searchParams.get('query') || '');
     const [currentPage, setCurrentPage] = useState((searchParams.get('page')) ? searchParams.get('page') : 1);
 
     const pageSize = (galleryViewMode === 'gallery') ? 12 : ((galleryViewMode === 'list') ? 10 : 6);
@@ -30,7 +31,8 @@ function Gallery() {
     function handleSearch(e) {
         e.preventDefault();
         setCurrentPage(1);
-        setSearchParams({ ...searchParams, query: searchQuery });
+        setSearchQuery(inputQuery);
+        setSearchParams({ ...searchParams, query: inputQuery });
     }
 
     function handlePageChange(page) {
@@ -81,7 +83,8 @@ function Gallery() {
                         {/* 검색 */}
                         <div className='flex justify-between items-end mt-8'>
                             <div className="relative w-full md:max-w-xs flex-1">
-                                <input value={searchQuery} onChange={(e) => {setSearchQuery(e.target.value)}}
+                                <input value={inputQuery} onChange={(e) => setInputQuery(e.target.value)}
+                                    onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(e); }}
                                     className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="검색어 입력"/>
                                 <button onClick={handleSearch} className="absolute top-0 right-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
                                     <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">

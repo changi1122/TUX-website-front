@@ -5,6 +5,7 @@ import Pagination from '../../components/pagination/Pagination';
 import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
 import ReferenceRoomListItem from '../../components/listitem/ReferenceRoomListItem';
 import CategoryDropdown from '../../components/CategoryDropdown';
+import SearchTypeDropdown from '../../components/SearchTypeDropdown';
 import ViewModeToggle from '../../components/ViewModeToggle';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import useAuthStore from '../../stores/useAuthStore';
@@ -19,11 +20,14 @@ function ReferenceRoom() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const [category, setCategory] = useState(getDefaultReferenceRoomCategory(searchParams.get('type')));
-    const [searchQuery, setSearchQuery] = useState((searchParams.get('query')) ? searchParams.get('query') : '');
+    const [inputQuery, setInputQuery] = useState(searchParams.get('query') || '');
+    const [searchQuery, setSearchQuery] = useState(searchParams.get('query') || '');
+    const [inputType, setInputType] = useState(searchParams.get('searchType') || 'TITLE');
+    const [searchType, setSearchType] = useState(searchParams.get('searchType') || 'TITLE');
     const [currentPage, setCurrentPage] = useState((searchParams.get('page')) ? searchParams.get('page') : 1);
 
     const pageSize = (viewMode === 'list') ? 10 : 6;
-    const { data: posts, isLoading, isError } = useReferenceRoomList(category[1], currentPage, pageSize, searchQuery);
+    const { data: posts, isLoading, isError } = useReferenceRoomList(category[1], currentPage, pageSize, searchQuery, searchType);
 
     const handleCategoryClick = (label, value, color) => {
         setCategory([label, value, color]);
@@ -40,7 +44,9 @@ function ReferenceRoom() {
     function handleSearch(e) {
         e.preventDefault();
         setCurrentPage(1);
-        setSearchParams({ ...searchParams, query: searchQuery });
+        setSearchQuery(inputQuery);
+        setSearchType(inputType);
+        setSearchParams({ ...searchParams, query: inputQuery, searchType: inputType });
     }
 
     function handlePageChange(page) {
@@ -89,15 +95,19 @@ function ReferenceRoom() {
 
                         {/* 검색 */}
                         <div className='flex justify-between items-end mt-8'>
-                            <div className="relative w-full md:max-w-xs flex-1">
-                                <input value={searchQuery} onChange={(e) => {setSearchQuery(e.target.value)}}
-                                    className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="검색어 입력"/>
-                                <button onClick={handleSearch} className="absolute top-0 right-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                                    <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                                    </svg>
-                                    <span className="sr-only">검색</span>
-                                </button>
+                            <div className="flex w-full md:max-w-xs flex-1">
+                                <SearchTypeDropdown searchType={inputType} onSelect={setInputType} />
+                                <div className="relative flex-1">
+                                    <input value={inputQuery} onChange={(e) => setInputQuery(e.target.value)}
+                                        onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(e); }}
+                                        className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-r-lg border-l-0 focus:ring-blue-500 focus:border-blue-500" placeholder="검색어 입력"/>
+                                    <button onClick={handleSearch} className="absolute top-0 right-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                                        <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                        </svg>
+                                        <span className="sr-only">검색</span>
+                                    </button>
+                                </div>
                             </div>
 
                             <div className='text-right'>
