@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
-import { IoLogoTux, IoMdMenu, IoIosLogIn, IoIosLogOut } from 'react-icons/io';
+import { IoLogoTux, IoMdMenu, IoMdClose, IoIosLogIn, IoIosLogOut, IoIosContact } from 'react-icons/io';
 import { gnbIsLogin, gnbIsNotLogin } from "../assets/jsons";
 import ConfirmPopup from "../components/popup/ConfirmPopup";
 
@@ -154,7 +154,7 @@ function Header() {
                             gnbIsLogin.map((ele) =>
                                 ele.subInfo.map((subEle) =>
                                     ele.gnbName == gnb.gnbName ?
-                                        <a key={subEle.subHref} className='w-full justify-end flex sm:py-3 py-2'
+                                        <a key={subEle.subHref} className='w-full justify-end flex sm:py-3 py-2 text-base'
                                             href={subEle.subHref}>
                                             {subEle.subName}
                                         </a>
@@ -165,7 +165,7 @@ function Header() {
                             gnbIsNotLogin.map((ele) =>
                                 ele.subInfo.map((subEle) =>
                                     ele.gnbName == gnb.gnbName ?
-                                        <a key={subEle.subHref} className='w-full justify-end flex sm:py-3 py-2'
+                                        <a key={subEle.subHref} className='w-full justify-end flex sm:py-3 py-2 text-base'
                                             href={subEle.subHref}>
                                             {subEle.subName}
                                         </a>
@@ -252,27 +252,36 @@ function Header() {
                 </div>
             }
             <nav className={`${isOpen ? "show-moblie-menu" : "hide-mobile-menu"} absolute top-0 shadow-[rgba(0,0,0,0.2)_0px_25px_25px_25px] bg-white w-[85vw] h-screen z-50 text-lg overflow-auto`}>
-                {
-                    isLogin
-                        ?
-                        <div className='px-10 py-2 border-b-2 flex items-center gap-x-2'>
-                            <button className='inline-flex w-[50vw] py-3 justify-start text-base'
-                                onClick={() => { navigate('/mypage'); toggleMenu(); }}>
-                                <div className='ml-2'>{nickname} 님</div>
+                <div className='flex items-center justify-between border-b-2 pl-3 pr-10 py-2'>
+                    {/* 닫기 버튼 */}
+                    <div className='flex w-[44px] h-[44px] justify-center items-center cursor-pointer'
+                        onClick={() => toggleMenu()}>
+                        <IoMdClose size={25} />
+                    </div>
+                    {/* 로그인 / 닉네임+로그아웃 */}
+                    {
+                        isLogin
+                            ?
+                            <div className='flex items-center gap-x-2'>
+                                <button className='inline-flex py-3 mr-4 justify-end text-base'
+                                    onClick={() => { navigate('/mypage'); toggleMenu(); }}>
+                                    <IoIosContact style={{ transform: 'translate(0, 4px)' }} />
+                                    <div className='ml-1'>내 정보</div>
+                                </button>
+                                <button className='inline-flex py-3 justify-end text-base'
+                                    onClick={() => { toggleMenu(); onClickLogout(); }}>
+                                    <IoIosLogOut style={{ transform: 'translate(0, 4px)' }} />
+                                    <div className='ml-1'>로그아웃</div>
+                                </button>
+                            </div>
+                            :
+                            <button className='inline-flex py-3 justify-end text-base'
+                                onClick={() => { navigate(`/login?from=${from}`); toggleMenu(); }}>
+                                <IoIosLogIn style={{ transform: 'translate(0, 4px)' }} />
+                                <div className='ml-2'>로그인</div>
                             </button>
-                            <button className='inline-flex w-[120px] py-3 justify-end text-base'
-                                onClick={() => { toggleMenu(); onClickLogout(); }}>
-                                < IoIosLogOut style={{ transform: 'translate(0, 4px)' }} />
-                                <div className='ml-2'>로그아웃</div>
-                            </button>
-                        </div>
-                        :
-                        <button className='px-10 py-5 border-b-2 w-full justify-end inline-flex'
-                            onClick={() => { navigate(`/login?from=${from}`); toggleMenu(); }}>
-                            < IoIosLogIn style={{ transform: 'translate(0, 4px)' }} />
-                            <div className='ml-2'>로그인</div>
-                        </button>
-                }
+                    }
+                </div>
                 {handleMobileMenu()}
             </nav>
         </div >
