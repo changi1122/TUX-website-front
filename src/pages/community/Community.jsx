@@ -39,6 +39,7 @@ function Community() {
 
     const handleSetViewMode = (mode) => {
         setViewMode(mode);
+        setSortType('CREATED_DATE');
         setCurrentPage(1);
         setSearchParams({ ...searchParams, page: 1 });
     }
