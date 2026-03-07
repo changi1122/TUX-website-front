@@ -6,6 +6,7 @@ import ReferenceRoomRule from '../../components/rule/ReferenceRoomRule';
 import ReferenceRoomListItem from '../../components/listitem/ReferenceRoomListItem';
 import CategoryDropdown from '../../components/CategoryDropdown';
 import SearchTypeDropdown from '../../components/SearchTypeDropdown';
+import SortTypeDropdown from '../../components/SortTypeDropdown';
 import ViewModeToggle from '../../components/ViewModeToggle';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import useAuthStore from '../../stores/useAuthStore';
@@ -25,9 +26,10 @@ function ReferenceRoom() {
     const [inputType, setInputType] = useState(searchParams.get('searchType') || 'TITLE');
     const [searchType, setSearchType] = useState(searchParams.get('searchType') || 'TITLE');
     const [currentPage, setCurrentPage] = useState((searchParams.get('page')) ? searchParams.get('page') : 1);
+    const [sortType, setSortType] = useState(searchParams.get('sortType') || 'CREATED_DATE');
 
     const pageSize = (viewMode === 'list') ? 10 : 6;
-    const { data: posts, isLoading, isError } = useReferenceRoomList(category[1], currentPage, pageSize, searchQuery, searchType);
+    const { data: posts, isLoading, isError } = useReferenceRoomList(category[1], currentPage, pageSize, searchQuery, searchType, sortType);
 
     const handleCategoryClick = (label, value, color) => {
         setCategory([label, value, color]);
@@ -47,6 +49,12 @@ function ReferenceRoom() {
         setSearchQuery(inputQuery);
         setSearchType(inputType);
         setSearchParams({ ...searchParams, query: inputQuery, searchType: inputType });
+    }
+
+    function handleSortTypeChange(value) {
+        setSortType(value);
+        setCurrentPage(1);
+        setSearchParams({ ...searchParams, sortType: value, page: 1 });
     }
 
     function handlePageChange(page) {
@@ -76,7 +84,10 @@ function ReferenceRoom() {
                                 onSelect={handleCategoryClick}
                                 variant="list"
                             />
-                            <ViewModeToggle viewMode={viewMode} onChange={handleSetViewMode} />
+                            <div className='flex items-end gap-2'>
+                                <SortTypeDropdown sortType={sortType} onSelect={handleSortTypeChange} />
+                                <ViewModeToggle viewMode={viewMode} onChange={handleSetViewMode} />
+                            </div>
                         </div>
 
                         {/* 게시판 리스트 */}

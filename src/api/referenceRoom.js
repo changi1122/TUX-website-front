@@ -30,9 +30,9 @@ export const postReferenceRoomLike = async (postId, dislike) => {
     return { success: true };
 }
 
-export const fetchReferenceRoomList = async (category, page, size, query, searchType) => {
+export const fetchReferenceRoomList = async (category, page, size, query, searchType, sortType) => {
     let url = '';
-    const searchSuffix = `${(query) ? "&query="+query : ''}${(query && searchType) ? "&searchType="+searchType : ''}`;
+    const searchSuffix = `${(query) ? "&query="+query : ''}${(query && searchType) ? "&searchType="+searchType : ''}${sortType ? "&sortType="+sortType : ''}`;
     if (category)
         url = `/api/referenceroom/list/category?${(category) ? 'type='+category+'&' : ''}page=${page - 1}&size=${size}${searchSuffix}`;
     else

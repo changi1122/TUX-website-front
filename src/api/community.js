@@ -30,9 +30,9 @@ export const postCommunityLike = async (postId, dislike) => {
     return { success: true };
 }
 
-export const fetchCommunityList = async (category, page, size, query, searchType) => {
+export const fetchCommunityList = async (category, page, size, query, searchType, sortType) => {
     let url = '';
-    const searchSuffix = `${(query) ? "&query="+query : ''}${(query && searchType) ? "&searchType="+searchType : ''}`;
+    const searchSuffix = `${(query) ? "&query="+query : ''}${(query && searchType) ? "&searchType="+searchType : ''}${sortType ? "&sortType="+sortType : ''}`;
     if (category)
         url = `/api/community/list/category?${(category) ? 'type='+category+'&' : ''}page=${page - 1}&size=${size}${searchSuffix}`;
     else

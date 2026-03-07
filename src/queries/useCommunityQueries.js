@@ -10,10 +10,10 @@ import {
   postCommunityLike,
 } from '../api/community';
 
-export const useCommunityList = (category, page, size, query, searchType) => {
+export const useCommunityList = (category, page, size, query, searchType, sortType) => {
   return useQuery({
-    queryKey: ['communityList', category, page, size, query, query ? searchType : null],
-    queryFn: () => fetchCommunityList(category, page, size, query, searchType),
+    queryKey: ['communityList', category, page, size, query, query ? searchType : null, sortType],
+    queryFn: () => fetchCommunityList(category, page, size, query, searchType, sortType),
   });
 };
 
