@@ -48,7 +48,7 @@ export const useReferenceRoomDelete = () => {
 export const useReferenceRoomAddComment = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ postId, comment }) => addReferenceRoomComment(postId, comment),
+    mutationFn: ({ postId, comment, parentId }) => addReferenceRoomComment(postId, comment, parentId),
     onSuccess: (_, { postId }) => {
       queryClient.invalidateQueries({ queryKey: ['referenceRoomDetail', postId] });
     },

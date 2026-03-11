@@ -13,9 +13,10 @@ export const deleteCommunity = async (postId) => {
     return { success: true };
 }
 
-export const addCommunityComment = async (postId, comment) => {
+export const addCommunityComment = async (postId, comment, parentId) => {
     const { data } = await client.post(`/api/community/${postId}/comment`, {
         body: comment,
+        ...(parentId != null && { parentId }),
     });
     return data;
 }

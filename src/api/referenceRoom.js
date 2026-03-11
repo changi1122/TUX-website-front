@@ -13,9 +13,10 @@ export const deleteReferenceRoom = async (postId) => {
     return { success: true };
 }
 
-export const addReferenceRoomComment = async (postId, comment) => {
+export const addReferenceRoomComment = async (postId, comment, parentId) => {
     const { data } = await client.post(`/api/referenceroom/${postId}/comment`, {
         body: comment,
+        ...(parentId != null && { parentId }),
     });
     return data;
 }

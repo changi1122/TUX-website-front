@@ -56,7 +56,7 @@ export const useCommunityDelete = () => {
 export const useCommunityAddComment = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ postId, comment }) => addCommunityComment(postId, comment),
+    mutationFn: ({ postId, comment, parentId }) => addCommunityComment(postId, comment, parentId),
     onSuccess: (_, { postId }) => {
       queryClient.invalidateQueries({ queryKey: ['communityDetail', postId] });
     },

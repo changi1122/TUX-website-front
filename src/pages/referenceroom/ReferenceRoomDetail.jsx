@@ -31,6 +31,8 @@ function ReferenceRoomDetail() {
 
     const [shareLabel, setShareLabel] = useState('공유');
     const [comment, setComment] = useState('');
+    const [replyingTo, setReplyingTo] = useState(null);
+    const [reply, setReply] = useState('');
 
     const parsedBody = useMemo(() => {
         try {
@@ -71,6 +73,27 @@ function ReferenceRoomDetail() {
         try {
             await addCommentMutation.mutateAsync({ postId: id, comment });
             setComment('');
+        } catch (error) {
+            alert(getApiErrorMessage(error));
+        }
+    }
+
+    async function handlePostReply(e, parentId) {
+        e.preventDefault();
+
+        if (!loginUser.isLoggedIn) {
+            alert('댓글을 입력하려면 먼저 로그인하세요.');
+            return;
+        }
+        if (!reply) {
+            alert('댓글을 입력하세요.');
+            return;
+        }
+
+        try {
+            await addCommentMutation.mutateAsync({ postId: id, comment: reply, parentId });
+            setReply('');
+            setReplyingTo(null);
         } catch (error) {
             alert(getApiErrorMessage(error));
         }
@@ -232,7 +255,7 @@ function ReferenceRoomDetail() {
                             </div>
                             {/* 댓글 */}
                             <p className='mt-8 ml-2'>
-                                댓글 {post.comments.length}개
+                                댓글 {post.comments.reduce((acc, c) => acc + 1 + (c.replies?.length || 0), 0)}개
                             </p>
                             {
                                 post.comments.map(c => (
@@ -241,30 +264,81 @@ function ReferenceRoomDetail() {
                                         <p className="mb-1 text-sm tracking-tight text-gray-900">
                                             {c.body}
                                         </p>
-                                        <div>
-                                            <span className='text-gray-500 text-xs font-medium mr-4' title={dayjs(c.createdDate).format("YYYY-MM-DD HH:mm:ss")}>
-                                                <span className='inline-block mr-1'>
-                                                📅</span> {dayjs(c.createdDate).locale('ko').fromNow()}
-                                            </span>
-                                            <span className='text-gray-500 text-xs font-medium mr-4'><span className='inline-block mr-1'>🧑🏻‍💻</span> {c.author}</span>
+                                        <div className="flex items-center justify-between">
+                                            <div>
+                                                <span className='text-gray-500 text-xs font-medium mr-4' title={dayjs(c.createdDate).format("YYYY-MM-DD HH:mm:ss")}>
+                                                    <span className='inline-block mr-1'>📅</span> {dayjs(c.createdDate).locale('ko').fromNow()}
+                                                </span>
+                                                <span className='text-gray-500 text-xs font-medium mr-4'><span className='inline-block mr-1'>🧑🏻‍💻</span> {c.author}</span>
+                                            </div>
+                                            <div className="flex items-center gap-3">
+                                                {loginUser.userId == c.authorId &&
+                                                    <button type="button" className="mr-4 text-sm text-gray-500 hover:underline"
+                                                        onClick={() => { handleDeleteComment(c.id) }}>
+                                                        삭제
+                                                    </button>
+                                                }
+                                                <button
+                                                    type="button"
+                                                    className="text-sm text-blue-600 hover:underline"
+                                                    onClick={() => { setReplyingTo(replyingTo === c.id ? null : c.id); setReply(''); }}>
+                                                    답글
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                    {
-                                        (loginUser.userId == c.authorId) &&
-                                        <div className='text-right'>
-                                            <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
-                                                onClick={() => { handleDeleteComment(c.id) }}>
-                                                삭제
-                                            </button>
+                                    {/* 답글 목록 */}
+                                    {c.replies?.map(r => (
+                                        <React.Fragment key={r.id}>
+                                        <div className="ml-6 block max-w px-6 py-3 my-2 bg-gray-50 border border-gray-200 rounded-lg shadow break-words">
+                                            <p className="mb-1 text-sm tracking-tight text-gray-900">
+                                                {r.body}
+                                            </p>
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <span className='text-gray-500 text-xs font-medium mr-4' title={dayjs(r.createdDate).format("YYYY-MM-DD HH:mm:ss")}>
+                                                        <span className='inline-block mr-1'>📅</span> {dayjs(r.createdDate).locale('ko').fromNow()}
+                                                    </span>
+                                                    <span className='text-gray-500 text-xs font-medium mr-4'><span className='inline-block mr-1'>🧑🏻‍💻</span> {r.author}</span>
+                                                </div>
+                                                {loginUser.userId == r.authorId &&
+                                                    <button type="button" className="text-sm text-gray-500 hover:underline"
+                                                        onClick={() => { handleDeleteComment(r.id) }}>
+                                                        삭제
+                                                    </button>
+                                                }
+                                            </div>
                                         </div>
-                                    }
+                                        </React.Fragment>
+                                    ))}
+                                    {/* 답글 입력 폼 */}
+                                    {replyingTo === c.id && (
+                                        <form className='ml-6 mt-2 mb-3'>
+                                            <div className="w-full border border-gray-200 border-solid rounded-lg bg-gray-50 shadow">
+                                                <div className="px-6 py-3 bg-white rounded-t-lg">
+                                                    <textarea rows="2" className="w-full px-0 text-sm text-gray-900 bg-white border-0 focus:ring-0 outline-none"
+                                                        value={reply} onChange={(e) => { setReply(e.target.value) }} placeholder="답글을 입력하세요"></textarea>
+                                                </div>
+                                                <div className="flex items-center justify-end gap-2 px-3 py-2 border-t border-gray-200 border-solid">
+                                                    <button type="button" className="mr-4 text-sm text-gray-500 hover:text-gray-700"
+                                                        onClick={() => { setReplyingTo(null); setReply(''); }}>
+                                                        취소
+                                                    </button>
+                                                    <button className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 hover:bg-blue-800"
+                                                        type="submit" onClick={(e) => handlePostReply(e, c.id)}>
+                                                        답글 달기
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    )}
                                     </React.Fragment>
                             ))}
                             <form className='mt-3'>
                                 <div className="w-full mb-4 border border-gray-200 border-solid rounded-lg bg-gary-50 shadow">
-                                    <div className="px-4 py-2 bg-white rounded-t-lg">
+                                    <div className="px-6 py-3 bg-white rounded-t-lg">
                                         <label htmlFor="comment" className="sr-only">댓글 </label>
-                                        <textarea id="comment" rows="3" className="w-full px-0 text-sm text-gray-900 bg-white border-0 focus:ring-0"
+                                        <textarea id="comment" rows="3" className="w-full px-0 text-sm text-gray-900 bg-white border-0 focus:ring-0 outline-none"
                                             value={comment} onChange={(e) => { setComment(e.target.value) }} placeholder="댓글을 입력하세요" required></textarea>
                                     </div>
                                     <div className="flex items-center justify-end px-3 py-2 border-t border-gray-200 border-solid">
