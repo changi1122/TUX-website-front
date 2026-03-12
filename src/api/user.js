@@ -1,17 +1,15 @@
 import useAuthStore from '../stores/useAuthStore';
 import client, { publicClient, getApiErrorMessage } from './client';
 
-export const login = async ({ username, password, keepAuth }) => {
+export const login = async ({ username, password }) => {
     try {
         const { data } = await publicClient.post('/api/auth', { username, password });
 
-        // localStorage 또는 sessionStorage에 저장
-        const storage = keepAuth ? localStorage : sessionStorage;
-        storage.setItem('expiresIn', data.refreshToken.expiresIn);
-        storage.setItem('userId', data.user.id);
-        storage.setItem('username', data.user.username);
-        storage.setItem('nickname', data.user.nickname);
-        storage.setItem('role', data.user.role);
+        localStorage.setItem('expiresIn', data.refreshToken.expiresIn);
+        localStorage.setItem('userId', data.user.id);
+        localStorage.setItem('username', data.user.username);
+        localStorage.setItem('nickname', data.user.nickname);
+        localStorage.setItem('role', data.user.role);
 
         useAuthStore.getState().login(data);
 
@@ -31,7 +29,6 @@ export const logout = async () => {
         await publicClient.delete('/api/auth');
 
         localStorage.clear();
-        sessionStorage.clear();
 
         useAuthStore.getState().logout();
         return { success: true };
@@ -49,6 +46,11 @@ export const fetchCurrentUser = async () => {
     return data;
 }
 
+export const fetchCurrentUserForRestore = async () => {
+    const { data } = await publicClient.get('/api/auth');
+    return data;
+}
+
 export const updateUser = async ({ userId, key, value }) => {
     await client.put(`/api/user/${userId}`, { [key]: value });
     return { key, value };
@@ -57,7 +59,6 @@ export const updateUser = async ({ userId, key, value }) => {
 export const deleteUser = async (userId) => {
     await client.delete(`/api/user/${userId}`);
     localStorage.clear();
-    sessionStorage.clear();
     useAuthStore.getState().logout();
     return { success: true };
 }

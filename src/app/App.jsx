@@ -15,6 +15,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 dayjs().locale('ko');
 
+import { fetchCurrentUserForRestore } from '../api/user';
 import { Header, Footer, PrivateRoute } from '../components';
 import Loading from '../pages/common/Loading';
 import NotFound from '../pages/common/NotFound';
@@ -54,37 +55,49 @@ const App = () => {
   const loginUser = useAuthStore();
 
   useEffect(() => {
-    // storage에 저장된 로그인 정보가 있다면, 로그인 상태로 설정
-    if (localStorage.userId || sessionStorage.userId) {
-      const storage = localStorage.userId ? localStorage : sessionStorage;
+    const restoreSession = async () => {
+      // storage에 저장된 로그인 정보가 있다면, 로그인 상태로 설정
+      if (localStorage.userId) {
+        const expiresIn = localStorage.getItem('expiresIn');
+        const userId = localStorage.getItem('userId');
+        const username = localStorage.getItem('username');
+        const nickname = localStorage.getItem('nickname');
+        const role = localStorage.getItem('role');
 
-      const expiresIn = storage.getItem('expiresIn');
-      const userId = storage.getItem('userId');
-      const username = storage.getItem('username');
-      const nickname = storage.getItem('nickname');
-      const role = storage.getItem('role');
+        const isExpired = !expiresIn || Date.now() > Number(expiresIn);
 
-      const isExpired = !expiresIn || Date.now() > Number(expiresIn);
-
-      if (!isExpired && userId && username) {
-        useAuthStore.getState().setUser({
-            expiresIn,
-            userId,
-            username,
-            nickname,
-            role
-        });
-      } else {
-        // 만료되었으면 양쪽 스토리지 모두 정리
-        localStorage.clear();
-        sessionStorage.clear();
-        useAuthStore.getState().initGuest();
+        if (!isExpired && userId && username) {
+          useAuthStore.getState().setUser({
+              expiresIn,
+              userId,
+              username,
+              nickname,
+              role
+          });
+        } else {
+          // 만료되었으면 스토리지 정리
+          localStorage.clear();
+          useAuthStore.getState().initGuest();
+        }
       }
-    }
-    else {
-      // 로그인 상태가 아니라면
-      useAuthStore.getState().initGuest();
-    }
+      else {
+        // storage가 비어있어도 쿠키(토큰)가 유효할 수 있음 (탭 복제 등)
+        try {
+          const data = await fetchCurrentUserForRestore();
+          useAuthStore.getState().setUser({
+              userId: data.id,
+              username: data.username,
+              nickname: data.nickname,
+              role: data.role
+          });
+        } catch {
+          // 쿠키도 없거나 만료됨 → 비로그인
+          useAuthStore.getState().initGuest();
+        }
+      }
+    };
+
+    restoreSession();
   }, []);
 
 

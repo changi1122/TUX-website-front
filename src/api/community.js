@@ -45,13 +45,13 @@ export const fetchCommunityList = async (category, page, size, query, searchType
 
 export const fetchMainList = async () => {
     const communityURL = `/api/community/list/category?page=0&size=3&type=`;
-    const referenceRoomURL = `/api/referenceroom/list/category?page=0&size=3&type=`;
+    const galleryURL = `/api/gallery/list?page=0&size=3`;
 
     const [resNotices, resContests, resPosts, resPhotos] = await Promise.all([
         client.get(communityURL + 'notice'),
         client.get(communityURL + 'contest'),
         client.get(communityURL + 'free,job,teamrecruitment'),
-        client.get(referenceRoomURL + 'gallery'),
+        client.get(galleryURL),
     ]);
 
     return {

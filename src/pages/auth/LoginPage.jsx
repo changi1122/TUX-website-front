@@ -11,15 +11,13 @@ function LoginPage() {
     // 아이디, 비밀번호
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [keepAuth, setKeepAuth] = useState(false);
 
     const onSubmit = async (e) => {
         e.preventDefault();
 
         const result = await login({
             username,
-            password,
-            keepAuth
+            password
         });
 
         if (result.success) {
@@ -40,11 +38,6 @@ function LoginPage() {
     const onChangePassword = (e) => {
         setPassword(e.target.value);
     }
-
-    // 로그인 상태 유지
-    const onChangeKeepAuth = (e) => {
-        setKeepAuth(e.target.checked);
-    };
 
     return (
         <div className='min-h-screen md:p-20 px-3 py-10'>
@@ -83,15 +76,7 @@ function LoginPage() {
                     <button className="bg-gray-100 hover:bg-gray-200 rounded py-2 w-full mt-6">
                         로그인
                     </button>
-                    <div className="text-xs mt-3 justify-between flex">
-                        <label>
-                            <input type="checkbox" name="keepAuth"
-                                className="mr-1 translate-y-[1.8px]
-                                checked:accent-black"
-                                checked={keepAuth}
-                                onChange={onChangeKeepAuth}/>
-                            로그인 상태 유지
-                        </label>
+                    <div className="text-xs mt-3 flex justify-end">
                         <div className="flex gap-4">
                             <a href="/contact" className="hover:text-[#E95420]" >ID/PW 찾기</a>
                             <a href="/signup" className="hover:text-[#E95420]" >회원가입</a>
