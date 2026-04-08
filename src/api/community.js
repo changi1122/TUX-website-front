@@ -85,9 +85,10 @@ export const uploadCommunityFileInit = async (formData) => {
 }
 
 export const uploadCommunityFile = async (postId, formData) => {
-    await client.post(`/api/community/${postId}/file`, formData, {
+    const { data } = await client.post(`/api/community/${postId}/file`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
     });
+    return data;
 }
 
 export const deleteCommunityFile = async (postId, filename) => {

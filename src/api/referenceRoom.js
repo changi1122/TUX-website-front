@@ -66,9 +66,10 @@ export const uploadReferenceRoomFileInit = async (formData) => {
 }
 
 export const uploadReferenceRoomFile = async (postId, formData) => {
-    await client.post(`/api/referenceroom/${postId}/file`, formData, {
+    const { data } = await client.post(`/api/referenceroom/${postId}/file`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
     });
+    return data;
 }
 
 export const deleteReferenceRoomFile = async (postId, filename) => {

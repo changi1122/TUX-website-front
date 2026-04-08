@@ -5,6 +5,7 @@ import { useCommunityUpdate } from '../../queries/useCommunityQueries';
 import QuillEditor from '../../components/editor/QuillEditor';
 import BlockNoteEditor from '../../components/editor/BlockNoteEditor';
 import CommunityRule from '../../components/rule/CommunityRule';
+import AttachmentItem from '../../components/AttachmentItem';
 import CategoryDropdown from '../../components/CategoryDropdown';
 import { COMMUNITY_CATEGORIES, getDefaultCommunityWriteCategory, toCommunityCategory } from '../../constants/communityCategories';
 import { getApiErrorMessage } from '../../api/client';
@@ -71,9 +72,9 @@ function CommunityEdit() {
 
         const formData = new FormData();
         formData.append('file', newFile);
-        await uploadCommunityFile(id, formData);
+        const { filename } = await uploadCommunityFile(id, formData);
         setLoadAgain(!loadAgain);
-        return `/api/community/${id}/file/${safeFileName}`;
+        return `/api/community/${id}/file/${filename}`;
     }
 
     async function submit(e) {
@@ -189,41 +190,7 @@ function CommunityEdit() {
                         </form>
                         {
                             post && post.files && post.files.map(f => (
-                                <>
-                                <div key={f.path} className='flex items-center max-w px-6 py-3 mt-3 mb-2 bg-white border border-gray-200 rounded-lg shadow'>
-                                    <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
-                                        {(f.isImage) ? '이미지' : '첨부파일'}
-                                    </span>
-                                    <a className='flex-1 text-sm hover:underline' href={f.path + "?aid=" + f.id} target='_blank' rel="noreferrer">{f.filename}</a>
-                                    <span className='ml-2 text-sm text-gray-500'>
-                                        <svg className="inline w-[14px] h-[14px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
-                                            <path stroke='#727272' strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>
-                                        </svg>
-                                        <span className='ml-1'>{f.downloadCount+"회"}</span>
-                                    </span>
-                                </div>
-                                <div className='flex justify-end mb-4'>
-                                    {
-                                        (f.isImage) &&
-                                        <>
-                                        { editorVersion === 1 && (
-                                            <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
-                                                onClick={() => { Window.insertImage(f.path) }}>
-                                                이미지 본문 삽입
-                                            </button>
-                                        )}
-                                        <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
-                                            onClick={() => window.navigator.clipboard.writeText(f.path)}>
-                                            링크 복사
-                                        </button>
-                                        </>
-                                    }
-                                    <button className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 ml-2 inline-block"
-                                        onClick={() => handleDeleteAttachment(f.filename)}>
-                                        삭제
-                                    </button>
-                                </div>
-                                </>
+                                <AttachmentItem key={f.path} file={f} onDelete={handleDeleteAttachment} editorVersion={editorVersion} />
                             ))
                         }
                         <input className="mt-1 text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 mr-2 inline-block"
