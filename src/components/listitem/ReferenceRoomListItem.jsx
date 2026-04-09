@@ -6,11 +6,16 @@ function ReferenceRoomListItem({ post, viewMode='list' }) {
     if (viewMode === 'list') {
         return (
             <Link to={"/referenceroom/" + post.id} className="flex items-center gap-2 px-4 py-3 my-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 min-w-0">
-                <span className="flex-shrink-0 w-[80px]"><span className={badge(post.category)[0] + " text-xs font-medium align-text-bottom rounded px-2 py-1"}>{badge(post.category)[1]}</span></span>
+                {/* 태블릿, 데스크탑용 badge */}
+                <span className="flex-shrink-0 w-[80px] max-sm:hidden"><span className={badge(post.category)[0] + " text-xs font-medium align-text-bottom rounded px-2 py-1"}>{badge(post.category)[1]}</span></span>
                 { post.lecture &&
-                    <span className="flex-shrink-0"><span className="text-gray-600 text-xs align-text-bottom bg-gray-100 rounded px-1.5 py-1 whitespace-nowrap flex-shrink-0 max-sm:hidden">{post.lecture}</span></span>
+                    <span className="flex-shrink-0 max-sm:hidden"><span className="text-gray-600 text-xs align-text-bottom bg-gray-100 rounded px-1.5 py-1 whitespace-nowrap flex-shrink-0">{post.lecture}</span></span>
                 }
-                <span className="text-sm font-medium text-gray-900 truncate flex-1">{post.title}</span>
+                <span className="text-sm font-medium text-gray-900 truncate flex-1">
+                    {/* 모바일용 badge */}
+                    <span className="inline-block w-2 h-[16px] rounded-full mr-2 align-middle md:hidden" style={{ backgroundColor: badge(post.category)[2] }}></span>
+                    {post.title}
+                </span>
                 { post.likes != 0 &&
                     <span className='text-gray-400 text-xs flex-shrink-0'>👍{post.likes}</span>
                 }
@@ -68,11 +73,11 @@ function ReferenceRoomListItem({ post, viewMode='list' }) {
 function badge(category) {
     switch(category) {
         case 'STUDY':
-            return ['bg-red-100 text-red-800', '강의/스터디'];
+            return ['bg-red-100 text-red-800', '강의/스터디', 'rgb(254 226 226)'];
         case 'GALLERY':
-            return ['bg-yellow-100 text-yellow-800', '갤러리'];
+            return ['bg-yellow-100 text-yellow-800', '갤러리', 'rgb(243 232 255)'];
         default:
-            return ['bg-purple-100 text-purple-800', '시험정보'];
+            return ['bg-purple-100 text-purple-800', '시험정보', 'rgb(254 249 195)'];
     }
 }
 
