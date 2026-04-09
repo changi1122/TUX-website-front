@@ -1,0 +1,36 @@
+name: Manual Deploy to MinIO
+
+on:
+  # GitHub UI에 실행 버튼 표시
+  workflow_dispatch:
+    inputs:
+      confirm_deploy:
+        description: 'MinIO 버킷에 배포하시겠습니까? (yes 입력)'
+        required: true
+        default: 'no'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # 사용자가 'yes'라고 입력했을 때만 실행
+    if: github.event.inputs.confirm_deploy == 'yes'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install & Build
+        run: |
+          npm install
+          npm run build
+
+      - name: Upload to MinIO
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --delete
+        env:
+          AWS_S3_BUCKET: ${{ secrets.MINIO_BUCKET_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.MINIO_USERNAME }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.MINIO_PASSWORD }}
+          AWS_S3_ENDPOINT: ${{ secrets.MINIO_ENDPOINT }}
+          SOURCE_DIR: 'dist'
