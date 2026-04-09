@@ -4,7 +4,7 @@ export default function AttachmentItem({ file, onDelete, editorVersion }) {
 
     return (
         <>
-            <div className={`flex items-center max-w px-6 py-3 ${hasActions ? 'mt-3 mb-2' : 'my-3'} bg-white border border-gray-200 rounded-lg shadow`}>
+            <div className={`flex items-center max-w px-4 md:px-6 py-3 ${hasActions ? 'mt-3 mb-2' : 'my-3'} bg-white border border-gray-200 rounded-lg shadow`}>
                 <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-1 rounded">
                     {file.isImage ? '이미지' : '첨부파일'}
                 </span>

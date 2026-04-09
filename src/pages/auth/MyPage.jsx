@@ -159,16 +159,16 @@ function MyPage() {
             <form className="space-y-5">
                 {/* 계정 정보 */}
                 <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                    <div className="px-6 py-3.5 border-b border-gray-100 bg-gray-50">
+                    <div className="px-4 md:px-6 py-3.5 border-b border-gray-100 bg-gray-50">
                         <h3 className="text-sm font-semibold text-gray-700">계정 정보</h3>
                     </div>
                     <div className="divide-y divide-gray-100">
-                        <div className="px-6 py-4 flex items-center gap-3">
+                        <div className="px-4 md:px-6 py-4 flex items-center gap-3">
                             <label className="text-sm font-medium text-gray-500 w-20 flex-shrink-0">아이디</label>
                             <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block min-w-0 flex-1 p-2.5"
                                 value={loginUser.username} disabled readOnly />
                         </div>
-                        <div className="px-6 py-4 flex items-center gap-3">
+                        <div className="px-4 md:px-6 py-4 flex items-center gap-3">
                             <label className="text-sm font-medium text-gray-500 w-20 flex-shrink-0">비밀번호</label>
                             <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block min-w-0 flex-1 p-2.5"
                                 placeholder="BCrypt 해싱으로 암호화되어 저장됨" disabled readOnly />
@@ -182,11 +182,11 @@ function MyPage() {
 
                 {/* 프로필 정보 */}
                 <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                    <div className="px-6 py-3.5 border-b border-gray-100 bg-gray-50">
+                    <div className="px-4 md:px-6 py-3.5 border-b border-gray-100 bg-gray-50">
                         <h3 className="text-sm font-semibold text-gray-700">프로필 정보</h3>
                     </div>
                     <div className="divide-y divide-gray-100">
-                        <div className="px-6 py-4 flex items-center gap-3">
+                        <div className="px-4 md:px-6 py-4 flex items-center gap-3">
                             <label className="text-sm font-medium text-gray-500 w-20 flex-shrink-0">닉네임</label>
                             <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block min-w-0 flex-1 p-2.5"
                                 value={loginUser.nickname} disabled readOnly />
@@ -195,7 +195,7 @@ function MyPage() {
                                 변경
                             </button>
                         </div>
-                        <div className="px-6 py-4 flex items-center gap-3">
+                        <div className="px-4 md:px-6 py-4 flex items-center gap-3">
                             <label className="text-sm font-medium text-gray-500 w-20 flex-shrink-0">학과</label>
                             <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block min-w-0 flex-1 p-2.5"
                                 value={loginUser.department} disabled readOnly />
@@ -204,12 +204,12 @@ function MyPage() {
                                 변경
                             </button>
                         </div>
-                        <div className="px-6 py-4 flex items-center gap-3">
+                        <div className="px-4 md:px-6 py-4 flex items-center gap-3">
                             <label className="text-sm font-medium text-gray-500 w-20 flex-shrink-0">학번</label>
                             <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block min-w-0 flex-1 p-2.5"
                                 value={loginUser.studentNumber} disabled readOnly />
                         </div>
-                        <div className="px-6 py-4 flex items-center gap-3">
+                        <div className="px-4 md:px-6 py-4 flex items-center gap-3">
                             <label className="text-sm font-medium text-gray-500 w-20 flex-shrink-0">회원 권한</label>
                             <RoleSlider role={loginUser.role} />
                         </div>
@@ -218,11 +218,11 @@ function MyPage() {
 
                 {/* 연락처 */}
                 <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                    <div className="px-6 py-3.5 border-b border-gray-100 bg-gray-50">
+                    <div className="px-4 md:px-6 py-3.5 border-b border-gray-100 bg-gray-50">
                         <h3 className="text-sm font-semibold text-gray-700">연락처</h3>
                     </div>
                     <div className="divide-y divide-gray-100">
-                        <div className="px-6 py-4 flex items-center gap-3">
+                        <div className="px-4 md:px-6 py-4 flex items-center gap-3">
                             <label className="text-sm font-medium text-gray-500 w-20 flex-shrink-0">이메일</label>
                             <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block min-w-0 flex-1 p-2.5"
                                 value={loginUser.email} disabled readOnly />
@@ -231,7 +231,7 @@ function MyPage() {
                                 변경
                             </button>
                         </div>
-                        <div className="px-6 py-4 flex items-center gap-3">
+                        <div className="px-4 md:px-6 py-4 flex items-center gap-3">
                             <label className="text-sm font-medium text-gray-500 w-20 flex-shrink-0">전화번호</label>
                             <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block min-w-0 flex-1 p-2.5"
                                 value={loginUser.phoneNumber} disabled readOnly />
@@ -245,10 +245,10 @@ function MyPage() {
 
                 {/* 데이터 삭제 */}
                 <div className="bg-white border border-red-200 rounded-xl overflow-hidden">
-                    <div className="px-6 py-3.5 border-b border-red-100 bg-red-50">
+                    <div className="px-4 md:px-6 py-3.5 border-b border-red-100 bg-red-50">
                         <h3 className="text-sm font-semibold text-red-600">데이터 삭제</h3>
                     </div>
-                    <div className="px-6 py-4 flex items-center justify-between gap-4">
+                    <div className="px-4 md:px-6 py-4 flex items-center justify-between gap-4">
                         <div>
                             <div className="text-sm font-medium text-gray-900">회원 탈퇴</div>
                             <div className="text-xs text-gray-500 mt-0.5">탈퇴 후에는 현재 아이디를 다시 사용할 수 없습니다.</div>

@@ -142,7 +142,7 @@ function CommunityDetail() {
                         {
                             post &&
                             <>
-                            <div className='block max-w px-6 py-6 my-3 bg-white border border-gray-200 rounded-lg shadow'>
+                            <div className='block max-w px-4 md:px-6 py-6 my-3 bg-white border border-gray-200 rounded-lg shadow'>
                                 <span className={badge(post.category)[0] + " text-xs font-medium rounded mr-2 mb-2 px-2.5 py-1 inline-block"}>{badge(post.category)[1]}</span>
                                 <h3 className="my-1 text-xl font-bold tracking-tight text-gray-900">
                                     {post.title}
@@ -227,7 +227,7 @@ function CommunityDetail() {
                             {
                                 post.comments.map(c => (
                                     <React.Fragment key={c.id}>
-                                    <div className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow break-words">
+                                    <div className="block max-w px-4 md:px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow break-words">
                                         <p className="mb-1 text-sm tracking-tight text-gray-900">
                                             {c.body}
                                         </p>
@@ -257,7 +257,7 @@ function CommunityDetail() {
                                     {/* 답글 목록 */}
                                     {c.replies?.map(r => (
                                         <React.Fragment key={r.id}>
-                                        <div className="ml-6 block max-w px-6 py-3 my-2 bg-gray-50 border border-gray-200 rounded-lg shadow break-words">
+                                        <div className="ml-6 block max-w px-4 md:px-6 py-3 my-2 bg-gray-50 border border-gray-200 rounded-lg shadow break-words">
                                             <p className="mb-1 text-sm tracking-tight text-gray-900">
                                                 {r.body}
                                             </p>
@@ -282,7 +282,7 @@ function CommunityDetail() {
                                     {replyingTo === c.id && (
                                         <form className='ml-6 mt-2 mb-3'>
                                             <div className="w-full border border-gray-200 border-solid rounded-lg bg-gray-50 shadow">
-                                                <div className="px-6 py-3 bg-white rounded-t-lg">
+                                                <div className="px-4 md:px-6 py-3 bg-white rounded-t-lg">
                                                     <textarea rows="2" className="w-full px-0 text-sm text-gray-900 bg-white border-0 focus:ring-0 outline-none"
                                                         value={reply} onChange={(e) => { setReply(e.target.value) }} placeholder="답글을 입력하세요"></textarea>
                                                 </div>
@@ -303,7 +303,7 @@ function CommunityDetail() {
                             ))}
                             <form className='mt-3'>
                                 <div className="w-full mb-4 border border-gray-200 border-solid rounded-lg bg-gary-50 shadow">
-                                    <div className="px-6 py-3 bg-white rounded-t-lg">
+                                    <div className="px-4 md:px-6 py-3 bg-white rounded-t-lg">
                                         <label htmlFor="comment" className="sr-only">댓글 </label>
                                         <textarea id="comment" rows="3" className="w-full px-0 text-sm text-gray-900 bg-white border-0 focus:ring-0 outline-none"
                                             value={comment} onChange={(e) => { setComment(e.target.value) }} placeholder="댓글을 입력하세요" required></textarea>

@@ -19,7 +19,7 @@ function GalleryListItem({ post, viewMode='gallery' }) {
 
     if (viewMode === 'detail') {
         return (
-            <Link to={"/gallery/" + post.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
+            <Link to={"/gallery/" + post.id} className="block max-w px-4 md:px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
                 <span className="bg-yellow-100 text-yellow-800 text-xs font-medium rounded mr-2 mb-1 px-2.5 py-1 inline-block">갤러리</span>
                 {
                     post.lecture &&

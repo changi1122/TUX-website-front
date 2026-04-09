@@ -24,7 +24,7 @@ function ReferenceRoomListItem({ post, viewMode='list' }) {
     }
 
     return (
-        <Link to={"/referenceroom/" + post.id} className="block max-w px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
+        <Link to={"/referenceroom/" + post.id} className="block max-w px-4 md:px-6 py-3 my-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
             <span className={badge(post.category)[0] + " text-xs font-medium rounded mr-2 mb-2 px-2.5 py-1 inline-block align-text-top"}>{badge(post.category)[1]}</span>
             {
                 post.lecture &&
