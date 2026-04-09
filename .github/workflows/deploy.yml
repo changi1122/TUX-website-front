@@ -33,4 +33,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.MINIO_USERNAME }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.MINIO_PASSWORD }}
           AWS_S3_ENDPOINT: ${{ secrets.MINIO_ENDPOINT }}
-          SOURCE_DIR: 'dist'
+          SOURCE_DIR: 'build'
