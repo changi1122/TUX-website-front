@@ -27,10 +27,11 @@ jobs:
       - name: Upload to MinIO
         uses: jakejarvis/s3-sync-action@master
         with:
-          args: --delete
+          args: --delete --endpoint-url ${{ secrets.MINIO_ENDPOINT }}
         env:
           AWS_S3_BUCKET: ${{ secrets.MINIO_BUCKET_NAME }}
           AWS_ACCESS_KEY_ID: ${{ secrets.MINIO_USERNAME }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.MINIO_PASSWORD }}
           AWS_S3_ENDPOINT: ${{ secrets.MINIO_ENDPOINT }}
+          AWS_REGION: 'ap-northeast-cju-1'
           SOURCE_DIR: 'build'
