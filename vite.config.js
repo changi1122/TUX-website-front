@@ -15,7 +15,6 @@ export default defineConfig(({ mode }) => {
               if (id.includes('@blocknote')) return 'vendor-blocknote';
               if (id.includes('@mantine')) return 'vendor-mantine';
               if (id.includes('@tanstack')) return 'vendor-tanstack';
-              if (id.includes('react-router') || id.includes('react-dom') || id.includes('react/')) return 'vendor-react';
               if (id.includes('swiper')) return 'vendor-swiper';
               return 'vendor';
             }
