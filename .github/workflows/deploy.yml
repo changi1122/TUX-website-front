@@ -21,6 +21,7 @@ jobs:
 
       - name: Install & Build
         run: |
+          echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" > .env
           npm install
           npm run build
 
