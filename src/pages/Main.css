@@ -25,9 +25,10 @@
   --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
-.swiper-button-next:after, .swiper-button-prev:after {
+.swiper-navigation-icon {
+  width: 22px !important;
+  height: 22px !important;
   color:  #9CA3AF;
-  font-size: 22px;
 }
 
 @media (min-width: 1024px) {
