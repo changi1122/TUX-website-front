@@ -1,0 +1,32 @@
+name: Code Quality Check
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-and-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'      # 의존성 설치 속도를 위해 캐싱 활성화
+
+      - name: Install dependencies
+        run: npm ci # package-lock.json을 기준으로 엄격하게 설치
+
+      - name: Lint check
+        # package.json의 "lint" 스크립트를 실행 (eslint . 실행)
+        run: npm run lint
+
+      - name: Build test
+        # 빌드가 정상적으로 완료되는지 확인
+        run: npm run build
