@@ -33,15 +33,3 @@ export const createVideoBlock = createReactBlockSpec(
     render: VideoBlockComponent,
   }
 );
-
-export const insertVideoSlashMenuItem = (editor: BlockNoteEditor) => ({
-  title: "동영상",
-  onItemClick: () =>
-    insertOrUpdateBlockForSlashMenu(editor, {
-      type: "video" as any,
-    }),
-  aliases: ["video", "비디오", "영상", "동영상"],
-  group: "미디어",
-  icon: <MdVideocam size={18} />,
-  subtext: "동영상을 삽입합니다",
-});

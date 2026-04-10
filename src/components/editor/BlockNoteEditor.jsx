@@ -10,14 +10,13 @@ import { codeBlockOptions } from "@blocknote/code-block";
 import { ko } from "@blocknote/core/locales";
 
 import { createAlert, insertAlertSlashMenuItem } from "./blocks/Alert";
-import { createVideoBlock, insertVideoSlashMenuItem } from "./blocks/VideoBlock";
+import { createVideoBlock } from "./blocks/VideoBlock";
 import "@blocknote/mantine/style.css";
 import "@blocknote/core/fonts/inter.css";
 
 const getCustomSlashMenuItems = (editor) => [
   ...getDefaultReactSlashMenuItems(editor),
   insertAlertSlashMenuItem(editor),
-  insertVideoSlashMenuItem(editor),
 ];
 
 const BlockNoteEditor = ({ editable, body, onChange, uploadFile }) => {
